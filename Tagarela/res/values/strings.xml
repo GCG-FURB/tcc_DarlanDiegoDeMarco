@@ -8,5 +8,17 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_message">Olá, bem vindo ao Tagarela!</string>
     <string name="symbol_create">Criar Símbolo</string>
-
+    <string name="game_play">Jogar Plano</string>
+    <string name="jogar">Escrever!</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="sair">Sair</string>
+    <string name="title_activity_jogo">Jogo</string>
+    <string name="title_activity_configuracoes">Configuracoes</string>
+    <string name="title_activity_selecionar_tema">Selecionar Tema</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_selecionar_plano">Selecionar Plano</string>
+    <string name="title_activity_editor_coordenadas">Editor de Coordenadas</string>
+    <string name="title_activity_gerenciar_lista">GerenciarLista</string>
+    
 </resources>

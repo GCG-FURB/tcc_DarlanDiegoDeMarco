@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Principal" >
+    tools:context=".PrincipalJogo" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,7 +95,17 @@
             android:text="@string/symbol_create"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/link_color" />
-
+        
+        <TextView
+            android:id="@+id/gamePlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/game_play"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/link_color"
+            android:layout_marginLeft="10dp" />
+        
     </LinearLayout>
 
 </LinearLayout>
