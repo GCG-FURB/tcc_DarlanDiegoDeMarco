@@ -10,6 +10,7 @@ public class DaoProvider {
 	private DaoSession daoSession;
 	private UserDao userDao;
 	private CategoryDao categoryDao;
+	private SymbolDao symbolDao;
 	private Context context;
 
 	private static DaoProvider daoProvider;
@@ -23,6 +24,7 @@ public class DaoProvider {
 		daoSession = daoMaster.newSession();
 		userDao = daoSession.getUserDao();
 		categoryDao = daoSession.getCategoryDao();
+		symbolDao = daoSession.getSymbolDao();
 	}
 
 	public static DaoProvider getInstance(Context context) {
@@ -46,6 +48,10 @@ public class DaoProvider {
 
 	public CategoryDao getCategoryDao() {
 		return categoryDao;
+	}
+	
+	public SymbolDao getSymbolDao() {
+		return symbolDao;
 	}
 
 	public void setCategoryDao(CategoryDao categoryDao) {

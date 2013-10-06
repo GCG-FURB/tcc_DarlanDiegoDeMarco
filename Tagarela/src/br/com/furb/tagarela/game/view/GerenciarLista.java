@@ -1,11 +1,8 @@
 package br.com.furb.tagarela.game.view;
 
-import br.com.furb.tagarela.game.controler.Gerenciador;
-import br.com.furb.tagarela.game.model.Plano;
-import br.com.furb.tagarela.R;
-import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +10,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.game.controler.Gerenciador;
+import br.com.furb.tagarela.game.model.Plano;
 
 public class GerenciarLista extends Activity {
 

@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.furb.tagarela.game.controler.Gerenciador;
-import br.com.furb.tagarela.game.model.Prancha;
-import br.com.furb.tagarela.game.model.Simbolo;
-import br.com.furb.tagarela.game.util.Util;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
@@ -28,10 +24,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import br.com.furb.tagarela.game.controler.Gerenciador;
+import br.com.furb.tagarela.game.model.Prancha;
+import br.com.furb.tagarela.game.model.Simbolo;
+import br.com.furb.tagarela.game.util.Util;
 
 public class SimboloView extends ImageView implements OnTouchListener {
 	private float dimPincel = 0;

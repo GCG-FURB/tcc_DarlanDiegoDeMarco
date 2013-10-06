@@ -1,6 +1,5 @@
 package br.com.furb.tagarela.view.dialogs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -13,10 +12,12 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.CategoryDao;
 import br.com.furb.tagarela.model.CategoryDao.Properties;
@@ -24,19 +25,17 @@ import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.utils.JsonUtils;
 
 public class CategoryChooserDialog extends DialogFragment {
+
+	private List<Category> categoriesList;
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		syncCategories(); //busca categorias no servidor, se não tiver no banco então insere.
+		syncCategories();
 		CategoryDao categoryDao = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao();
-		List<Category> categories = categoryDao.queryBuilder().list(); //pega todas as categorias do banco
-		List<String> categoriesList = new ArrayList<String>(); //array de nomes
-		for (Category category : categories) {
-			categoriesList.add(category.getName());
-		}
-
+		categoriesList = categoryDao.queryBuilder().list();
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.dialog_category_chooser, null);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categoriesList);
+		ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1, categoriesList);
 		ListView listView = (ListView) view.findViewById(R.id.category_list);
 		listView.setOnItemClickListener(getCategoryListener());
 		listView.setAdapter(adapter);
@@ -47,8 +46,15 @@ public class CategoryChooserDialog extends DialogFragment {
 	}
 
 	private OnItemClickListener getCategoryListener() {
-		// TODO Auto-generated method stub
-		return null;
+		return new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Category selectedCategory = (Category) parent.getItemAtPosition(position);
+				((CategoryTypeListener) getActivity()).onCategoryReturnValue(selectedCategory.getId());
+				dismiss();
+			}
+		};
 	}
 
 	private void syncCategories() {
@@ -73,7 +79,6 @@ public class CategoryChooserDialog extends DialogFragment {
 			}
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

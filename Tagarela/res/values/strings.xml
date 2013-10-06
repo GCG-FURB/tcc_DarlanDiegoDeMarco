@@ -20,5 +20,15 @@
     <string name="title_activity_selecionar_plano">Selecionar Plano</string>
     <string name="title_activity_editor_coordenadas">Editor de Coordenadas</string>
     <string name="title_activity_gerenciar_lista">GerenciarLista</string>
-    
+    <string name="link_video">Link para video</string>
+    <string name="rec_sound">Gravar som</string>
+    <string name="rec_stop">Parar</string>
+    <string name="play_sound">Tocar</string>
+    <string name="title_symbol_create" />
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="title_user_create">Informe os campos abaixo</string>
+    <string name="symbol_image">Simbolo</string>
+	<string name="image_meaning">Significado da imagem</string>
+	<string name="view_symbols">Visualizar símbolos</string>
 </resources>

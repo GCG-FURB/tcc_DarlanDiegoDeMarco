@@ -24,7 +24,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.os.Vibrator;
-import android.util.Config;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;

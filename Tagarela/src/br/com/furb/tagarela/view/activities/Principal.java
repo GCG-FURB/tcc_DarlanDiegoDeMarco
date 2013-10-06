@@ -2,7 +2,6 @@ package br.com.furb.tagarela.view.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -10,16 +9,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.game.view.Jogo;
-import br.com.furb.tagarela.game.view.PrincipalJogo;
+import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
 import br.com.furb.tagarela.model.DaoProvider;
+import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.view.dialogs.CategoryChooserDialog;
+import br.com.furb.tagarela.view.dialogs.SymbolCreateDialog;
 import br.com.furb.tagarela.view.dialogs.TypeChooserDialog;
+import br.com.furb.tagarela.view.dialogs.UserCreateDialog;
 import br.com.furb.tagarela.view.dialogs.UserLoginDialog;
-import br.com.furb.tagarela.view.dialogs.UserPostDialog;
 
-public class Principal extends FragmentActivity implements UserTypeListener {
+public class Principal extends FragmentActivity implements UserTypeListener, CategoryTypeListener {
+
+	private static User usuarioLogado;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +42,6 @@ public class Principal extends FragmentActivity implements UserTypeListener {
 				categoryChooser.show(getSupportFragmentManager(), "");
 			}
 		});
-		
-		TextView gamePlay = (TextView) findViewById(R.id.gamePlay);
-		gamePlay.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
-				startActivity(i);		
-			}
-		});
-		
 	}
 
 	private void addGetListener() {
@@ -123,8 +114,8 @@ public class Principal extends FragmentActivity implements UserTypeListener {
 	}
 
 	@Override
-	public void onReturnValue(int userType) {
-		UserPostDialog userPost = new UserPostDialog();
+	public void onUserReturnValue(int userType) {
+		UserCreateDialog userPost = new UserCreateDialog();
 		Bundle args = new Bundle();
 		args.putInt("userType", userType);
 		userPost.setArguments(args);
@@ -136,4 +127,23 @@ public class Principal extends FragmentActivity implements UserTypeListener {
 		TypeChooserDialog typeSelector = new TypeChooserDialog();
 		typeSelector.show(getSupportFragmentManager(), "");
 	}
+
+	@Override
+	public void onCategoryReturnValue(Long categoryID) {
+		SymbolCreateDialog symbolCreate = new SymbolCreateDialog();
+		Bundle args = new Bundle();
+		args.putLong("categoryID", categoryID);
+		symbolCreate.setArguments(args);
+		symbolCreate.show(getSupportFragmentManager(), "");
+
+	}
+
+	public static void setUsuarioLogado(User usuarioLogado) {
+		Principal.usuarioLogado = usuarioLogado;
+	}
+
+	public static User getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
 }

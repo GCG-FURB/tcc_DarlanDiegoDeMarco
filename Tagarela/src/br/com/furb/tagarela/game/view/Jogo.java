@@ -21,10 +21,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.Plano;
 import br.com.furb.tagarela.game.model.Prancha;
-import br.com.furb.tagarela.R;
 
 public class Jogo extends Activity {
 

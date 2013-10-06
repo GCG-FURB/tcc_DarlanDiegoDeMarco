@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import br.com.furb.tagarela.game.banco.DBHelper;
 import br.com.furb.tagarela.game.banco.model.Plano;
-import br.com.furb.tagarela.game.banco.model.Simbolo;
 
 public class PlanoDAO {
 

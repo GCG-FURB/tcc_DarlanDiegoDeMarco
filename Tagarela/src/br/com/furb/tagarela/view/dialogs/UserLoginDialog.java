@@ -22,6 +22,7 @@ import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.model.UserDao.Properties;
 import br.com.furb.tagarela.utils.Base64Utils;
 import br.com.furb.tagarela.utils.JsonUtils;
+import br.com.furb.tagarela.view.activities.Principal;
 
 public class UserLoginDialog extends DialogFragment {
 
@@ -48,38 +49,35 @@ public class UserLoginDialog extends DialogFragment {
 
 	private OnClickListener getLoginListener() {
 		return new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.login_id);
-				String results = JsonUtils.getUserJsonResponse(Integer.parseInt(edit.getText().toString()));
-				try {
-					JSONArray users = new JSONArray(JsonUtils.validaJson(results));
-					JSONObject jsonUser = users.getJSONObject(0);
-					if (DaoProvider.getInstance(getActivity().getApplicationContext()).getUserDao().queryBuilder()
-							.where(Properties.Id.eq(jsonUser.getLong("id"))).list().size() <= 0) {
-						User user = new User();
+				String id = edit.getText().toString();
+				User user = null;
+				if (DaoProvider.getInstance(getActivity().getApplicationContext()).getUserDao().queryBuilder().where(Properties.Id.eq(id)).list().size() > 0) {
+					user = DaoProvider.getInstance(getActivity().getApplicationContext()).getUserDao().queryBuilder().where(Properties.Id.eq(id)).unique();
+					Principal.setUsuarioLogado(user);
+				} else {
+					String results = JsonUtils.getUserJsonResponse(Integer.parseInt(id));
+					try {
+						JSONArray users = new JSONArray(JsonUtils.validaJson(results));
+						JSONObject jsonUser = users.getJSONObject(0);
+						user = new User();
 						user.setEmail(jsonUser.getString("email"));
+						user.setServerID(jsonUser.getInt("id"));
 						user.setId(jsonUser.getLong("id"));
 						user.setName(jsonUser.getString("name"));
-						user.setPatientPicture(Base64Utils.decodeBase64ToByteArray(jsonUser.getString("image_representation").replaceAll("@", "+")));
+						user.setPatientPicture(Base64Utils.decodeImageBase64ToByteArray(jsonUser.getString("image_representation").replaceAll("@", "+")));
 						DaoProvider.getInstance(getActivity().getApplicationContext()).getUserDao().insert(user);
-						ImageView userPhoto = (ImageView) getActivity().findViewById(R.id.userPhoto);
-						userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
-						TextView welcomeMessage = (TextView) getActivity().findViewById(R.id.welcomeMessage);
-						welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
-					} else {
-						User user = DaoProvider.getInstance(getActivity().getApplicationContext()).getUserDao().queryBuilder()
-								.where(Properties.Id.eq(jsonUser.getLong("id"))).unique();
-						ImageView userPhoto = (ImageView) getActivity().findViewById(R.id.userPhoto);
-						userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
-						TextView welcomeMessage = (TextView) getActivity().findViewById(R.id.welcomeMessage);
-						welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
+						Principal.setUsuarioLogado(user);
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
 				}
-
+				ImageView userPhoto = (ImageView) getActivity().findViewById(R.id.userPhoto);
+				userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
+				TextView welcomeMessage = (TextView) getActivity().findViewById(R.id.welcomeMessage);
+				welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
 			}
 		};
 	}

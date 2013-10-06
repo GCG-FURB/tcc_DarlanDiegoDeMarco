@@ -1,6 +1,5 @@
 package br.com.furb.tagarela.view.dialogs;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -30,13 +29,13 @@ public class TypeChooserDialog extends DialogFragment {
 			public void onClick(View v) {
 				UserTypeListener activity = (UserTypeListener) getActivity();
 				if(id == R.id.imgPatient){
-					activity.onReturnValue(0);
+					activity.onUserReturnValue(0);
 				}
 				if(id == R.id.imgTutor){
-					activity.onReturnValue(1);
+					activity.onUserReturnValue(1);
 				}
 				if(id == R.id.imgSpecialist){
-					activity.onReturnValue(2);
+					activity.onUserReturnValue(2);
 				}
 				dismiss();
 			}

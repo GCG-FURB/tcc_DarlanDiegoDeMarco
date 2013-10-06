@@ -92,7 +92,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
             android:text="@string/symbol_create"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/link_color" />
+
+        <TextView
+            android:id="@+id/view_symbols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:text="@string/view_symbols"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/link_color" />
         
@@ -101,10 +115,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
             android:text="@string/game_play"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/link_color"
-            android:layout_marginLeft="10dp" />
+            android:textColor="@color/link_color" />
         
     </LinearLayout>
 

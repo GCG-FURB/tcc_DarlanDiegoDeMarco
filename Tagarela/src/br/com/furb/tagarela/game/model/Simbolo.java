@@ -9,18 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.util.ByteArrayBuffer;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.util.Base64;
-import br.com.furb.tagarela.game.banco.DBHelper;
 import br.com.furb.tagarela.game.banco.model.dao.SimboloDAO;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.Util;

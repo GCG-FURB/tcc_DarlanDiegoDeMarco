@@ -2,6 +2,7 @@ package br.com.furb.tagarela.game.view;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,8 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.game.controler.Gerenciador;
 
 public class PrincipalJogo extends Activity implements Observer {
 
