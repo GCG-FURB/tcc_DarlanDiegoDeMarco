@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.utils.BitmapHelper;
 import br.com.furb.tagarela.utils.HttpUtils;

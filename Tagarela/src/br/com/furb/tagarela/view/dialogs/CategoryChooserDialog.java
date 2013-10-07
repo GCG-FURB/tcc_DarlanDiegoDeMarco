@@ -30,7 +30,6 @@ public class CategoryChooserDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		syncCategories();
 		CategoryDao categoryDao = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao();
 		categoriesList = categoryDao.queryBuilder().list();
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -81,6 +80,5 @@ public class CategoryChooserDialog extends DialogFragment {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

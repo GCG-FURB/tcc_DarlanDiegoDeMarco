@@ -13,7 +13,7 @@ public class ModelCreator {
 	private static Entity symbol;
 
 	public static void main(String[] args) {
-		Schema schema = new Schema(5, "br.com.furb.tagarela.model");
+		Schema schema = new Schema(6, "br.com.furb.tagarela.model");
 		addUsers(schema);
 		addCategories(schema);
 		addSymbols(schema);
@@ -32,6 +32,7 @@ public class ModelCreator {
 	private static void addSymbols(Schema schema) {
 		symbol = schema.addEntity("Symbol");
 		symbol.addIntProperty("serverID");
+		symbol.addIntProperty("userID");
 		symbol.addBooleanProperty("isGeneral");
 		symbol.addStringProperty("name");
 		symbol.addStringProperty("videoLink");

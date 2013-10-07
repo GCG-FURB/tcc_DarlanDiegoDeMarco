@@ -24,21 +24,11 @@ import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.view.activities.Principal;
 
 public class HttpUtils {
-	public static final int MOVIDO_TEMPORARIAMENTE = 302; // utilizado para
-															// validação de
-															// campos
-															// obrigatórios e
-															// tipos
-	public static final int NAO_AUTENTICADO = 401; // utilizado para serviços
-													// que requer autenticação
-	public static final int NAO_PERMITIDO = 403; // utilizado para serviços
-													// não disponíveis, URLs
-													// não definidas
-	public static final int ERRO_NO_SERVIDOR = 500; // utilizado para erros de
-													// regra de negócio
-													// Oracle(SqlException)
-	public static final int SUCESSO = 200; // utilizado para sinalizar sucesso
-											// na requisição
+	public static final int MOVIDO_TEMPORARIAMENTE = 302;
+	public static final int NAO_AUTENTICADO = 401; 
+	public static final int NAO_PERMITIDO = 403;
+	public static final int ERRO_NO_SERVIDOR = 500; 
+	public static final int SUCESSO = 200; 
 
 	@SuppressWarnings("deprecation")
 	public static void preparaUrl(HttpEntityEnclosingRequestBase post, List<NameValuePair> params) {

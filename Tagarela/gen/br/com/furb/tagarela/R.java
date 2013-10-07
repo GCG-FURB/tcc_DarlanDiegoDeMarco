@@ -153,6 +153,8 @@ public final class R {
         public static final int image_meaning=0x7f07001c;
         public static final int jogar=0x7f070008;
         public static final int link_video=0x7f070013;
+        public static final int login_ask=0x7f07001f;
+        public static final int no=0x7f070021;
         public static final int play_sound=0x7f070016;
         public static final int rec_sound=0x7f070014;
         public static final int rec_stop=0x7f070015;
@@ -171,6 +173,8 @@ public final class R {
         public static final int title_symbol_create=0x7f070017;
         public static final int title_user_create=0x7f07001a;
         public static final int view_symbols=0x7f07001d;
+        public static final int welcome_message=0x7f07001e;
+        public static final int yes=0x7f070020;
     }
     public static final class style {
         /** 

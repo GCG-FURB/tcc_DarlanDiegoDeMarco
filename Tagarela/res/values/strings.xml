@@ -31,4 +31,8 @@
     <string name="symbol_image">Simbolo</string>
 	<string name="image_meaning">Significado da imagem</string>
 	<string name="view_symbols">Visualizar símbolos</string>
+	<string name="welcome_message">Bem vindo ao Tagarela</string>
+	<string name="login_ask">Você já possui um usuário no Tagarela?</string>
+	<string name="yes">Sim</string>
+	<string name="no">Não</string>
 </resources>
