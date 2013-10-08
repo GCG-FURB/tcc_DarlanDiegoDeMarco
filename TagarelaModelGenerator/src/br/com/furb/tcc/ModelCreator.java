@@ -11,12 +11,21 @@ public class ModelCreator {
 	private static Entity user;
 	private static Entity category;
 	private static Entity symbol;
+	private static Entity plan;
+	private static Entity symbol_plan;
+	private static Entity group_plan;
+	private static Entity group_plan_relationship;
 
 	public static void main(String[] args) {
-		Schema schema = new Schema(6, "br.com.furb.tagarela.model");
+		Schema schema = new Schema(7, "br.com.furb.tagarela.model");
 		addUsers(schema);
 		addCategories(schema);
 		addSymbols(schema);
+		addPlan(schema);
+		addSymbol_plan(schema);
+		addGroup_plan(schema);
+		addGroup_plan_relationship(schema);
+		
 		DaoGenerator daoGenerator;
 		try {
 			daoGenerator = new DaoGenerator();
@@ -27,6 +36,41 @@ public class ModelCreator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static void addGroup_plan_relationship(Schema schema) {
+		group_plan_relationship = schema.addEntity("Group_plan_relationship");
+		group_plan_relationship.addIntProperty("serverID");
+		group_plan_relationship.addIntProperty("groupID");
+		group_plan_relationship.addIntProperty("planID");
+	}
+
+	private static void addGroup_plan(Schema schema) {
+		group_plan = schema.addEntity("group_plan");
+		group_plan.addIntProperty("serverID");
+		group_plan.addIntProperty("hunterID");
+		group_plan.addIntProperty("preyID");
+		group_plan.addStringProperty("name");		
+	}
+
+	private static void addSymbol_plan(Schema schema) {
+		symbol_plan = schema.addEntity("symbol_plan");
+		symbol_plan.addIntProperty("serverID");
+		symbol_plan.addIntProperty("planID");
+		symbol_plan.addIntProperty("symbolID");
+		symbol_plan.addIntProperty("position");				
+	}
+
+	private static void addPlan(Schema schema) {
+		plan = schema.addEntity("plan");
+		plan.addIntProperty("serverID");
+		plan.addStringProperty("name");
+		plan.addIntProperty("planType");
+		plan.addIntProperty("layout");
+		plan.addStringProperty("description");
+		plan.addIntProperty("userID");
+		plan.addIntProperty("patientID");
+		
 	}
 
 	private static void addSymbols(Schema schema) {
