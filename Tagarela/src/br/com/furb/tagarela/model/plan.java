@@ -4,7 +4,7 @@ package br.com.furb.tagarela.model;
 /**
  * Entity mapped to table PLAN.
  */
-public class plan {
+public class Plan {
 
     private Integer serverID;
     private String name;
@@ -14,10 +14,10 @@ public class plan {
     private Integer userID;
     private Integer patientID;
 
-    public plan() {
+    public Plan() {
     }
 
-    public plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID, Integer patientID) {
+    public Plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID, Integer patientID) {
         this.serverID = serverID;
         this.name = name;
         this.planType = planType;

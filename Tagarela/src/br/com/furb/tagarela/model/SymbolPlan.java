@@ -4,17 +4,17 @@ package br.com.furb.tagarela.model;
 /**
  * Entity mapped to table SYMBOL_PLAN.
  */
-public class symbol_plan {
+public class SymbolPlan {
 
     private Integer serverID;
     private Integer planID;
     private Integer symbolID;
     private Integer position;
 
-    public symbol_plan() {
+    public SymbolPlan() {
     }
 
-    public symbol_plan(Integer serverID, Integer planID, Integer symbolID, Integer position) {
+    public SymbolPlan(Integer serverID, Integer planID, Integer symbolID, Integer position) {
         this.serverID = serverID;
         this.planID = planID;
         this.symbolID = symbolID;

@@ -17,7 +17,7 @@ public class ModelCreator {
 	private static Entity group_plan_relationship;
 
 	public static void main(String[] args) {
-		Schema schema = new Schema(7, "br.com.furb.tagarela.model");
+		Schema schema = new Schema(8, "br.com.furb.tagarela.model");
 		addUsers(schema);
 		addCategories(schema);
 		addSymbols(schema);
@@ -39,14 +39,14 @@ public class ModelCreator {
 	}
 
 	private static void addGroup_plan_relationship(Schema schema) {
-		group_plan_relationship = schema.addEntity("Group_plan_relationship");
+		group_plan_relationship = schema.addEntity("GroupPlanRelationship");
 		group_plan_relationship.addIntProperty("serverID");
 		group_plan_relationship.addIntProperty("groupID");
 		group_plan_relationship.addIntProperty("planID");
 	}
 
 	private static void addGroup_plan(Schema schema) {
-		group_plan = schema.addEntity("group_plan");
+		group_plan = schema.addEntity("GroupPlan");
 		group_plan.addIntProperty("serverID");
 		group_plan.addIntProperty("hunterID");
 		group_plan.addIntProperty("preyID");
@@ -54,7 +54,7 @@ public class ModelCreator {
 	}
 
 	private static void addSymbol_plan(Schema schema) {
-		symbol_plan = schema.addEntity("symbol_plan");
+		symbol_plan = schema.addEntity("SymbolPlan");
 		symbol_plan.addIntProperty("serverID");
 		symbol_plan.addIntProperty("planID");
 		symbol_plan.addIntProperty("symbolID");
@@ -62,7 +62,7 @@ public class ModelCreator {
 	}
 
 	private static void addPlan(Schema schema) {
-		plan = schema.addEntity("plan");
+		plan = schema.addEntity("Plan");
 		plan.addIntProperty("serverID");
 		plan.addStringProperty("name");
 		plan.addIntProperty("planType");

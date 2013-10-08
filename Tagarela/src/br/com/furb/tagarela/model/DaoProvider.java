@@ -11,6 +11,11 @@ public class DaoProvider {
 	private UserDao userDao;
 	private CategoryDao categoryDao;
 	private SymbolDao symbolDao;
+    private PlanDao planDao;
+    private SymbolPlanDao symbol_planDao;
+    private GroupPlanDao group_planDao;
+    private GroupPlanRelationshipDao group_plan_relationshipDao;
+	
 	private Context context;
 
 	private static DaoProvider daoProvider;
@@ -25,6 +30,10 @@ public class DaoProvider {
 		userDao = daoSession.getUserDao();
 		categoryDao = daoSession.getCategoryDao();
 		symbolDao = daoSession.getSymbolDao();
+	    planDao = daoSession.getPlanDao();
+	    symbol_planDao = daoSession.getSymbolPlanDao();
+	    group_planDao = daoSession.getGroupPlanDao();
+	    group_plan_relationshipDao = daoSession.getGroupPlanRelationshipDao();
 	}
 
 	public static DaoProvider getInstance(Context context) {

@@ -29,6 +29,7 @@ import br.com.furb.tagarela.game.model.Plano;
 import br.com.furb.tagarela.game.model.Simbolo;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.DaoProvider;
 
 public class Gerenciador extends Observable {
 
@@ -109,9 +110,10 @@ public class Gerenciador extends Observable {
 	public void prepararArquivos(){
 		new Thread() {		
 			public void run() {
-				downloadArquivos();		
+				//downloadArquivos();		
 				CarregarPlanos();
 				CarregarCheckPoints();
+				InicializarBanco();
 				
 				setChanged();
 				notifyObservers();				
@@ -323,6 +325,16 @@ public class Gerenciador extends Observable {
 //		
 //		return json;
 //	}	
+	
+	private void InicializarBanco() {
+		int idPlano = 300;
+		for (Plano plano: planos) {
+			DaoProvider.getInstance(null).g
+			
+			
+						
+		}		
+	}
 
 	private void CarregarPlanos() {						
 		init();

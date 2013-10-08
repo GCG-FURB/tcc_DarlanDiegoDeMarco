@@ -4,16 +4,16 @@ package br.com.furb.tagarela.model;
 /**
  * Entity mapped to table GROUP_PLAN_RELATIONSHIP.
  */
-public class Group_plan_relationship {
+public class GroupPlanRelationship {
 
     private Integer serverID;
     private Integer groupID;
     private Integer planID;
 
-    public Group_plan_relationship() {
+    public GroupPlanRelationship() {
     }
 
-    public Group_plan_relationship(Integer serverID, Integer groupID, Integer planID) {
+    public GroupPlanRelationship(Integer serverID, Integer groupID, Integer planID) {
         this.serverID = serverID;
         this.groupID = groupID;
         this.planID = planID;
