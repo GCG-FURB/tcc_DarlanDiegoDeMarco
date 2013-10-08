@@ -1,5 +1,6 @@
 package br.com.furb.tagarela.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.game.view.PrincipalJogo;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
@@ -42,6 +44,17 @@ public class Principal extends FragmentActivity implements UserTypeListener, Cat
 				categoryChooser.show(getSupportFragmentManager(), "");
 			}
 		});
+		
+		TextView gamePlay = (TextView) findViewById(R.id.gamePlay);
+		gamePlay.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
+				startActivity(i);		
+			}
+		});
+		
 	}
 
 	private void showUserDialog() {
