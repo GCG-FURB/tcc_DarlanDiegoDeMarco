@@ -17,9 +17,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.util.Base64;
-import br.com.furb.tagarela.game.banco.model.dao.SimboloDAO;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.utils.Base64Utils;
 
 public class Simbolo {
 
@@ -28,6 +29,7 @@ public class Simbolo {
 	private BufferedReader buffer;
 	private int id = 0;
 	private int subId = 1;
+	public Symbol simboloBD = null;
 		
 	public Simbolo(String path, String simbolo, int id){
 		this.simbolo = simbolo;
@@ -72,29 +74,35 @@ public class Simbolo {
 		return Util.decodeFile(file, tamanho);
 	}
 
-	public Bitmap getSimboloBmp2(int tamanho){
-		br.com.furb.tagarela.game.banco.model.Simbolo s = new br.com.furb.tagarela.game.banco.model.Simbolo();
+	public Bitmap getSimboloBmp3(int tamanho){
 		
-		SimboloDAO dao = new SimboloDAO(Gerenciador.getInstance().getContext());
-		
-		s = dao.getSimbolos(88);
-		
-		if (s != null) {
-			String[] imagem = s.getImagem().split("=");
-			byte[] decodedString = Base64.decode(imagem[0], Base64.DEFAULT);
-			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
-			return bmp;
-		}
-		
-				
-//	       FileOutputStream out = new FileOutputStream(file);
-//	       bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-//	       out.flush();
-//	       out.close();
-		
-		
-		return null;
-	}
+		File file = new File(getCaminhoSimbolo());
+		return Util.decodeFile(file, tamanho);
+	}	
+	
+//	public Bitmap getSimboloBmp2(int tamanho){
+//		br.com.furb.tagarela.game.banco.model.Simbolo s = new br.com.furb.tagarela.game.banco.model.Simbolo();
+//		
+//		SimboloDAO dao = new SimboloDAO(Gerenciador.getInstance().getContext());
+//		
+//		s = dao.getSimbolos(88);
+//		
+//		if (s != null) {
+//			String[] imagem = s.getImagem().split("=");
+//			byte[] decodedString = Base64.decode(imagem[0], Base64.DEFAULT);
+//			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
+//			return bmp;
+//		}
+//		
+//				
+////	       FileOutputStream out = new FileOutputStream(file);
+////	       bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+////	       out.flush();
+////	       out.close();
+//		
+//		
+//		return null;
+//	}
 		
 	public List<PointF> getCoordenadas(int tamanho){
 		try {						

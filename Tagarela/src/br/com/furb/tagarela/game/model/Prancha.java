@@ -1,8 +1,11 @@
 package br.com.furb.tagarela.game.model;
 
+import br.com.furb.tagarela.model.Plan;
+
 public class Prancha {
 
 	private Simbolo simbolo = null;
+	public Plan pranchaBD = null;
 	
 	public Prancha(Simbolo simbolo) {
 		super();

@@ -50,7 +50,7 @@ public class ModelCreator {
 		group_plan.addIntProperty("serverID");
 		group_plan.addIntProperty("hunterID");
 		group_plan.addIntProperty("preyID");
-		group_plan.addStringProperty("name");		
+		group_plan.addStringProperty("name");
 	}
 
 	private static void addSymbol_plan(Schema schema) {

@@ -12,9 +12,9 @@ public class DaoProvider {
 	private CategoryDao categoryDao;
 	private SymbolDao symbolDao;
     private PlanDao planDao;
-    private SymbolPlanDao symbol_planDao;
-    private GroupPlanDao group_planDao;
-    private GroupPlanRelationshipDao group_plan_relationshipDao;
+    private SymbolPlanDao symbolPlanDao;
+    private GroupPlanDao groupPlanDao;
+    private GroupPlanRelationshipDao groupPlanRelationshipDao;
 	
 	private Context context;
 
@@ -31,9 +31,9 @@ public class DaoProvider {
 		categoryDao = daoSession.getCategoryDao();
 		symbolDao = daoSession.getSymbolDao();
 	    planDao = daoSession.getPlanDao();
-	    symbol_planDao = daoSession.getSymbolPlanDao();
-	    group_planDao = daoSession.getGroupPlanDao();
-	    group_plan_relationshipDao = daoSession.getGroupPlanRelationshipDao();
+	    symbolPlanDao = daoSession.getSymbolPlanDao();
+	    groupPlanDao = daoSession.getGroupPlanDao();
+	    groupPlanRelationshipDao = daoSession.getGroupPlanRelationshipDao();
 	}
 
 	public static DaoProvider getInstance(Context context) {
@@ -65,6 +65,47 @@ public class DaoProvider {
 
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;
+	}
+	
+	public PlanDao getPlanDao() {
+		return planDao;
+	}
+
+	public void setPlanDao(PlanDao planDao) {
+		this.planDao = planDao;
+	}
+
+	public SymbolPlanDao getSymbolPlanDao() {
+		return symbolPlanDao;
+	}
+
+	public void setSymbolPlanDao(SymbolPlanDao symbolPlanDao) {
+		this.symbolPlanDao = symbolPlanDao;
+	}
+
+	public GroupPlanDao getGroupPlanDao() {
+		return groupPlanDao;
+	}
+
+	public void setGroupPlanDao(GroupPlanDao groupPlanDao) {
+		this.groupPlanDao = groupPlanDao;
+	}
+
+	public GroupPlanRelationshipDao getGroupPlanRelationshipDao() {
+		return groupPlanRelationshipDao;
+	}
+
+	public void setGroup_plan_relationshipDao(
+			GroupPlanRelationshipDao groupPlanRelationshipDao) {
+		this.groupPlanRelationshipDao = groupPlanRelationshipDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setSymbolDao(SymbolDao symbolDao) {
+		this.symbolDao = symbolDao;
 	}
 
 	public Context getContext() {

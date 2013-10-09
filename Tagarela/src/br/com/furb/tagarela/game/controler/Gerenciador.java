@@ -20,16 +20,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import br.com.furb.tagarela.game.banco.DBHelper;
-import br.com.furb.tagarela.game.banco.model.dao.PlanoDAO;
-import br.com.furb.tagarela.game.banco.model.dao.PranchaDAO;
-import br.com.furb.tagarela.game.banco.model.dao.SimboloDAO;
+import android.util.Log;
 import br.com.furb.tagarela.game.model.Plano;
+import br.com.furb.tagarela.game.model.Prancha;
 import br.com.furb.tagarela.game.model.Simbolo;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
 import br.com.furb.tagarela.model.DaoProvider;
+import br.com.furb.tagarela.model.GroupPlan;
+import br.com.furb.tagarela.model.GroupPlanDao;
+import br.com.furb.tagarela.model.GroupPlanRelationship;
+import br.com.furb.tagarela.model.GroupPlanRelationshipDao;
+import br.com.furb.tagarela.model.Plan;
+import br.com.furb.tagarela.model.PlanDao;
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.model.SymbolDao;
+import br.com.furb.tagarela.model.SymbolPlan;
+import br.com.furb.tagarela.model.SymbolPlanDao;
+import br.com.furb.tagarela.utils.Base64Utils;
 
 public class Gerenciador extends Observable {
 
@@ -50,7 +60,7 @@ public class Gerenciador extends Observable {
 	private Context context = null;
 	private Typeface fontJogo = null;
 	private int sizeFont = 60;
-	private DBHelper helper = null;
+	//private DBHelper helper = null;
 
 	private Gerenciador() {		
 		this.planos = new ArrayList<Plano>();				
@@ -80,7 +90,7 @@ public class Gerenciador extends Observable {
 		if (this.fontJogo == null)
 			this.fontJogo = Typeface.createFromAsset(this.context.getAssets(), "fonts/Prescriptbold.ttf");
 				
-		this.helper = DBHelper.getInstance(context);
+	//	this.helper = DBHelper.getInstance(context);
 	}
 	
 	public Typeface getFontJogo() {
@@ -111,9 +121,14 @@ public class Gerenciador extends Observable {
 		new Thread() {		
 			public void run() {
 				//downloadArquivos();		
-				CarregarPlanos();
+				
+				//CarregarPlanos();
+				
 				CarregarCheckPoints();
-				InicializarBanco();
+				
+				//InicializarBanco();
+				
+				CarregarPlanosBD(); 
 				
 				setChanged();
 				notifyObservers();				
@@ -175,111 +190,111 @@ public class Gerenciador extends Observable {
 		return null;
 	}
 	
-	private void downloadSimbolos() {
-		JSONArray jsonArray = getJsonHttp(HTTP_SIMBOLOS);
-		
-		if (jsonArray != null) {
-		    SimboloDAO dao = new SimboloDAO(context);
-		    
-		    for (int i = 0; i < jsonArray.length(); i++) {
-		        try {
-		        	JSONObject j = jsonArray.getJSONObject(i);
-		        	
-		        	br.com.furb.tagarela.game.banco.model.Simbolo simbolo = new br.com.furb.tagarela.game.banco.model.Simbolo();
-		        	
-		        	simbolo.setId(j.getInt("id"));
-		        	simbolo.setNome(j.getString("name"));
-		        	simbolo.setImagem(j.getString("image_representation"));
-		        	simbolo.setAudio(j.getString("sound_representation"));
-		        	simbolo.setCategoria(j.getInt("category_id"));
-		        	simbolo.setUsuario(j.getInt("user_id"));
-		        	
-		        	if (dao.registroExiste(simbolo)) {
-		        		dao.alterar(simbolo);		        				        		
-		        	}
-		        	else {
-		        		dao.inserir(simbolo);		        		
-		        	}
-		        				        			        	
-		        } catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        		        		        		    		        
-		    }
-		    			
-		}
-		
-	}
-
-	private void downloadPlanos() {
-		JSONArray jsonArray = getJsonHttp(HTTP_PLANOS);
-		
-		if (jsonArray != null) {
-		    PlanoDAO dao = new PlanoDAO(context);
-		    
-		    for (int i = 0; i < jsonArray.length(); i++) {
-		        try {
-		        	JSONObject j = jsonArray.getJSONObject(i);
-		        	
-		        	br.com.furb.tagarela.game.banco.model.Plano plano = new br.com.furb.tagarela.game.banco.model.Plano();
-		        			        	
-		        	plano.setId(j.getInt("id"));
-		        	plano.setNome(j.getString("name"));
-		        	plano.setPaciente(j.getInt("patient_id"));
-		        	plano.setUsuario(j.getInt("user_id"));
-		        	
-		        	if (dao.registroExiste(plano)) {
-		        		dao.alterar(plano);		        				        		
-		        	}
-		        	else {
-		        		dao.inserir(plano);		        		
-		        	}
-		        				        			        	
-		        } catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        		        		        		    		        
-		    }
-		    			
-		}
-	}
-
-	private void downloadPranchas() {
-		JSONArray jsonArray = getJsonHttp(HTTP_PRANCHAS);
-		
-		if (jsonArray != null) {
-		    PranchaDAO dao = new PranchaDAO(context);
-		    
-		    for (int i = 0; i < jsonArray.length(); i++) {
-		        try {
-		        	JSONObject j = jsonArray.getJSONObject(i);
-		        	
-		        	br.com.furb.tagarela.game.banco.model.Prancha prancha = new br.com.furb.tagarela.game.banco.model.Prancha();
-		        			       		        	
-		        	prancha.setId(j.getInt("id"));
-		        	prancha.setPlano(j.getInt("plans_id"));
-		        	prancha.setSimbolo(j.getInt("private_symbols_id"));
-		        	prancha.setPosicao(j.getInt("position"));
-		        	
-		        	if (dao.registroExiste(prancha)) {
-		        		dao.alterar(prancha);		        				        		
-		        	}
-		        	else {
-		        		dao.inserir(prancha);		        		
-		        	}
-		        				        			        	
-		        } catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        		        		        		    		        
-		    }
-		    			
-		}
-				
-	}
+//	private void downloadSimbolos() {
+//		JSONArray jsonArray = getJsonHttp(HTTP_SIMBOLOS);
+//		
+//		if (jsonArray != null) {
+//		    SimboloDAO dao = new SimboloDAO(context);
+//		    
+//		    for (int i = 0; i < jsonArray.length(); i++) {
+//		        try {
+//		        	JSONObject j = jsonArray.getJSONObject(i);
+//		        	
+//		        	br.com.furb.tagarela.game.banco.model.Simbolo simbolo = new br.com.furb.tagarela.game.banco.model.Simbolo();
+//		        	
+//		        	simbolo.setId(j.getInt("id"));
+//		        	simbolo.setNome(j.getString("name"));
+//		        	simbolo.setImagem(j.getString("image_representation"));
+//		        	simbolo.setAudio(j.getString("sound_representation"));
+//		        	simbolo.setCategoria(j.getInt("category_id"));
+//		        	simbolo.setUsuario(j.getInt("user_id"));
+//		        	
+//		        	if (dao.registroExiste(simbolo)) {
+//		        		dao.alterar(simbolo);		        				        		
+//		        	}
+//		        	else {
+//		        		dao.inserir(simbolo);		        		
+//		        	}
+//		        				        			        	
+//		        } catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		        		        		        		    		        
+//		    }
+//		    			
+//		}
+//		
+//	}
+//
+//	private void downloadPlanos() {
+//		JSONArray jsonArray = getJsonHttp(HTTP_PLANOS);
+//		
+//		if (jsonArray != null) {
+//		    PlanoDAO dao = new PlanoDAO(context);
+//		    
+//		    for (int i = 0; i < jsonArray.length(); i++) {
+//		        try {
+//		        	JSONObject j = jsonArray.getJSONObject(i);
+//		        	
+//		        	br.com.furb.tagarela.game.banco.model.Plano plano = new br.com.furb.tagarela.game.banco.model.Plano();
+//		        			        	
+//		        	plano.setId(j.getInt("id"));
+//		        	plano.setNome(j.getString("name"));
+//		        	plano.setPaciente(j.getInt("patient_id"));
+//		        	plano.setUsuario(j.getInt("user_id"));
+//		        	
+//		        	if (dao.registroExiste(plano)) {
+//		        		dao.alterar(plano);		        				        		
+//		        	}
+//		        	else {
+//		        		dao.inserir(plano);		        		
+//		        	}
+//		        				        			        	
+//		        } catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		        		        		        		    		        
+//		    }
+//		    			
+//		}
+//	}
+//
+//	private void downloadPranchas() {
+//		JSONArray jsonArray = getJsonHttp(HTTP_PRANCHAS);
+//		
+//		if (jsonArray != null) {
+//		    PranchaDAO dao = new PranchaDAO(context);
+//		    
+//		    for (int i = 0; i < jsonArray.length(); i++) {
+//		        try {
+//		        	JSONObject j = jsonArray.getJSONObject(i);
+//		        	
+//		        	br.com.furb.tagarela.game.banco.model.Prancha prancha = new br.com.furb.tagarela.game.banco.model.Prancha();
+//		        			       		        	
+//		        	prancha.setId(j.getInt("id"));
+//		        	prancha.setPlano(j.getInt("plans_id"));
+//		        	prancha.setSimbolo(j.getInt("private_symbols_id"));
+//		        	prancha.setPosicao(j.getInt("position"));
+//		        	
+//		        	if (dao.registroExiste(prancha)) {
+//		        		dao.alterar(prancha);		        				        		
+//		        	}
+//		        	else {
+//		        		dao.inserir(prancha);		        		
+//		        	}
+//		        				        			        	
+//		        } catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		        		        		        		    		        
+//		    }
+//		    			
+//		}
+//				
+//	}
 
 
 	public void gravarJSON(String name, String json){
@@ -327,15 +342,193 @@ public class Gerenciador extends Observable {
 //	}	
 	
 	private void InicializarBanco() {
-		int idPlano = 300;
-		for (Plano plano: planos) {
-			DaoProvider.getInstance(null).g
+		try {
+			int idPlano = 300;
+			int idPlanoXPrancha = 400;
+			int idPrancha = 500;
+			int idPranchaXSimbolo = 600;
+			int idSimbolo = 700;
+			int idSimboloCheckPoint = 800;
+					
+			GroupPlanDao planoDAO = DaoProvider.getInstance(null).getGroupPlanDao();
+			GroupPlanRelationshipDao planoXPranchaDAO = DaoProvider.getInstance(null).getGroupPlanRelationshipDao();
+			PlanDao pranchaDAO = DaoProvider.getInstance(null).getPlanDao();
+			SymbolPlanDao pranchaXSimboloDAO = DaoProvider.getInstance(null).getSymbolPlanDao();
+			SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
 			
-			
+			for (Plano plano: planos) {
+				
+				GroupPlan planoBD = new GroupPlan();
+				planoBD.setServerID(idPlano);
+				planoBD.setName(plano.getNome());
+				planoBD.setHunterID(idSimboloCheckPoint);
+				planoBD.setPreyID(idSimboloCheckPoint+10);			
+				
+				planoDAO.insert(planoBD);
+				idPlano++;
+				
+				int position = 0;
+				for (Prancha prancha : plano.getPranchas()) {					
+					
+					Plan pranchaBD = new Plan();
+					pranchaBD.setServerID(idPrancha);
+					pranchaBD.setName("???");
+					pranchaBD.setLayout(0);
+					pranchaBD.setPatientID(0);
+					pranchaBD.setPlanType(0);
+					pranchaBD.setUserID(0);
+					pranchaBD.setDescription("???");								
+					
+					pranchaDAO.insert(pranchaBD);
+					idPrancha++; 				
+									
+					GroupPlanRelationship planoXPranchaBD = new GroupPlanRelationship();
+					planoXPranchaBD.setServerID(idPlanoXPrancha);
+					planoXPranchaBD.setGroupID(planoBD.getServerID());
+					planoXPranchaBD.setPlanID(pranchaBD.getServerID());
+					
+					planoXPranchaDAO.insert(planoXPranchaBD);
+					idPlanoXPrancha++;
+					
+					Simbolo simbolo = prancha.getSimbolo();
+					
+					Symbol simboloBD = new Symbol();
+					simboloBD.setServerID(idSimbolo);
+					simboloBD.setName(simbolo.getSimboloName());
+					simboloBD.setCategoryID(0);
+					simboloBD.setIsGeneral(true);
+					simboloBD.setUserID(0);
+					
+					Bitmap bmp = simbolo.getSimboloBmp(100); 
+					if (bmp != null) {
+						simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
+					}
+					
+					File file = new File(simbolo.getCaminhoAudio());
+					if (file.exists()) {
+						simboloBD.setSound(Base64Utils.encodeAudioToBase64(simbolo.getCaminhoAudio()).getBytes());
+					}
+									
+					simboloDAO.insert(simboloBD);
+					idSimbolo++;
 						
-		}		
-	}
+					SymbolPlan pranchaXSimboloBD = new SymbolPlan();
+					pranchaXSimboloBD.setServerID(idPranchaXSimbolo);
+					pranchaXSimboloBD.setPlanID(pranchaBD.getServerID());
+					pranchaXSimboloBD.setSymbolID(simboloBD.getServerID());
+					pranchaXSimboloBD.setPosition(position);
+					
+					pranchaXSimboloDAO.insert(pranchaXSimboloBD);
+					idPranchaXSimbolo++;
+					position++;				
+															
+				}						
+			}		
+			
+			for (Simbolo simbolo : checkPoints) {
+				Symbol simboloBD = new Symbol();
+				simboloBD.setServerID(idSimboloCheckPoint);
+				simboloBD.setName(simbolo.getSimboloName());
+				simboloBD.setCategoryID(0);
+				simboloBD.setIsGeneral(true);
+				simboloBD.setUserID(0);
+				
+				Bitmap bmp = simbolo.getSimboloBmp(100); 
+				if (bmp != null) {
+					simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
+				}
+				
+				File file = new File(simbolo.getCaminhoAudio());
+				if (file.exists()) {
+					simboloBD.setSound(Base64Utils.encodeAudioToBase64(simbolo.getCaminhoAudio()).getBytes());
+				}
+								
+				simboloDAO.insert(simboloBD);
+				idSimboloCheckPoint++;								
+			}
+			
+//			planoDAO;
+//			planoXPranchaDAO;
+//			pranchaDAO;
+//			pranchaXSimboloDAO;
+//			simboloDAO;
 
+			Log.i("PLANOS", "-------------------------------");
+			for (GroupPlan plano : planoDAO.loadAll()) {
+				Log.i("PLANOS", plano.getServerID() + " " + plano.getName());				
+			}
+			Log.i("PLANOS", "-------------------------------");
+			
+			Log.i("PLANOS X PRANCHAS", "-------------------------------");
+			for (GroupPlanRelationship planoXPrancha : planoXPranchaDAO.loadAll()) {
+				Log.i("PLANOS X PRANCHAS", planoXPrancha.getServerID() + " " + planoXPrancha.getGroupID() + " " + planoXPrancha.getPlanID());				
+			}
+			Log.i("PLANOS X PRANCHAS", "-------------------------------");
+			
+			Log.i("PRANCHAS", "-------------------------------");
+			for (Plan prancha : pranchaDAO.loadAll()) {
+				Log.i("PRANCHAS", prancha.getServerID() + " " + prancha.getName());				
+			}
+			Log.i("PRANCHAS", "-------------------------------");
+
+			Log.i("PRANCHAS X SIMBOLOS", "-------------------------------");
+			for (SymbolPlan pranchaXSimbolo : pranchaXSimboloDAO.loadAll()) {
+				Log.i("PRANCHAS X SIMBOLOS", pranchaXSimbolo.getServerID() + " " + pranchaXSimbolo.getPlanID() + " " + pranchaXSimbolo.getSymbolID());				
+			}
+			Log.i("PRANCHAS X SIMBOLOS", "-------------------------------");
+
+			Log.i("SIMBOLOS", "-------------------------------");
+			for (Symbol simbolo : simboloDAO.loadAll()) {
+				Log.i("SIMBOLOS", simbolo.getServerID() + " " + simbolo.getName());				
+			}
+			Log.i("SIMBOLOS", "-------------------------------");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+						
+	}
+	
+	private void CarregarPlanosBD() {
+		init();
+		
+//		planoDAO;
+//		planoXPranchaDAO;
+//		pranchaDAO;
+//		pranchaXSimboloDAO;
+//		simboloDAO;
+
+		GroupPlanDao planoDAO = DaoProvider.getInstance(null).getGroupPlanDao();
+		GroupPlanRelationshipDao planoXPranchaDAO = DaoProvider.getInstance(null).getGroupPlanRelationshipDao();
+		PlanDao pranchaDAO = DaoProvider.getInstance(null).getPlanDao();
+		SymbolPlanDao pranchaXSimboloDAO = DaoProvider.getInstance(null).getSymbolPlanDao();
+		SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
+		
+		for (GroupPlan planoBD : planoDAO.loadAll()) {
+			Plano plano = new Plano(planoBD.getName());
+			
+			for (GroupPlanRelationship planoXPranchaBD : planoXPranchaDAO.queryRaw("where group_ID = ?", planoBD.getServerID().toString())) {
+								
+				for (Plan pranchaBD : pranchaDAO.queryRaw("where server_ID = ?", planoXPranchaBD.getPlanID().toString())) {
+					
+					for (SymbolPlan pranchaXSimboloBD : pranchaXSimboloDAO.queryRaw("where plan_ID = ?", pranchaBD.getServerID().toString())) {
+												
+						for (Symbol simboloBD : simboloDAO.queryRaw("where server_ID = ?", pranchaXSimboloBD.getSymbolID().toString())) {
+							Simbolo simbolo = new Simbolo("", simboloBD.getName(), simboloBD.getServerID());
+							simbolo.simboloBD = simboloBD;
+							Prancha prancha = new Prancha(simbolo);
+							plano.addPrancha(prancha);
+						}
+					}																								
+				}				
+			}
+			
+			planos.add(plano);
+		}
+				
+	}
+	
 	private void CarregarPlanos() {						
 		init();
 		File file = new File(getDirPlanos());

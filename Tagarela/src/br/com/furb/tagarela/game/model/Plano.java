@@ -14,6 +14,7 @@ import java.util.List;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.GroupPlan;
 
 
 public class Plano {
@@ -24,6 +25,7 @@ public class Plano {
 	private File filePlano = null;
 	private String textoPlano = null;
 	private boolean nativePlano = true;
+	public GroupPlan planoBD = null;
 	
 	public Plano(String nome) {
 		super();
