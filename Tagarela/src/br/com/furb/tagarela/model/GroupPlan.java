@@ -10,15 +10,17 @@ public class GroupPlan {
     private Integer hunterID;
     private Integer preyID;
     private String name;
+    private Boolean isNative;
 
     public GroupPlan() {
     }
 
-    public GroupPlan(Integer serverID, Integer hunterID, Integer preyID, String name) {
+    public GroupPlan(Integer serverID, Integer hunterID, Integer preyID, String name, Boolean isNative) {
         this.serverID = serverID;
         this.hunterID = hunterID;
         this.preyID = preyID;
         this.name = name;
+        this.isNative = isNative;
     }
 
     public Integer getServerID() {
@@ -51,6 +53,14 @@ public class GroupPlan {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getIsNative() {
+        return isNative;
+    }
+
+    public void setIsNative(Boolean isNative) {
+        this.isNative = isNative;
     }
 
 }

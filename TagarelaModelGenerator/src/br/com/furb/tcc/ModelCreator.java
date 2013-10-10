@@ -17,7 +17,7 @@ public class ModelCreator {
 	private static Entity group_plan_relationship;
 
 	public static void main(String[] args) {
-		Schema schema = new Schema(8, "br.com.furb.tagarela.model");
+		Schema schema = new Schema(10, "br.com.furb.tagarela.model");
 		addUsers(schema);
 		addCategories(schema);
 		addSymbols(schema);
@@ -51,6 +51,7 @@ public class ModelCreator {
 		group_plan.addIntProperty("hunterID");
 		group_plan.addIntProperty("preyID");
 		group_plan.addStringProperty("name");
+		group_plan.addBooleanProperty("isNative");
 	}
 
 	private static void addSymbol_plan(Schema schema) {
@@ -86,6 +87,8 @@ public class ModelCreator {
 		symbol.addToOne(category, categoryID);
 		ToMany categoryToSymbols = category.addToMany(symbol, categoryID);
 		categoryToSymbols.setName("symbols");
+		symbol.addStringProperty("ascRepresentation");
+		symbol.addIntProperty("alphaID");
 	}
 
 	private static void addCategories(Schema schema) {

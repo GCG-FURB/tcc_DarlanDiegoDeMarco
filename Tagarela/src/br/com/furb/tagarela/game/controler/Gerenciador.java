@@ -122,13 +122,13 @@ public class Gerenciador extends Observable {
 			public void run() {
 				//downloadArquivos();		
 				
-				//CarregarPlanos();
+				CarregarPlanos();
 				
 				CarregarCheckPoints();
 				
-				//InicializarBanco();
+				InicializarBanco();
 				
-				CarregarPlanosBD(); 
+				//CarregarPlanosBD(); 
 				
 				setChanged();
 				notifyObservers();				
@@ -363,6 +363,7 @@ public class Gerenciador extends Observable {
 				planoBD.setName(plano.getNome());
 				planoBD.setHunterID(idSimboloCheckPoint);
 				planoBD.setPreyID(idSimboloCheckPoint+10);			
+				planoBD.setIsNative(true);
 				
 				planoDAO.insert(planoBD);
 				idPlano++;
@@ -398,6 +399,8 @@ public class Gerenciador extends Observable {
 					simboloBD.setCategoryID(0);
 					simboloBD.setIsGeneral(true);
 					simboloBD.setUserID(0);
+					simboloBD.setAlphaID(0);					
+					simboloBD.setAscRepresentation(prancha.getSimbolo().getSimboloName());
 					
 					Bitmap bmp = simbolo.getSimboloBmp(100); 
 					if (bmp != null) {
@@ -425,13 +428,17 @@ public class Gerenciador extends Observable {
 				}						
 			}		
 			
+			int alphaID = 0;
 			for (Simbolo simbolo : checkPoints) {
+				alphaID++;
+				
 				Symbol simboloBD = new Symbol();
 				simboloBD.setServerID(idSimboloCheckPoint);
 				simboloBD.setName(simbolo.getSimboloName());
 				simboloBD.setCategoryID(0);
 				simboloBD.setIsGeneral(true);
 				simboloBD.setUserID(0);
+				simboloBD.setAlphaID(alphaID);
 				
 				Bitmap bmp = simbolo.getSimboloBmp(100); 
 				if (bmp != null) {

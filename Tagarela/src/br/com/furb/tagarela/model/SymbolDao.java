@@ -36,6 +36,8 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
         public final static Property Picture = new Property(5, byte[].class, "picture", false, "PICTURE");
         public final static Property Sound = new Property(6, byte[].class, "sound", false, "SOUND");
         public final static Property CategoryID = new Property(7, long.class, "categoryID", false, "CATEGORY_ID");
+        public final static Property AscRepresentation = new Property(8, String.class, "ascRepresentation", false, "ASC_REPRESENTATION");
+        public final static Property AlphaID = new Property(9, Integer.class, "alphaID", false, "ALPHA_ID");
     };
 
     private DaoSession daoSession;
@@ -62,7 +64,9 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
                 "'VIDEO_LINK' TEXT," + // 4: videoLink
                 "'PICTURE' BLOB," + // 5: picture
                 "'SOUND' BLOB," + // 6: sound
-                "'CATEGORY_ID' INTEGER NOT NULL );"); // 7: categoryID
+                "'CATEGORY_ID' INTEGER NOT NULL ," + // 7: categoryID
+                "'ASC_REPRESENTATION' TEXT," + // 8: ascRepresentation
+                "'ALPHA_ID' INTEGER);"); // 9: alphaID
     }
 
     /** Drops the underlying database table. */
@@ -111,6 +115,16 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
             stmt.bindBlob(7, sound);
         }
         stmt.bindLong(8, entity.getCategoryID());
+ 
+        String ascRepresentation = entity.getAscRepresentation();
+        if (ascRepresentation != null) {
+            stmt.bindString(9, ascRepresentation);
+        }
+ 
+        Integer alphaID = entity.getAlphaID();
+        if (alphaID != null) {
+            stmt.bindLong(10, alphaID);
+        }
     }
 
     @Override
@@ -136,7 +150,9 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // videoLink
             cursor.isNull(offset + 5) ? null : cursor.getBlob(offset + 5), // picture
             cursor.isNull(offset + 6) ? null : cursor.getBlob(offset + 6), // sound
-            cursor.getLong(offset + 7) // categoryID
+            cursor.getLong(offset + 7), // categoryID
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // ascRepresentation
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9) // alphaID
         );
         return entity;
     }
@@ -152,6 +168,8 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
         entity.setPicture(cursor.isNull(offset + 5) ? null : cursor.getBlob(offset + 5));
         entity.setSound(cursor.isNull(offset + 6) ? null : cursor.getBlob(offset + 6));
         entity.setCategoryID(cursor.getLong(offset + 7));
+        entity.setAscRepresentation(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setAlphaID(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
      }
     
     /** @inheritdoc */
