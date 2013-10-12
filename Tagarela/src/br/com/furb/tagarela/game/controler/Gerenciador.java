@@ -172,6 +172,7 @@ public class Gerenciador extends Observable {
 				planoBD.setHunterID(idSimboloCheckPoint);
 				planoBD.setPreyID(idSimboloCheckPoint+1);			
 				planoBD.setIsNative(true);
+				planoBD.setCustomText("");
 				
 				planoDAO.insert(planoBD);
 				idPlano++;
@@ -438,6 +439,14 @@ public class Gerenciador extends Observable {
 
 	public void addPlano(Plano plano) {
 		planos.add(plano);		
+	}
+	
+	public PlanoBanco getPlanoBD(int plano) {
+		return planosBD.get(plano);
+	}
+
+	public void addPlano(PlanoBanco plano) {
+		planosBD.add(plano);		
 	}
 	
 	public List<Simbolo> getCheckPoints() {

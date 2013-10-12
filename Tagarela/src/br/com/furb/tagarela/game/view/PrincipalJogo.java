@@ -69,7 +69,7 @@ public class PrincipalJogo extends Activity implements Observer {
 				}
 				else
 				{
-					planoIndex = gerenciador.getPlanos().size()-1;
+					planoIndex = gerenciador.getPlanosBD().size()-1;
 				}
 				
 				exibirPLano();
@@ -81,7 +81,7 @@ public class PrincipalJogo extends Activity implements Observer {
 			
 			@Override
 			public void onClick(View v) {
-				if (planoIndex < gerenciador.getPlanos().size()-1) {
+				if (planoIndex < gerenciador.getPlanosBD().size()-1) {
 					planoIndex++;
 				}
 				else
@@ -124,7 +124,7 @@ public class PrincipalJogo extends Activity implements Observer {
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(),	GerenciarLista.class);
 
-				if (gerenciador.getPlano(planoIndex).isNative()) {
+				if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getIsNative()) {
 					i.putExtra("planoindex", -1);
 				}
 				else
@@ -153,9 +153,9 @@ public class PrincipalJogo extends Activity implements Observer {
 	}
 	
 	private void exibirPLano(){
-		edPlano.setText(gerenciador.getPlano(planoIndex).getNome());
+		edPlano.setText(gerenciador.getPlanoBD(planoIndex).getPlanoBD().getName());
 		
-		if (gerenciador.getPlano(planoIndex).isNative()) {
+		if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getIsNative()) {
 			btnNovaLista.setText("Nova Lista");
 		}
 		else
@@ -192,7 +192,7 @@ public class PrincipalJogo extends Activity implements Observer {
 			public void run() {
 				// TODO Auto-generated method stub
 				progresso.dismiss();
-				edPlano.setText(gerenciador.getPlano(planoIndex).getNome());		
+				edPlano.setText(gerenciador.getPlanoBD(planoIndex).getPlanoBD().getName());		
 			}
 		});
 		

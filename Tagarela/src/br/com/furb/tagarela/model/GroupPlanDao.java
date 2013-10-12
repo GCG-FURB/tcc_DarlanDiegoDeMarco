@@ -28,6 +28,7 @@ public class GroupPlanDao extends AbstractDao<GroupPlan, Void> {
         public final static Property PreyID = new Property(2, Integer.class, "preyID", false, "PREY_ID");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property IsNative = new Property(4, Boolean.class, "isNative", false, "IS_NATIVE");
+        public final static Property CustomText = new Property(5, String.class, "customText", false, "CUSTOM_TEXT");
     };
 
 
@@ -47,7 +48,8 @@ public class GroupPlanDao extends AbstractDao<GroupPlan, Void> {
                 "'HUNTER_ID' INTEGER," + // 1: hunterID
                 "'PREY_ID' INTEGER," + // 2: preyID
                 "'NAME' TEXT," + // 3: name
-                "'IS_NATIVE' INTEGER);"); // 4: isNative
+                "'IS_NATIVE' INTEGER," + // 4: isNative
+                "'CUSTOM_TEXT' TEXT);"); // 5: customText
     }
 
     /** Drops the underlying database table. */
@@ -85,6 +87,11 @@ public class GroupPlanDao extends AbstractDao<GroupPlan, Void> {
         if (isNative != null) {
             stmt.bindLong(5, isNative ? 1l: 0l);
         }
+ 
+        String customText = entity.getCustomText();
+        if (customText != null) {
+            stmt.bindString(6, customText);
+        }
     }
 
     /** @inheritdoc */
@@ -101,7 +108,8 @@ public class GroupPlanDao extends AbstractDao<GroupPlan, Void> {
             cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // hunterID
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // preyID
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
-            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0 // isNative
+            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0, // isNative
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // customText
         );
         return entity;
     }
@@ -114,6 +122,7 @@ public class GroupPlanDao extends AbstractDao<GroupPlan, Void> {
         entity.setPreyID(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setIsNative(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
+        entity.setCustomText(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     /** @inheritdoc */
