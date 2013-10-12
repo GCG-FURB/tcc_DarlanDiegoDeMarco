@@ -106,7 +106,12 @@ public class PrincipalJogo extends Activity implements Observer {
 				i.putExtra("planoindex", planoIndex);
 				i.putExtra("pranchaindex", 0);
 				startActivity(i);		
-				
+
+//				Intent i = new Intent(getApplicationContext(), TesteJogo.class);
+//				
+//				i.putExtra("planoindex", planoIndex);
+//				i.putExtra("pranchaindex", 0);
+//				startActivity(i);										
 			}
 		});
 		

@@ -25,7 +25,6 @@ public class Plano {
 	private File filePlano = null;
 	private String textoPlano = null;
 	private boolean nativePlano = true;
-	public GroupPlan planoBD = null;
 	
 	public Plano(String nome) {
 		super();
@@ -33,12 +32,12 @@ public class Plano {
 		
 		Init(nome, file);
 	}	
-
+	
 	public Plano(String nome, File file) {
 		super();
 		Init(nome, file);
 	}	
-	
+			
 	private void Init(String nome, File file) {
 		this.nome = nome;
 		this.filePlano = file;
@@ -85,7 +84,7 @@ public class Plano {
 	public boolean isNative(){
 		return this.nativePlano;		
 	}
-
+	
 	public void addPrancha(Prancha prancha){
 		this.pranchas.add(prancha);		
 	}
@@ -95,13 +94,13 @@ public class Plano {
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+		
 	public Prancha getPrancha(int pranchaIndex) {
 		// TODO Auto-generated method stub
 		return getPranchas().get(pranchaIndex);

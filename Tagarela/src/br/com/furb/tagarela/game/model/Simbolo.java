@@ -29,16 +29,15 @@ public class Simbolo {
 	private BufferedReader buffer;
 	private int id = 0;
 	private int subId = 1;
-	public Symbol simboloBD = null;
 		
 	public Simbolo(String path, String simbolo, int id){
 		this.simbolo = simbolo;
 		this.path = path;
 		this.id = id;
 	}
-	
+		
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -73,13 +72,7 @@ public class Simbolo {
 		File file = new File(getCaminhoSimbolo());
 		return Util.decodeFile(file, tamanho);
 	}
-
-	public Bitmap getSimboloBmp3(int tamanho){
 		
-		File file = new File(getCaminhoSimbolo());
-		return Util.decodeFile(file, tamanho);
-	}	
-	
 //	public Bitmap getSimboloBmp2(int tamanho){
 //		br.com.furb.tagarela.game.banco.model.Simbolo s = new br.com.furb.tagarela.game.banco.model.Simbolo();
 //		
@@ -175,11 +168,10 @@ public class Simbolo {
 			e.printStackTrace();
 		}					
 	}
-	
-	public List<PointF> getCoordenadasBmp(int tamanho){
-		File file = new File(getCaminhoSimbolo());
-		Bitmap bmp = Util.decodeFile(file, 1000);
 
+	public List<PointF> getCoordenadasBmp(int tamanho){
+		Bitmap bmp = getSimboloBmp(1000);
+		
 		List<PointF> points = new ArrayList<PointF>();
 
 		for (int i = 0; i < 1000; i++) {
@@ -201,6 +193,32 @@ public class Simbolo {
 
 		return points;
 	}	
+		
+//	public List<PointF> getCoordenadasBmp(int tamanho){
+//		File file = new File(getCaminhoSimbolo());
+//		Bitmap bmp = Util.decodeFile(file, 1000);
+//
+//		List<PointF> points = new ArrayList<PointF>();
+//
+//		for (int i = 0; i < 1000; i++) {
+//			for (int j = 0; j < 1000; j++) {
+//				int color = bmp.getPixel(i, j);
+//				int alpha = Color.alpha(color);
+//
+//				if ((alpha > 0) && (alpha < 255)) {
+//					PointF p = new PointF(i, j);
+//					p.x = Util.round(((float) tamanho / 1000f) * p.x, 0);
+//					p.y = Util.round(((float) tamanho / 1000f) * p.y, 0);
+//					
+//					this.subId = alpha;
+//					
+//					points.add(p);
+//				}
+//			}
+//		}
+//
+//		return points;
+//	}	
 		
 //	public List<PointF> getCoordenadasBmp(int tamanho){
 //		File file = new File(getCaminhoSimbolo());

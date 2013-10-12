@@ -24,8 +24,11 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.util.Log;
 import br.com.furb.tagarela.game.model.Plano;
+import br.com.furb.tagarela.game.model.PlanoBanco;
 import br.com.furb.tagarela.game.model.Prancha;
+import br.com.furb.tagarela.game.model.PranchaBanco;
 import br.com.furb.tagarela.game.model.Simbolo;
+import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
 import br.com.furb.tagarela.model.DaoProvider;
@@ -60,11 +63,16 @@ public class Gerenciador extends Observable {
 	private Context context = null;
 	private Typeface fontJogo = null;
 	private int sizeFont = 60;
-	//private DBHelper helper = null;
 
+	private List<PlanoBanco> planosBD = null;
+	private List<SimboloBanco> checkPointsBD = null;
+		
 	private Gerenciador() {		
 		this.planos = new ArrayList<Plano>();				
 		this.checkPoints = new ArrayList<Simbolo>();				
+
+		this.planosBD = new ArrayList<PlanoBanco>();				
+		this.checkPointsBD = new ArrayList<SimboloBanco>();				
 	}
 
 	public static Gerenciador getInstance(){ 
@@ -90,7 +98,6 @@ public class Gerenciador extends Observable {
 		if (this.fontJogo == null)
 			this.fontJogo = Typeface.createFromAsset(this.context.getAssets(), "fonts/Prescriptbold.ttf");
 				
-	//	this.helper = DBHelper.getInstance(context);
 	}
 	
 	public Typeface getFontJogo() {
@@ -128,7 +135,7 @@ public class Gerenciador extends Observable {
 				
 				InicializarBanco();
 				
-				//CarregarPlanosBD(); 
+			    CarregarPlanosBD(); 
 				
 				setChanged();
 				notifyObservers();				
@@ -136,211 +143,7 @@ public class Gerenciador extends Observable {
 
 		}.start();			
 	}
-	
-	
-	/*
-	    Sincronizar categorias -> http://murmuring-falls-7702.herokuapp.com/categories
-		Sincronizar símbolos -> http://murmuring-falls-7702.herokuapp.com/private_symbols
-		Sincronizar planos -> http://murmuring-falls-7702.herokuapp.com/plans
-		Sincronizar símbolos de um plano -> http://murmuring-falls-7702.herokuapp.com/symbol_plans
-
-		A symbol_plans faz o relacionamento entre um plano e um símbolo, para exemplificar, na tabela estaria assim:
-
-		ID: 10
-		SYMBOL_ID : 25
-		PLAN_ID : 2
-		POSITION: 3
-
-		Ou seja, o símbolo de ID 25 está no plano de ID 2 na posição 3.
-
-		Então a ordem de sincronização para mostrar um plano na tela é private_symbols -> plans -> symbol_plans
-
-		E para pegar um desses pelo id é só acrescentar o /{codigo} ao final igual na url de users !
-*/	
-	
-	private void downloadArquivos() {
-		if (Util.checkNetworkState(context)) {	
-			//downloadSimbolos();
-			//downloadPlanos();
-			//downloadPranchas();					
-		}								
-	}	
-	
-	private JSONArray getJsonHttp(String url){
-		HttpGet httpGet = new HttpGet(url);
-
-		httpGet.addHeader("Accept", "application/json");
-		httpGet.addHeader("Content-Type", "application/json");
-
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpResponse response = null;
-
-			response = client.execute(httpGet);
-
-			String content = null;
-			content = EntityUtils.toString(response.getEntity());
-
-			return new JSONArray(content);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
-		
-		return null;
-	}
-	
-//	private void downloadSimbolos() {
-//		JSONArray jsonArray = getJsonHttp(HTTP_SIMBOLOS);
-//		
-//		if (jsonArray != null) {
-//		    SimboloDAO dao = new SimboloDAO(context);
-//		    
-//		    for (int i = 0; i < jsonArray.length(); i++) {
-//		        try {
-//		        	JSONObject j = jsonArray.getJSONObject(i);
-//		        	
-//		        	br.com.furb.tagarela.game.banco.model.Simbolo simbolo = new br.com.furb.tagarela.game.banco.model.Simbolo();
-//		        	
-//		        	simbolo.setId(j.getInt("id"));
-//		        	simbolo.setNome(j.getString("name"));
-//		        	simbolo.setImagem(j.getString("image_representation"));
-//		        	simbolo.setAudio(j.getString("sound_representation"));
-//		        	simbolo.setCategoria(j.getInt("category_id"));
-//		        	simbolo.setUsuario(j.getInt("user_id"));
-//		        	
-//		        	if (dao.registroExiste(simbolo)) {
-//		        		dao.alterar(simbolo);		        				        		
-//		        	}
-//		        	else {
-//		        		dao.inserir(simbolo);		        		
-//		        	}
-//		        				        			        	
-//		        } catch (JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//		        		        		        		    		        
-//		    }
-//		    			
-//		}
-//		
-//	}
-//
-//	private void downloadPlanos() {
-//		JSONArray jsonArray = getJsonHttp(HTTP_PLANOS);
-//		
-//		if (jsonArray != null) {
-//		    PlanoDAO dao = new PlanoDAO(context);
-//		    
-//		    for (int i = 0; i < jsonArray.length(); i++) {
-//		        try {
-//		        	JSONObject j = jsonArray.getJSONObject(i);
-//		        	
-//		        	br.com.furb.tagarela.game.banco.model.Plano plano = new br.com.furb.tagarela.game.banco.model.Plano();
-//		        			        	
-//		        	plano.setId(j.getInt("id"));
-//		        	plano.setNome(j.getString("name"));
-//		        	plano.setPaciente(j.getInt("patient_id"));
-//		        	plano.setUsuario(j.getInt("user_id"));
-//		        	
-//		        	if (dao.registroExiste(plano)) {
-//		        		dao.alterar(plano);		        				        		
-//		        	}
-//		        	else {
-//		        		dao.inserir(plano);		        		
-//		        	}
-//		        				        			        	
-//		        } catch (JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//		        		        		        		    		        
-//		    }
-//		    			
-//		}
-//	}
-//
-//	private void downloadPranchas() {
-//		JSONArray jsonArray = getJsonHttp(HTTP_PRANCHAS);
-//		
-//		if (jsonArray != null) {
-//		    PranchaDAO dao = new PranchaDAO(context);
-//		    
-//		    for (int i = 0; i < jsonArray.length(); i++) {
-//		        try {
-//		        	JSONObject j = jsonArray.getJSONObject(i);
-//		        	
-//		        	br.com.furb.tagarela.game.banco.model.Prancha prancha = new br.com.furb.tagarela.game.banco.model.Prancha();
-//		        			       		        	
-//		        	prancha.setId(j.getInt("id"));
-//		        	prancha.setPlano(j.getInt("plans_id"));
-//		        	prancha.setSimbolo(j.getInt("private_symbols_id"));
-//		        	prancha.setPosicao(j.getInt("position"));
-//		        	
-//		        	if (dao.registroExiste(prancha)) {
-//		        		dao.alterar(prancha);		        				        		
-//		        	}
-//		        	else {
-//		        		dao.inserir(prancha);		        		
-//		        	}
-//		        				        			        	
-//		        } catch (JSONException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//		        		        		        		    		        
-//		    }
-//		    			
-//		}
-//				
-//	}
-
-
-	public void gravarJSON(String name, String json){
-		
-		try {
-
-			File f = new File(context.getExternalFilesDir(null) + "/" + name + ".txt");		
-			
-			if (!f.exists()) {
-				f.createNewFile();
-			}
-						
-			FileWriter fw;
-			fw = new FileWriter(f.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			
-			bw.write(json);					
-			bw.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-		
-	}
-		
-//	private String getJsonResponse() {
-//		//URL_USERS
-//		
-//		HttpGet httpGet = new HttpGet("http://murmuring-falls-7702.herokuapp.com/users");
-//		httpGet.addHeader("Accept", "application/json");
-//		httpGet.addHeader("Content-Type", "application/json");
-//		String json = null;
-//	
-//		try {
-//			HttpResponse response = HttpUtils.doRequest(httpGet);
-//			json = HttpUtils.getContent(response);
-//		} catch (Exception e) {
-//			return e.getLocalizedMessage();
-//		}
-//		
-//		return json;
-//	}	
-	
+							
 	private void InicializarBanco() {
 		try {
 			int idPlano = 300;
@@ -349,20 +152,25 @@ public class Gerenciador extends Observable {
 			int idPranchaXSimbolo = 600;
 			int idSimbolo = 700;
 			int idSimboloCheckPoint = 800;
-					
+			
 			GroupPlanDao planoDAO = DaoProvider.getInstance(null).getGroupPlanDao();
 			GroupPlanRelationshipDao planoXPranchaDAO = DaoProvider.getInstance(null).getGroupPlanRelationshipDao();
 			PlanDao pranchaDAO = DaoProvider.getInstance(null).getPlanDao();
 			SymbolPlanDao pranchaXSimboloDAO = DaoProvider.getInstance(null).getSymbolPlanDao();
 			SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
 			
-			for (Plano plano: planos) {
-				
+			pranchaXSimboloDAO.deleteAll();
+			planoXPranchaDAO.deleteAll();
+			simboloDAO.deleteAll();
+			pranchaDAO.deleteAll();
+			planoDAO.deleteAll();	
+			
+			for (Plano plano: planos) {				
 				GroupPlan planoBD = new GroupPlan();
 				planoBD.setServerID(idPlano);
 				planoBD.setName(plano.getNome());
 				planoBD.setHunterID(idSimboloCheckPoint);
-				planoBD.setPreyID(idSimboloCheckPoint+10);			
+				planoBD.setPreyID(idSimboloCheckPoint+1);			
 				planoBD.setIsNative(true);
 				
 				planoDAO.insert(planoBD);
@@ -402,7 +210,7 @@ public class Gerenciador extends Observable {
 					simboloBD.setAlphaID(0);					
 					simboloBD.setAscRepresentation(prancha.getSimbolo().getSimboloName());
 					
-					Bitmap bmp = simbolo.getSimboloBmp(100); 
+					Bitmap bmp = simbolo.getSimboloBmp(1000); 
 					if (bmp != null) {
 						simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
 					}
@@ -440,7 +248,7 @@ public class Gerenciador extends Observable {
 				simboloBD.setUserID(0);
 				simboloBD.setAlphaID(alphaID);
 				
-				Bitmap bmp = simbolo.getSimboloBmp(100); 
+				Bitmap bmp = simbolo.getSimboloBmp(1000); 
 				if (bmp != null) {
 					simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
 				}
@@ -497,9 +305,7 @@ public class Gerenciador extends Observable {
 						
 	}
 	
-	private void CarregarPlanosBD() {
-		init();
-		
+	private void CarregarPlanosBD() {		
 //		planoDAO;
 //		planoXPranchaDAO;
 //		pranchaDAO;
@@ -513,7 +319,7 @@ public class Gerenciador extends Observable {
 		SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
 		
 		for (GroupPlan planoBD : planoDAO.loadAll()) {
-			Plano plano = new Plano(planoBD.getName());
+			PlanoBanco plano = new PlanoBanco(planoBD);
 			
 			for (GroupPlanRelationship planoXPranchaBD : planoXPranchaDAO.queryRaw("where group_ID = ?", planoBD.getServerID().toString())) {
 								
@@ -522,18 +328,21 @@ public class Gerenciador extends Observable {
 					for (SymbolPlan pranchaXSimboloBD : pranchaXSimboloDAO.queryRaw("where plan_ID = ?", pranchaBD.getServerID().toString())) {
 												
 						for (Symbol simboloBD : simboloDAO.queryRaw("where server_ID = ?", pranchaXSimboloBD.getSymbolID().toString())) {
-							Simbolo simbolo = new Simbolo("", simboloBD.getName(), simboloBD.getServerID());
-							simbolo.simboloBD = simboloBD;
-							Prancha prancha = new Prancha(simbolo);
+							SimboloBanco simbolo = new SimboloBanco(simboloBD);
+							PranchaBanco prancha = new PranchaBanco(pranchaBD, simbolo);
 							plano.addPrancha(prancha);
 						}
 					}																								
 				}				
 			}
 			
-			planos.add(plano);
+			planosBD.add(plano);
 		}
-				
+		
+		for (Symbol simboloBD : simboloDAO.queryRaw("where alpha_ID > ?", String.valueOf(0))) {
+			SimboloBanco simbolo = new SimboloBanco(simboloBD);
+			checkPointsBD.add(simbolo);					
+		}
 	}
 	
 	private void CarregarPlanos() {						
@@ -653,12 +462,39 @@ public class Gerenciador extends Observable {
 		
 		return null;
 	}
-	
+
+	public SimboloBanco getCheckPointServerID(int id){
+		for (SimboloBanco simbolo : checkPointsBD) {
+			if (simbolo.getSimboloBD().getServerID() == id) {
+				return simbolo;
+			}
+			
+		}
+		
+		return null;
+	}
+		
 	@Override
 	public void notifyObservers() {
 		// TODO Auto-generated method stub
 		super.notifyObservers();
 				
+	}
+	
+	public List<PlanoBanco> getPlanosBD() {
+		return planosBD;
+	}
+
+	public void setPlanosBD(List<PlanoBanco> planosBD) {
+		this.planosBD = planosBD;
+	}
+
+	public List<SimboloBanco> getCheckPointsBD() {
+		return checkPointsBD;
+	}
+
+	public void setCheckPointsBD(List<SimboloBanco> checkPointsBD) {
+		this.checkPointsBD = checkPointsBD;
 	}
 
 	public Simbolo getCheckPointRelacionado(String simboloName) {

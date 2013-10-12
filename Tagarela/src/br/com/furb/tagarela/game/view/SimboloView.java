@@ -1,9 +1,14 @@
 package br.com.furb.tagarela.game.view;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -20,6 +25,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +35,9 @@ import android.widget.TextView;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.Prancha;
 import br.com.furb.tagarela.game.model.Simbolo;
+import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.utils.Base64Utils;
 
 public class SimboloView extends ImageView implements OnTouchListener {
 	private float dimPincel = 0;
@@ -275,12 +283,22 @@ public class SimboloView extends ImageView implements OnTouchListener {
         try {
             MediaPlayer  mPlayer = new MediaPlayer();                                
 			
-            File file = new File(simbolo.getCaminhoAudio());
+            byte[] b = Base64Utils.decodeAudioFromBase64(new String(Gerenciador.getInstance().getPlanosBD().get(0).getPranchas().get(0).getSimbolo().getSimboloBD().getSound()));
+            
+            File file = new File(getContext().getExternalFilesDir(null) + "/atemp.m4a");
+                        
+            if (!file.exists()) {
+            	file.createNewFile();
+            }
+            
+            FileUtils.writeByteArrayToFile(file, b);
+			
+            //File file = new File(simbolo.getCaminhoAudio());
             
             if (!file.exists())
             	return;
             
-            Uri uri = Uri.fromFile(file);
+            Uri uri = Uri.fromFile(file);                    
 			
 			mPlayer.setDataSource(getContext(), uri);
 			
@@ -384,15 +402,18 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		if (!simboloCarregado && getWidth() > 0) {
 			this.simboloCarregado = true;
 			
-			this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
+			//this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
+			this.setImageBitmap(Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getSimboloBmp(getWidth()));			
 					
 			if (!readOnly) {
 				wayPoints = simbolo.getCoordenadasBmp(getWidth());
 
-				Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
+				//Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
+				SimboloBanco s = Gerenciador.getInstance().getCheckPointServerID(Gerenciador.getInstance().getPlanosBD().get(0).getPlanoBD().getHunterID());
 				bixo = s.getSimboloBmp((int) dimWayPoint);
 				
-				s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
+				//s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
+				s = Gerenciador.getInstance().getCheckPointServerID(Gerenciador.getInstance().getPlanosBD().get(0).getPlanoBD().getPreyID());
 				checkPoint = s.getSimboloBmp((int) dimWayPoint);
 				
 				Log.i("Bixo.W", "" + bixo.getWidth());

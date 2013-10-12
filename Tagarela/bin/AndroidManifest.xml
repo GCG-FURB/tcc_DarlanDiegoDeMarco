@@ -4,15 +4,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        />
+    <uses-sdk android:minSdkVersion="8" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature android:name="android.hardware.camera" >
@@ -22,7 +20,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="br.com.furb.tagarela.view.activities.Principal"
             android:label="@string/app_name" >
@@ -54,7 +52,10 @@
             android:name="br.com.furb.tagarela.game.view.GerenciarLista"
             android:label="@string/title_activity_gerenciar_lista" >
         </activity>
-                
+        <activity
+            android:name="br.com.furb.tagarela.game.view.TesteJogo"
+            android:label="@string/title_activity_teste_jogo" >
+        </activity>
     </application>
 
 </manifest>

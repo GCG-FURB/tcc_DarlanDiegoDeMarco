@@ -5,14 +5,13 @@ import br.com.furb.tagarela.model.Plan;
 public class Prancha {
 
 	private Simbolo simbolo = null;
-	public Plan pranchaBD = null;
 	
 	public Prancha(Simbolo simbolo) {
 		super();
 		
 		this.simbolo = simbolo;		
 	}
-
+		
 	public Simbolo getSimbolo() {
 		return simbolo;
 	}
