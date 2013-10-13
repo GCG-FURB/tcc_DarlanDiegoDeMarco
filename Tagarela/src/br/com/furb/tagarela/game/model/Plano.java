@@ -14,6 +14,7 @@ import java.util.List;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.GroupPlan;
 
 
 public class Plano {
@@ -31,12 +32,12 @@ public class Plano {
 		
 		Init(nome, file);
 	}	
-
+	
 	public Plano(String nome, File file) {
 		super();
 		Init(nome, file);
 	}	
-	
+			
 	private void Init(String nome, File file) {
 		this.nome = nome;
 		this.filePlano = file;
@@ -83,7 +84,7 @@ public class Plano {
 	public boolean isNative(){
 		return this.nativePlano;		
 	}
-
+	
 	public void addPrancha(Prancha prancha){
 		this.pranchas.add(prancha);		
 	}
@@ -93,13 +94,13 @@ public class Plano {
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+		
 	public Prancha getPrancha(int pranchaIndex) {
 		// TODO Auto-generated method stub
 		return getPranchas().get(pranchaIndex);

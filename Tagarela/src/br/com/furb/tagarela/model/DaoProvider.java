@@ -11,6 +11,11 @@ public class DaoProvider {
 	private UserDao userDao;
 	private CategoryDao categoryDao;
 	private SymbolDao symbolDao;
+    private PlanDao planDao;
+    private SymbolPlanDao symbolPlanDao;
+    private GroupPlanDao groupPlanDao;
+    private GroupPlanRelationshipDao groupPlanRelationshipDao;
+	
 	private Context context;
 
 	private static DaoProvider daoProvider;
@@ -25,6 +30,10 @@ public class DaoProvider {
 		userDao = daoSession.getUserDao();
 		categoryDao = daoSession.getCategoryDao();
 		symbolDao = daoSession.getSymbolDao();
+	    planDao = daoSession.getPlanDao();
+	    symbolPlanDao = daoSession.getSymbolPlanDao();
+	    groupPlanDao = daoSession.getGroupPlanDao();
+	    groupPlanRelationshipDao = daoSession.getGroupPlanRelationshipDao();
 	}
 
 	public static DaoProvider getInstance(Context context) {
@@ -56,6 +65,47 @@ public class DaoProvider {
 
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;
+	}
+	
+	public PlanDao getPlanDao() {
+		return planDao;
+	}
+
+	public void setPlanDao(PlanDao planDao) {
+		this.planDao = planDao;
+	}
+
+	public SymbolPlanDao getSymbolPlanDao() {
+		return symbolPlanDao;
+	}
+
+	public void setSymbolPlanDao(SymbolPlanDao symbolPlanDao) {
+		this.symbolPlanDao = symbolPlanDao;
+	}
+
+	public GroupPlanDao getGroupPlanDao() {
+		return groupPlanDao;
+	}
+
+	public void setGroupPlanDao(GroupPlanDao groupPlanDao) {
+		this.groupPlanDao = groupPlanDao;
+	}
+
+	public GroupPlanRelationshipDao getGroupPlanRelationshipDao() {
+		return groupPlanRelationshipDao;
+	}
+
+	public void setGroup_plan_relationshipDao(
+			GroupPlanRelationshipDao groupPlanRelationshipDao) {
+		this.groupPlanRelationshipDao = groupPlanRelationshipDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setSymbolDao(SymbolDao symbolDao) {
+		this.symbolDao = symbolDao;
 	}
 
 	public Context getContext() {

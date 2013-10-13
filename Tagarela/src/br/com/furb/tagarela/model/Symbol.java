@@ -17,6 +17,8 @@ public class Symbol {
     private byte[] picture;
     private byte[] sound;
     private long categoryID;
+    private String ascRepresentation;
+    private Integer alphaID;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -31,7 +33,7 @@ public class Symbol {
     public Symbol() {
     }
 
-    public Symbol(Integer serverID, Integer userID, Boolean isGeneral, String name, String videoLink, byte[] picture, byte[] sound, long categoryID) {
+    public Symbol(Integer serverID, Integer userID, Boolean isGeneral, String name, String videoLink, byte[] picture, byte[] sound, long categoryID, String ascRepresentation, Integer alphaID) {
         this.serverID = serverID;
         this.userID = userID;
         this.isGeneral = isGeneral;
@@ -40,6 +42,8 @@ public class Symbol {
         this.picture = picture;
         this.sound = sound;
         this.categoryID = categoryID;
+        this.ascRepresentation = ascRepresentation;
+        this.alphaID = alphaID;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -110,6 +114,22 @@ public class Symbol {
 
     public void setCategoryID(long categoryID) {
         this.categoryID = categoryID;
+    }
+
+    public String getAscRepresentation() {
+        return ascRepresentation;
+    }
+
+    public void setAscRepresentation(String ascRepresentation) {
+        this.ascRepresentation = ascRepresentation;
+    }
+
+    public Integer getAlphaID() {
+        return alphaID;
+    }
+
+    public void setAlphaID(Integer alphaID) {
+        this.alphaID = alphaID;
     }
 
     /** To-one relationship, resolved on first access. */

@@ -1,9 +1,14 @@
 package br.com.furb.tagarela.game.view;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -20,6 +25,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,16 +33,21 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.game.controler.Gerenciador;
+import br.com.furb.tagarela.game.model.PlanoBanco;
 import br.com.furb.tagarela.game.model.Prancha;
+import br.com.furb.tagarela.game.model.PranchaBanco;
 import br.com.furb.tagarela.game.model.Simbolo;
+import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.utils.Base64Utils;
 
 public class SimboloView extends ImageView implements OnTouchListener {
 	private float dimPincel = 0;
 	private float dimWayPoint = 0;
 
-	private Prancha prancha = null;
-	private Simbolo simbolo = null;
+	private PlanoBanco plano = null;
+	private PranchaBanco prancha = null;
+	private SimboloBanco simbolo = null;
 	private Paint paint = null;
 	private List<PointF> points = null;
 	private List<PointF> wayPoints = null;	
@@ -98,7 +109,11 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		}
 	}
 	
-	public void aplicarPrancha(Prancha prancha) {
+	public void setPlano(PlanoBanco plano){
+		this.plano = plano;
+	}
+	
+	public void aplicarPrancha(PranchaBanco prancha) {
 		boolean novo = this.prancha != null;
  
 		this.prancha = prancha;
@@ -273,14 +288,30 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		
 	public void playSound(){
         try {
-            MediaPlayer  mPlayer = new MediaPlayer();                                
-			
-            File file = new File(simbolo.getCaminhoAudio());
+            MediaPlayer  mPlayer = new MediaPlayer();        
             
-            if (!file.exists())
+            byte[] b = simbolo.getSimboloBD().getSound();
+            
+            if (b == null) {
             	return;
+            }
+			
+            b = Base64Utils.decodeAudioFromBase64(new String(simbolo.getSimboloBD().getSound()));
             
-            Uri uri = Uri.fromFile(file);
+            File file = new File(getContext().getExternalFilesDir(null) + "/atemp.m4a");
+                        
+            if (!file.exists()) {
+            	file.createNewFile();
+            }
+            
+            FileUtils.writeByteArrayToFile(file, b);
+			
+            //File file = new File(simbolo.getCaminhoAudio());
+            
+//            if (!file.exists())
+//            	return;
+            
+            Uri uri = Uri.fromFile(file);                    
 			
 			mPlayer.setDataSource(getContext(), uri);
 			
@@ -385,14 +416,18 @@ public class SimboloView extends ImageView implements OnTouchListener {
 			this.simboloCarregado = true;
 			
 			this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
+			//this.setImageBitmap(Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getSimboloBmp(getWidth()));			
 					
 			if (!readOnly) {
 				wayPoints = simbolo.getCoordenadasBmp(getWidth());
+				//wayPoints = Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getCoordenadasBmp(getWidth());
 
-				Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
+				//Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
+				SimboloBanco s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getHunterID());
 				bixo = s.getSimboloBmp((int) dimWayPoint);
 				
-				s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
+				//s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
+				s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getPreyID());
 				checkPoint = s.getSimboloBmp((int) dimWayPoint);
 				
 				Log.i("Bixo.W", "" + bixo.getWidth());

@@ -17,9 +17,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.util.Base64;
-import br.com.furb.tagarela.game.banco.model.dao.SimboloDAO;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.utils.Base64Utils;
 
 public class Simbolo {
 
@@ -34,9 +35,9 @@ public class Simbolo {
 		this.path = path;
 		this.id = id;
 	}
-	
+		
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -71,30 +72,30 @@ public class Simbolo {
 		File file = new File(getCaminhoSimbolo());
 		return Util.decodeFile(file, tamanho);
 	}
-
-	public Bitmap getSimboloBmp2(int tamanho){
-		br.com.furb.tagarela.game.banco.model.Simbolo s = new br.com.furb.tagarela.game.banco.model.Simbolo();
 		
-		SimboloDAO dao = new SimboloDAO(Gerenciador.getInstance().getContext());
-		
-		s = dao.getSimbolos(88);
-		
-		if (s != null) {
-			String[] imagem = s.getImagem().split("=");
-			byte[] decodedString = Base64.decode(imagem[0], Base64.DEFAULT);
-			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
-			return bmp;
-		}
-		
-				
-//	       FileOutputStream out = new FileOutputStream(file);
-//	       bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-//	       out.flush();
-//	       out.close();
-		
-		
-		return null;
-	}
+//	public Bitmap getSimboloBmp2(int tamanho){
+//		br.com.furb.tagarela.game.banco.model.Simbolo s = new br.com.furb.tagarela.game.banco.model.Simbolo();
+//		
+//		SimboloDAO dao = new SimboloDAO(Gerenciador.getInstance().getContext());
+//		
+//		s = dao.getSimbolos(88);
+//		
+//		if (s != null) {
+//			String[] imagem = s.getImagem().split("=");
+//			byte[] decodedString = Base64.decode(imagem[0], Base64.DEFAULT);
+//			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
+//			return bmp;
+//		}
+//		
+//				
+////	       FileOutputStream out = new FileOutputStream(file);
+////	       bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+////	       out.flush();
+////	       out.close();
+//		
+//		
+//		return null;
+//	}
 		
 	public List<PointF> getCoordenadas(int tamanho){
 		try {						
@@ -167,11 +168,10 @@ public class Simbolo {
 			e.printStackTrace();
 		}					
 	}
-	
-	public List<PointF> getCoordenadasBmp(int tamanho){
-		File file = new File(getCaminhoSimbolo());
-		Bitmap bmp = Util.decodeFile(file, 1000);
 
+	public List<PointF> getCoordenadasBmp(int tamanho){
+		Bitmap bmp = getSimboloBmp(1000);
+		
 		List<PointF> points = new ArrayList<PointF>();
 
 		for (int i = 0; i < 1000; i++) {
@@ -193,6 +193,32 @@ public class Simbolo {
 
 		return points;
 	}	
+		
+//	public List<PointF> getCoordenadasBmp(int tamanho){
+//		File file = new File(getCaminhoSimbolo());
+//		Bitmap bmp = Util.decodeFile(file, 1000);
+//
+//		List<PointF> points = new ArrayList<PointF>();
+//
+//		for (int i = 0; i < 1000; i++) {
+//			for (int j = 0; j < 1000; j++) {
+//				int color = bmp.getPixel(i, j);
+//				int alpha = Color.alpha(color);
+//
+//				if ((alpha > 0) && (alpha < 255)) {
+//					PointF p = new PointF(i, j);
+//					p.x = Util.round(((float) tamanho / 1000f) * p.x, 0);
+//					p.y = Util.round(((float) tamanho / 1000f) * p.y, 0);
+//					
+//					this.subId = alpha;
+//					
+//					points.add(p);
+//				}
+//			}
+//		}
+//
+//		return points;
+//	}	
 		
 //	public List<PointF> getCoordenadasBmp(int tamanho){
 //		File file = new File(getCaminhoSimbolo());

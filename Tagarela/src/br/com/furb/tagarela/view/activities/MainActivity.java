@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.game.view.PrincipalJogo;
 import br.com.furb.tagarela.controler.SyncInformationControler;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
@@ -44,6 +45,17 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 				categoryChooser.show(getSupportFragmentManager(), "");
 			}
 		});
+
+		TextView gamePlay = (TextView) findViewById(R.id.gamePlay);
+		gamePlay.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
+				startActivity(i);		
+			}
+
+		});
 		
 		TextView viewSymbol = (TextView) findViewById(R.id.view_symbols);
 		viewSymbol.setOnClickListener(new OnClickListener() {
@@ -54,6 +66,8 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 				startActivity(viewSymbols);
 			}
 		});
+	}
+
 	}
 
 	private void showUserDialog() {

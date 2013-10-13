@@ -54,6 +54,11 @@
             android:name="br.com.furb.tagarela.game.view.GerenciarLista"
             android:label="@string/title_activity_gerenciar_lista" >
         </activity>
+    <activity
+            android:name="br.com.furb.tagarela.game.view.TesteJogo"
+            android:label="@string/title_activity_teste_jogo" >
+        </activity>
+
         <activity
             android:name="br.com.furb.tagarela.view.activities.ViewSymbolsActivity"
             android:screenOrientation="sensorLandscape" >

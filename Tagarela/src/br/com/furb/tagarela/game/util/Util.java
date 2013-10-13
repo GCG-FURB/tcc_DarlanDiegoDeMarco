@@ -3,6 +3,7 @@ package br.com.furb.tagarela.game.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.nio.MappedByteBuffer;
@@ -189,6 +190,58 @@ public final class Util {
 		}
 	}
 
+	public static Bitmap decodeFile(final byte[] f, final int suggestedSize) {
+		if (f == null) {
+			return null;
+		}
+		// return BitmapFactory.decodeFile(f.getAbsolutePath());
+		try {
+			// System.gc();
+			final BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			
+			BitmapFactory.decodeByteArray(f, 0, f.length, o);
+			//BitmapFactory.decodeStream(f, null, o);
+			//BitmapFactory.decodeStream(f, null, o);
+			
+			// 2.
+			final int requiredSize = suggestedSize;
+			int widthTmp = o.outWidth, heightTmp = o.outHeight;
+			int scale = 1;
+			
+			while (true) {
+				if ((widthTmp / 2) < requiredSize || (heightTmp / 2) < requiredSize) {
+					break;
+				}
+				widthTmp /= 2;
+				heightTmp /= 2;
+				scale *= 2;
+			}
+			
+			final BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			o2.inTempStorage = new byte[128];
+			o2.inPurgeable = true;
+			
+			Bitmap bitmap = null;
+			try {
+				//bitmap = BitmapFactory.decodeStream(f,	null, o2);
+
+ 				bitmap = BitmapFactory.decodeByteArray(f, 0, f.length, o2); 
+				//bitmap = BitmapFactory.decodeStream(new FileInputStream(f),	null, o2);
+
+			} catch (final Throwable e) {
+				System.gc();
+			}
+			
+			return bitmap;
+			
+		} catch (final Throwable e) {
+			System.gc();
+			return null;
+		}
+	}
+		
 	public static void aplicarFontView(TextView v) {
 		v.setTypeface(Gerenciador.getInstance().getFontJogo());
 		v.setTextSize(Gerenciador.getInstance().getsizeFont());			

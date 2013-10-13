@@ -24,7 +24,9 @@ import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.Plano;
+import br.com.furb.tagarela.game.model.PlanoBanco;
 import br.com.furb.tagarela.game.model.Prancha;
+import br.com.furb.tagarela.game.model.PranchaBanco;
 
 public class Jogo extends Activity {
 
@@ -32,8 +34,8 @@ public class Jogo extends Activity {
 	private ImageView btnProximo = null;
 	private SimboloView vSimbolo = null;
 	private Gerenciador gerenciador = null;
-	private Plano plano = null;
-	private Prancha prancha = null;
+	private PlanoBanco plano = null;
+	private PranchaBanco prancha = null;
 	private int pranchaIndex = 0;
 	private LinearLayout jogoLayoutPrincipal = null;
 	private LinearLayout jogoLayoutText = null;
@@ -65,7 +67,7 @@ public class Jogo extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 
-		plano = gerenciador.getPlano(extras.getInt("planoindex"));
+		plano = gerenciador.getPlanoBD(extras.getInt("planoindex"));
 
 		pranchaIndex = extras.getInt("pranchaindex");
 		prancha = plano.getPrancha(pranchaIndex);
@@ -94,7 +96,7 @@ public class Jogo extends Activity {
 					prancha = plano.getPrancha(pranchaIndex);
 					
 					boolean xAchou = true;
-					while (prancha.getSimbolo().getSimboloName().equals(" ")) {
+					while (prancha.getSimbolo().getSimboloBD().getName().equals(" ")) {
 
 						xAchou = false;
 						if (pranchaIndex > 0) {
@@ -121,7 +123,7 @@ public class Jogo extends Activity {
 					prancha = plano.getPrancha(pranchaIndex);
 					
 					boolean xAchou = true;
-					while (prancha.getSimbolo().getSimboloName().equals(" ")) {
+					while (prancha.getSimbolo().getSimboloBD().getName().equals(" ")) {
 						xAchou = false;
 						
 						if (pranchaIndex < (plano.getPranchas().size() - 1)) {
@@ -139,6 +141,7 @@ public class Jogo extends Activity {
 			}
 		});
 		
+		simboloView.setPlano(plano);
 		simboloView.btnProximo = btnProximo;
 		
 		// EDITOR DE COORDENADAS
@@ -181,7 +184,7 @@ public class Jogo extends Activity {
 					points.add(point);
 				}
 				
-				prancha.getSimbolo().GravarCoordenadas(points, simboloView.getWidth());
+				//prancha.getSimbolo().GravarCoordenadas(points, simboloView.getWidth());
 								
 			}
 		});
@@ -196,13 +199,13 @@ public class Jogo extends Activity {
 		jogoLayoutText.removeAllViewsInLayout();
 		
 		int index = 0; 
-		for (Prancha p : plano.getPranchas()) {						
+		for (PranchaBanco p : plano.getPranchas()) {						
 			TextView text = new TextView(getApplicationContext());
 			
 			android.view.ViewGroup.LayoutParams lp = new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			text.setLayoutParams(new LayoutParams(lp));
 			
-			text.setText(p.getSimbolo().getSimboloName());			
+			text.setText(p.getSimbolo().getSimboloBD().getName());			
 			text.setTextSize(60.f);			
 			
 			if (index == pranchaIndex) {
@@ -237,9 +240,9 @@ public class Jogo extends Activity {
 			
 			// Letras Maiusculas
 			if (pranchaIndex > 0) {
-				Prancha prachaOld = plano.getPrancha(pranchaIndex-1);
+				PranchaBanco prachaOld = plano.getPrancha(pranchaIndex-1);
 				
-				char c = prachaOld.getSimbolo().getSimboloName().toCharArray()[0]; 
+				char c = prachaOld.getSimbolo().getSimboloBD().getName().toCharArray()[0]; 
 				// Letras Maiusculas ou Números
 				if (((c >= 65) && ((c <= 90))) || ((c >= 48) && (c <= 57))) {
 					lParams.width = 70;
@@ -257,7 +260,7 @@ public class Jogo extends Activity {
 
 			gerarViewHistorico(points, lParams);
 			
-			if ((pranchaIndex > 0) && (plano.getPrancha(pranchaIndex-1).getSimbolo().getSimboloName().equals(" "))) {
+			if ((pranchaIndex > 0) && (plano.getPrancha(pranchaIndex-1).getSimbolo().getSimboloBD().getName().equals(" "))) {
 				gerarViewHistorico(new ArrayList<PointF>(), new android.view.ViewGroup.LayoutParams(20, 50));				
 			}			
 		}		

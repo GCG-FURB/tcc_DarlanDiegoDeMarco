@@ -37,4 +37,6 @@
 	
 	<string name="yes">Sim</string>
 	<string name="no">Não</string>
+    <string name="title_activity_teste_jogo">TesteJogo</string>
+
 </resources>
