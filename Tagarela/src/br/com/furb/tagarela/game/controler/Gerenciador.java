@@ -19,7 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.greenrobot.dao.AbstractDao;
+
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -31,6 +35,7 @@ import br.com.furb.tagarela.game.model.Simbolo;
 import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
 import br.com.furb.tagarela.game.util.Util;
+import br.com.furb.tagarela.model.DaoMaster;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.GroupPlan;
 import br.com.furb.tagarela.model.GroupPlanDao;
@@ -165,12 +170,42 @@ public class Gerenciador extends Observable {
 			pranchaDAO.deleteAll();
 			planoDAO.deleteAll();	
 			
+			int lastIDCheckPoint = 0;
+			
+			int alphaID = 0;
+			for (Simbolo simbolo : checkPoints) {
+				alphaID++;
+				
+				Symbol simboloBD = new Symbol();
+				simboloBD.setServerID(getNextServerID(simboloDAO));
+				simboloBD.setName(simbolo.getSimboloName());
+				simboloBD.setCategoryID(0);
+				simboloBD.setIsGeneral(true);
+				simboloBD.setUserID(0);
+				simboloBD.setAlphaID(alphaID);
+				
+				Bitmap bmp = simbolo.getSimboloBmp(1000); 
+				if (bmp != null) {
+					simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
+				}
+				
+				File file = new File(simbolo.getCaminhoAudio());
+				if (file.exists()) {
+					simboloBD.setSound(Base64Utils.encodeAudioToBase64(simbolo.getCaminhoAudio()).getBytes());
+				}
+								
+				simboloDAO.insert(simboloBD);
+				idSimboloCheckPoint++;		
+				
+				lastIDCheckPoint = simboloBD.getServerID();
+			}
+						
 			for (Plano plano: planos) {				
 				GroupPlan planoBD = new GroupPlan();
-				planoBD.setServerID(idPlano);
+				planoBD.setServerID(getNextServerID(planoDAO));
 				planoBD.setName(plano.getNome());
-				planoBD.setHunterID(idSimboloCheckPoint);
-				planoBD.setPreyID(idSimboloCheckPoint+1);			
+				planoBD.setHunterID(lastIDCheckPoint);
+				planoBD.setPreyID(lastIDCheckPoint-5);			
 				planoBD.setIsNative(true);
 				planoBD.setCustomText("");
 				
@@ -181,7 +216,7 @@ public class Gerenciador extends Observable {
 				for (Prancha prancha : plano.getPranchas()) {					
 					
 					Plan pranchaBD = new Plan();
-					pranchaBD.setServerID(idPrancha);
+					pranchaBD.setServerID(getNextServerID(pranchaDAO));
 					pranchaBD.setName("???");
 					pranchaBD.setLayout(0);
 					pranchaBD.setPatientID(0);
@@ -193,7 +228,7 @@ public class Gerenciador extends Observable {
 					idPrancha++; 				
 									
 					GroupPlanRelationship planoXPranchaBD = new GroupPlanRelationship();
-					planoXPranchaBD.setServerID(idPlanoXPrancha);
+					planoXPranchaBD.setServerID(getNextServerID(planoXPranchaDAO));
 					planoXPranchaBD.setGroupID(planoBD.getServerID());
 					planoXPranchaBD.setPlanID(pranchaBD.getServerID());
 					
@@ -203,7 +238,7 @@ public class Gerenciador extends Observable {
 					Simbolo simbolo = prancha.getSimbolo();
 					
 					Symbol simboloBD = new Symbol();
-					simboloBD.setServerID(idSimbolo);
+					simboloBD.setServerID(getNextServerID(simboloDAO));
 					simboloBD.setName(simbolo.getSimboloName());
 					simboloBD.setCategoryID(0);
 					simboloBD.setIsGeneral(true);
@@ -225,7 +260,7 @@ public class Gerenciador extends Observable {
 					idSimbolo++;
 						
 					SymbolPlan pranchaXSimboloBD = new SymbolPlan();
-					pranchaXSimboloBD.setServerID(idPranchaXSimbolo);
+					pranchaXSimboloBD.setServerID(getNextServerID(pranchaXSimboloDAO));
 					pranchaXSimboloBD.setPlanID(pranchaBD.getServerID());
 					pranchaXSimboloBD.setSymbolID(simboloBD.getServerID());
 					pranchaXSimboloBD.setPosition(position);
@@ -236,33 +271,7 @@ public class Gerenciador extends Observable {
 															
 				}						
 			}		
-			
-			int alphaID = 0;
-			for (Simbolo simbolo : checkPoints) {
-				alphaID++;
-				
-				Symbol simboloBD = new Symbol();
-				simboloBD.setServerID(idSimboloCheckPoint);
-				simboloBD.setName(simbolo.getSimboloName());
-				simboloBD.setCategoryID(0);
-				simboloBD.setIsGeneral(true);
-				simboloBD.setUserID(0);
-				simboloBD.setAlphaID(alphaID);
-				
-				Bitmap bmp = simbolo.getSimboloBmp(1000); 
-				if (bmp != null) {
-					simboloBD.setPicture(Base64Utils.encodeImageTobase64(bmp).getBytes());
-				}
-				
-				File file = new File(simbolo.getCaminhoAudio());
-				if (file.exists()) {
-					simboloBD.setSound(Base64Utils.encodeAudioToBase64(simbolo.getCaminhoAudio()).getBytes());
-				}
-								
-				simboloDAO.insert(simboloBD);
-				idSimboloCheckPoint++;								
-			}
-			
+						
 //			planoDAO;
 //			planoXPranchaDAO;
 //			pranchaDAO;
@@ -518,5 +527,24 @@ public class Gerenciador extends Observable {
 		
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int getNextServerID(AbstractDao<?, ?> tableDAO) {
+		SQLiteDatabase db = DaoProvider.getInstance(null).getDaoMaster().getDatabase();
+				
+		Cursor c = db.rawQuery("SELECT MAX(SERVER_ID) AS MAIOR FROM " + tableDAO.getTablename(), null);
+		
+		return c.getColumnIndex("MAIOR") + 1;
+	}
+	
+	public PlanoBanco criarNovoPlano() {
+		GroupPlan gPlan = new GroupPlan();
+		GroupPlanDao gpDAO = DaoProvider.getInstance(null).getGroupPlanDao();
+		
+		gPlan.setServerID(getNextServerID(gpDAO));
+		gpDAO.insert(gPlan);
+		
+		PlanoBanco plano = new PlanoBanco(gPlan);
+		return plano;			
 	}			
 }

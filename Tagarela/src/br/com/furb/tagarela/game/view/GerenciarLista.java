@@ -13,6 +13,8 @@ import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.Plano;
+import br.com.furb.tagarela.game.model.PlanoBanco;
+import br.com.furb.tagarela.model.GroupPlan;
 
 public class GerenciarLista extends Activity {
 
@@ -26,7 +28,7 @@ public class GerenciarLista extends Activity {
 	private Button btnCancelar = null;
 		
 	private Gerenciador gerenciador = null;
-	private Plano plano = null;
+	private PlanoBanco plano = null;
 	private int planoIndex = -1;
 
 	@Override
@@ -46,9 +48,9 @@ public class GerenciarLista extends Activity {
 
 		planoIndex = extras.getInt("planoindex");
 		if (planoIndex >= 0) {
-			plano = gerenciador.getPlano(planoIndex);
-			edNomePlano.setText(plano.getNome());	
-			edPalavras.setText(plano.getTextoPlano());
+			plano = gerenciador.getPlanoBD(planoIndex);
+			edNomePlano.setText(plano.getPlanoBD().getName());	
+			edPalavras.setText(plano.getPlanoBD().getCustomText());
 			
 			tvTextoSuperior.setText("Alterar Lista");
 			btnRemover.setEnabled(true);
@@ -64,14 +66,14 @@ public class GerenciarLista extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (plano == null) {
-					plano = new Plano(edNomePlano.getText().toString());
+					plano = gerenciador.criarNovoPlano();					
+					plano.getPlanoBD().setName(edNomePlano.getText().toString());
 					
 				}
 				
-				plano.setNome(edNomePlano.getText().toString());
-				plano.setTextoPlano(edPalavras.getText().toString());
+				plano.getPlanoBD().setName(edNomePlano.getText().toString());
+				plano.getPlanoBD().setCustomText(edPalavras.getText().toString());
 				plano.gravarPlano();
-				plano.carregarPranchas();
 				
 				if (planoIndex < 0) {
 					gerenciador.addPlano(plano);
