@@ -1,9 +1,6 @@
 package br.com.furb.tagarela.game.view;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +21,8 @@ import android.graphics.PointF;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,9 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.PlanoBanco;
-import br.com.furb.tagarela.game.model.Prancha;
 import br.com.furb.tagarela.game.model.PranchaBanco;
-import br.com.furb.tagarela.game.model.Simbolo;
 import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.Util;
 import br.com.furb.tagarela.utils.Base64Utils;
@@ -58,7 +53,7 @@ public class SimboloView extends ImageView implements OnTouchListener {
 	private Bitmap bixo = null;
 	private Bitmap drawingCache = null;
 	private Bitmap checkPoint = null; 
-	private PointF wayPInicial = null;
+	//private PointF wayPInicial = null;
 	
 	// EDITOR DE COORDENADAS
 	public TextView edPointX = null;
@@ -414,22 +409,32 @@ public class SimboloView extends ImageView implements OnTouchListener {
 	private void recarregarImagens(){
 		if (!simboloCarregado && getWidth() > 0) {
 			this.simboloCarregado = true;
+						
+			Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
 			
 			this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
 			//this.setImageBitmap(Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getSimboloBmp(getWidth()));			
 					
+			Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
+
 			if (!readOnly) {
 				wayPoints = simbolo.getCoordenadasBmp(getWidth());
 				//wayPoints = Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getCoordenadasBmp(getWidth());
 
+				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
+								
 				//Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
 				SimboloBanco s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getHunterID());
 				bixo = s.getSimboloBmp((int) dimWayPoint);
 				
+				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
+
 				//s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
 				s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getPreyID());
 				checkPoint = s.getSimboloBmp((int) dimWayPoint);
 				
+				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
+
 				Log.i("Bixo.W", "" + bixo.getWidth());
 				Log.i("Bixo.H", "" + bixo.getHeight());
 				Log.i("CheckPoint.W", "" + checkPoint.getWidth());

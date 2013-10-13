@@ -1,23 +1,11 @@
 package br.com.furb.tagarela.game.model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.util.Base64;
-import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.util.Util;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.utils.Base64Utils;

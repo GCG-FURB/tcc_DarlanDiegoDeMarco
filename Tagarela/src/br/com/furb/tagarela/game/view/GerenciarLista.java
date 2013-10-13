@@ -12,9 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
-import br.com.furb.tagarela.game.model.Plano;
 import br.com.furb.tagarela.game.model.PlanoBanco;
-import br.com.furb.tagarela.model.GroupPlan;
 
 public class GerenciarLista extends Activity {
 
@@ -67,12 +65,15 @@ public class GerenciarLista extends Activity {
 			public void onClick(View v) {
 				if (plano == null) {
 					plano = gerenciador.criarNovoPlano();					
-					plano.getPlanoBD().setName(edNomePlano.getText().toString());
 					
 				}
 				
 				plano.getPlanoBD().setName(edNomePlano.getText().toString());
 				plano.getPlanoBD().setCustomText(edPalavras.getText().toString());
+				plano.getPlanoBD().setHunterID(gerenciador.getPlanosBD().get(0).getPlanoBD().getHunterID());
+				plano.getPlanoBD().setPreyID(gerenciador.getPlanosBD().get(0).getPlanoBD().getPreyID());
+				plano.getPlanoBD().setIsNative(Boolean.FALSE);
+								
 				plano.gravarPlano();
 				
 				if (planoIndex < 0) {
@@ -95,7 +96,7 @@ public class GerenciarLista extends Activity {
 				else
 				{
 					plano.excluirPlano();
-					gerenciador.getPlanos().remove(plano);
+					gerenciador.getPlanosBD().remove(plano);
 					finish();
 				}
 								

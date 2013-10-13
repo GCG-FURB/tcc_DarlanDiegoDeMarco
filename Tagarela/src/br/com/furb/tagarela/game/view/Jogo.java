@@ -23,24 +23,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
-import br.com.furb.tagarela.game.model.Plano;
 import br.com.furb.tagarela.game.model.PlanoBanco;
-import br.com.furb.tagarela.game.model.Prancha;
 import br.com.furb.tagarela.game.model.PranchaBanco;
 
 public class Jogo extends Activity {
 
 	private ImageView btnVoltar = null;
 	private ImageView btnProximo = null;
-	private SimboloView vSimbolo = null;
 	private Gerenciador gerenciador = null;
 	private PlanoBanco plano = null;
 	private PranchaBanco prancha = null;
 	private int pranchaIndex = 0;
-	private LinearLayout jogoLayoutPrincipal = null;
 	private LinearLayout jogoLayoutText = null;
-	private LinearLayout jogoLayoutCentral = null;
-	private LinearLayout jogoLayoutBotton = null;
 	private LinearLayout jogoLayoutHistorico = null;
 	private SimboloView simboloView = null;
 	private ImageView imgBase = null;
@@ -75,10 +69,7 @@ public class Jogo extends Activity {
 		btnVoltar = (ImageView) findViewById(R.id.btnVoltar);
 		btnProximo = (ImageView) findViewById(R.id.btnProximo);
 
-		jogoLayoutPrincipal = (LinearLayout) findViewById(R.id.jogoLayoutPrincipal);
 		jogoLayoutText = (LinearLayout) findViewById(R.id.jogoLayoutText);		
-		jogoLayoutCentral = (LinearLayout) findViewById(R.id.jogoLayoutCentral);
-		jogoLayoutBotton = (LinearLayout) findViewById(R.id.jogoLayoutBotton);
 		jogoLayoutHistorico = (LinearLayout) findViewById(R.id.jogoLayoutHistorico);
 		simboloView = (SimboloView) findViewById(R.id.viewSimbolo);
 
@@ -239,9 +230,15 @@ public class Jogo extends Activity {
 			android.view.ViewGroup.LayoutParams lParams = new LayoutParams(lParamsImg);
 			
 			// Letras Maiusculas
-			if (pranchaIndex > 0) {
+			if (pranchaIndex > 0) {											
 				PranchaBanco prachaOld = plano.getPrancha(pranchaIndex-1);
 				
+				int dec = 2;
+				while ((pranchaIndex-dec > 0) && (prachaOld.getSimbolo().getSimboloBD().getName().equals(" "))) {
+					prachaOld = plano.getPrancha(pranchaIndex-dec);					
+					dec++;
+				}
+							
 				char c = prachaOld.getSimbolo().getSimboloBD().getName().toCharArray()[0]; 
 				// Letras Maiusculas ou Números
 				if (((c >= 65) && ((c <= 90))) || ((c >= 48) && (c <= 57))) {

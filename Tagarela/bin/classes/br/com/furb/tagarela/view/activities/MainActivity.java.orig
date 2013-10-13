@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.game.view.PrincipalJogo;
+<<<<<<< HEAD:Tagarela/src/br/com/furb/tagarela/view/activities/MainActivity.java
 import br.com.furb.tagarela.controler.SyncInformationControler;
+=======
+import br.com.furb.tagarela.game.view.PrincipalJogo;
+>>>>>>> ce4c6883e8f2b0183369352eaa71209e350fc47a:Tagarela/src/br/com/furb/tagarela/view/activities/Principal.java
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
@@ -45,18 +48,8 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 				categoryChooser.show(getSupportFragmentManager(), "");
 			}
 		});
-
-		TextView gamePlay = (TextView) findViewById(R.id.gamePlay);
-		gamePlay.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
-				startActivity(i);		
-			}
-
-		});
 		
+<<<<<<< HEAD:Tagarela/src/br/com/furb/tagarela/view/activities/MainActivity.java
 		TextView viewSymbol = (TextView) findViewById(R.id.view_symbols);
 		viewSymbol.setOnClickListener(new OnClickListener() {
 			
@@ -66,6 +59,18 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 				startActivity(viewSymbols);
 			}
 		});
+=======
+		TextView gamePlay = (TextView) findViewById(R.id.gamePlay);
+		gamePlay.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
+				startActivity(i);		
+			}
+		});
+		
+>>>>>>> ce4c6883e8f2b0183369352eaa71209e350fc47a:Tagarela/src/br/com/furb/tagarela/view/activities/Principal.java
 	}
 
 	private void showUserDialog() {

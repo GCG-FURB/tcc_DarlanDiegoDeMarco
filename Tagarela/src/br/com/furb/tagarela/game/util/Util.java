@@ -3,7 +3,6 @@ package br.com.furb.tagarela.game.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.nio.MappedByteBuffer;

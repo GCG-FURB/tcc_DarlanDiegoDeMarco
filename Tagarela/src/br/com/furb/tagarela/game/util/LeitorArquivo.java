@@ -2,6 +2,7 @@
 
 package br.com.furb.tagarela.game.util;
 
+import android.annotation.SuppressLint;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,9 +18,10 @@ import java.util.Map;
  * O leitor ignora linhas iniciadas com # e com a [chave] nula
  * @author Paulo Collares
  */
+@SuppressLint("DefaultLocale")
 public class LeitorArquivo {
 
-    private Map map = new HashMap();
+    private Map<String, String> map = new HashMap<String, String>();
     private String arquivo;
     
     /**
@@ -86,7 +88,8 @@ public class LeitorArquivo {
     /**
      * Formata a chave para minúsculo e sem espaços
      */
-    private String formataChave(String chave){
+    @SuppressLint("DefaultLocale")
+	private String formataChave(String chave){
         
         chave=chave.toLowerCase();
         chave=chave.replaceAll(" ", "");
@@ -122,7 +125,7 @@ public class LeitorArquivo {
     /*
      * Recupera a lista completa
      */
-    public Map getList(){
+    public Map<String, String> getList(){
         return map;
     }
 }
