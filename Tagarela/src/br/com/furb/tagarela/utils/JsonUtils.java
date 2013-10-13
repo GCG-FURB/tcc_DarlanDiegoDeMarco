@@ -1,7 +1,15 @@
 package br.com.furb.tagarela.utils;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import br.com.furb.tagarela.model.User;
 
 public class JsonUtils {
 	private static final String URL_CATEGORIES = "http://murmuring-falls-7702.herokuapp.com/categories/";
@@ -14,8 +22,18 @@ public class JsonUtils {
 		}
 		return results;
 	}
+	
+	public static User getUser(JSONObject jsonUser) throws JSONException {
+		User user = new User();
+		user.setEmail(jsonUser.getString("email"));
+		user.setServerID(jsonUser.getInt("id"));
+		user.setId(jsonUser.getLong("id"));
+		user.setName(jsonUser.getString("name"));
+		user.setPatientPicture(Base64Utils.decodeImageBase64ToByteArray(jsonUser.getString("image_representation").replaceAll("@", "+")));
+		return user;
+	}
 
-	public static String getUserJsonResponse(int user) {
+	public static String getUserJsonResponse(String user) {
 		HttpGet httpGet = new HttpGet(URL_USERS + "/" + user);
 		return doGet(httpGet);
 	}
@@ -34,7 +52,6 @@ public class JsonUtils {
 	private static String doGet(HttpGet httpGet) {
 		httpGet.addHeader("Accept", "application/json");
 		httpGet.addHeader("Content-Type", "application/json");
-
 		String json = null;
 		try {
 			HttpResponse response = HttpUtils.doRequest(httpGet);
@@ -44,4 +61,7 @@ public class JsonUtils {
 		}
 		return json;
 	}
+	
+
+	
 }

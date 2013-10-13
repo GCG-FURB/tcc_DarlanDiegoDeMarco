@@ -2,25 +2,33 @@ package br.com.furb.tagarela.utils;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.model.Category;
+import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.model.SymbolDao.Properties;
 
 public class ImageAdapter extends BaseAdapter {
 
 	private Context context;
-	List<Symbol> symbols;
-	private final android.view.ViewGroup.LayoutParams params;
+	private List<Symbol> symbols;
+	private int layoutResourceId;
 
 	// Método
-	public ImageAdapter(Context context, List<Symbol> symbols, android.view.ViewGroup.LayoutParams params) {
+	public ImageAdapter(Context context, int layoutResourceId, List<Symbol> symbols) {
 		this.context = context;
 		this.symbols = symbols;
-		this.params = params;
+		this.layoutResourceId = layoutResourceId;
 	}
 
 	public int getCount() {
@@ -30,7 +38,7 @@ public class ImageAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int position) {
 
-		return position;
+		return symbols.get(position);
 	}
 
 	@Override
@@ -41,12 +49,23 @@ public class ImageAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Symbol symbol = symbols.get(0);
-		ImageView imagem = new ImageView(context);
-		imagem.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
-		imagem.setAdjustViewBounds(true);
-		imagem.setLayoutParams(params);
-		return imagem;
+		View s = convertView;
+		if(s == null) {
+			LayoutInflater inflater = ((Activity) context).getLayoutInflater(); 
+			s = inflater.inflate(layoutResourceId, parent, false);
+		}
+		
+		
+		Symbol symbol = symbols.get(position);
+		Category category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder().where(Properties.ServerID.eq(symbol.getCategoryID())).unique();
+		ImageView imageView = (ImageView) s.findViewById(R.id.symbol_viewer);
+		imageView.setPadding(10, 10, 10, 10);
+		imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+		imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+		imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
+		imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
+		//imageView.setAdjustViewBounds(true);
+		return imageView;
 	}
 
 }

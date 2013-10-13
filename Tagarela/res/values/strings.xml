@@ -33,6 +33,8 @@
 	<string name="view_symbols">Visualizar símbolos</string>
 	<string name="welcome_message">Bem vindo ao Tagarela</string>
 	<string name="login_ask">Você já possui um usuário no Tagarela?</string>
+	<string name="search_symbol">Procurar símbolo</string>
+	
 	<string name="yes">Sim</string>
 	<string name="no">Não</string>
 </resources>

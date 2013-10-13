@@ -1,5 +1,6 @@
 package br.com.furb.tagarela.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.controler.SyncInformationControler;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
@@ -19,7 +21,7 @@ import br.com.furb.tagarela.view.dialogs.UserCreateDialog;
 import br.com.furb.tagarela.view.dialogs.UserLoginDialog;
 import br.com.furb.tagarela.view.dialogs.WelcomeDialog;
 
-public class Principal extends FragmentActivity implements UserTypeListener, CategoryTypeListener, UserLoginListener {
+public class MainActivity extends FragmentActivity implements UserTypeListener, CategoryTypeListener, UserLoginListener {
 
 	private static User usuarioLogado;
 
@@ -33,13 +35,23 @@ public class Principal extends FragmentActivity implements UserTypeListener, Cat
 	}
 
 	private void initComponents() {
-		TextView createSimbol = (TextView) findViewById(R.id.createSymbol);
-		createSimbol.setOnClickListener(new OnClickListener() {
+		TextView createSymbol = (TextView) findViewById(R.id.createSymbol);
+		createSymbol.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				CategoryChooserDialog categoryChooser = new CategoryChooserDialog();
 				categoryChooser.show(getSupportFragmentManager(), "");
+			}
+		});
+		
+		TextView viewSymbol = (TextView) findViewById(R.id.view_symbols);
+		viewSymbol.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent viewSymbols = new Intent(getApplicationContext(), ViewSymbolsActivity.class);
+				startActivity(viewSymbols);
 			}
 		});
 	}
@@ -95,11 +107,20 @@ public class Principal extends FragmentActivity implements UserTypeListener, Cat
 	}
 
 	public static void setUsuarioLogado(User usuarioLogado) {
-		Principal.usuarioLogado = usuarioLogado;
+		MainActivity.usuarioLogado = usuarioLogado;
 	}
 
 	public static User getUsuarioLogado() {
 		return usuarioLogado;
 	}
+
+	@Override
+	public void syncInformations() {
+		SyncInformationControler.getInstance().syncCategories();
+		SyncInformationControler.getInstance().syncSymbols();		
+	}
+
+
+
 
 }

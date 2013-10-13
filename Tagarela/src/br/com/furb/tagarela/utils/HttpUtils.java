@@ -21,7 +21,7 @@ import android.graphics.BitmapFactory;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.User;
-import br.com.furb.tagarela.view.activities.Principal;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class HttpUtils {
 	public static final int MOVIDO_TEMPORARIAMENTE = 302;
@@ -93,7 +93,7 @@ public class HttpUtils {
 				user.setId(returnUser.getLong("id"));
 				DaoProvider provider = DaoProvider.getInstance(activity.getApplicationContext());
 				provider.getUserDao().insert(user);
-				Principal.setUsuarioLogado(user);
+				MainActivity.setUsuarioLogado(user);
 				return response.getStatusLine().getStatusCode();
 			}
 		} catch (Exception e) {
@@ -113,7 +113,7 @@ public class HttpUtils {
 			parametros.addParam("private_symbol[category_id]", String.valueOf(symbol.getCategory().getServerID()));
 			parametros.addParam("private_symbol[image_representation]", imageEncoder(symbol.getPicture()));
 			parametros.addParam("private_symbol[sound_representation]", audioEncoder(symbol.getSound()));
-			parametros.addParam("private_symbol[user_id]", String.valueOf(Principal.getUsuarioLogado().getServerID()));
+			parametros.addParam("private_symbol[user_id]", String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
 
 			HttpUtils.preparaUrl(post, parametros.build());
 			HttpResponse response = HttpUtils.doRequest(post);

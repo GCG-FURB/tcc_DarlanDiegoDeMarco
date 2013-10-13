@@ -12,11 +12,23 @@ import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.SymbolDao;
 import br.com.furb.tagarela.utils.Base64Utils;
 import br.com.furb.tagarela.utils.JsonUtils;
-import br.com.furb.tagarela.view.activities.Principal;
+import br.com.furb.tagarela.view.activities.MainActivity;
+import android.app.Activity;
 import android.os.AsyncTask;
 
 public class SyncInformationControler {
 
+	private static SyncInformationControler syncInformationControler;
+	
+	private SyncInformationControler(){
+	}
+	
+	public static SyncInformationControler getInstance(){
+		if(syncInformationControler == null){
+			syncInformationControler = new SyncInformationControler();
+		}
+		return syncInformationControler;
+	}
 	
 	public void syncSymbols(){
 		new SyncSymbolsTask().execute();
@@ -29,7 +41,7 @@ public class SyncInformationControler {
 	private class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 		@Override
 		protected Void doInBackground(Integer... params) {
-			String results = JsonUtils.getCategoriesResponse();
+			String results = JsonUtils.getSymbolsResponse();
 			results = JsonUtils.validaJson(results);
 			JSONArray symbols;
 			try {
@@ -37,7 +49,7 @@ public class SyncInformationControler {
 				SymbolDao symbolDao = DaoProvider.getInstance(null).getSymbolDao();
 				for (int i = 0; i < symbols.length(); i++) {
 					JSONObject symbol = symbols.getJSONObject(i);
-					if (symbol.getInt("user_id") == Principal.getUsuarioLogado().getServerID()
+					if (symbol.getInt("user_id") == MainActivity.getUsuarioLogado().getServerID()
 							&& symbolDao.queryBuilder().where(SymbolDao.Properties.ServerID.eq(symbol.getInt("id"))).list().size() <= 0) {
 						Symbol newSymbol = new Symbol();
 						newSymbol.setCategoryID(symbol.getInt("category_id"));
@@ -85,4 +97,6 @@ public class SyncInformationControler {
 		}
 
 	}
+	
+
 }

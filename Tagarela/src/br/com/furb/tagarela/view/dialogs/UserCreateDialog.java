@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.utils.BitmapHelper;
 import br.com.furb.tagarela.utils.HttpUtils;
@@ -92,6 +93,7 @@ public class UserCreateDialog extends DialogFragment {
 				userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
 				TextView welcomeMessage = (TextView) getActivity().findViewById(R.id.welcomeMessage);
 				welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
+				((UserLoginListener) getActivity()).syncInformations();
 			}
 
 			private byte[] getUserPictureByteArray() {
