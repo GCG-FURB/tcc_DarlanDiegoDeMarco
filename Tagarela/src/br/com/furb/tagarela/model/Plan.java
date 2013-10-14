@@ -4,7 +4,7 @@ package br.com.furb.tagarela.model;
 /**
  * Entity mapped to table PLAN.
  */
-public class Plan {
+public class Plan  {
 
     private Integer serverID;
     private String name;

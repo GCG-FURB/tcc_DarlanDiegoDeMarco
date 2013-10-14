@@ -1,25 +1,12 @@
 package br.com.furb.tagarela.game.controler;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import de.greenrobot.dao.AbstractDao;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -34,8 +21,6 @@ import br.com.furb.tagarela.game.model.PranchaBanco;
 import br.com.furb.tagarela.game.model.Simbolo;
 import br.com.furb.tagarela.game.model.SimboloBanco;
 import br.com.furb.tagarela.game.util.LeitorArquivo;
-import br.com.furb.tagarela.game.util.Util;
-import br.com.furb.tagarela.model.DaoMaster;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.GroupPlan;
 import br.com.furb.tagarela.model.GroupPlanDao;
@@ -48,6 +33,7 @@ import br.com.furb.tagarela.model.SymbolDao;
 import br.com.furb.tagarela.model.SymbolPlan;
 import br.com.furb.tagarela.model.SymbolPlanDao;
 import br.com.furb.tagarela.utils.Base64Utils;
+import de.greenrobot.dao.AbstractDao;
 
 public class Gerenciador extends Observable {
 
@@ -151,24 +137,21 @@ public class Gerenciador extends Observable {
 							
 	private void InicializarBanco() {
 		try {
-			int idPlano = 300;
-			int idPlanoXPrancha = 400;
-			int idPrancha = 500;
-			int idPranchaXSimbolo = 600;
-			int idSimbolo = 700;
-			int idSimboloCheckPoint = 800;
-			
 			GroupPlanDao planoDAO = DaoProvider.getInstance(null).getGroupPlanDao();
 			GroupPlanRelationshipDao planoXPranchaDAO = DaoProvider.getInstance(null).getGroupPlanRelationshipDao();
 			PlanDao pranchaDAO = DaoProvider.getInstance(null).getPlanDao();
 			SymbolPlanDao pranchaXSimboloDAO = DaoProvider.getInstance(null).getSymbolPlanDao();
 			SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
 			
-			pranchaXSimboloDAO.deleteAll();
-			planoXPranchaDAO.deleteAll();
-			simboloDAO.deleteAll();
-			pranchaDAO.deleteAll();
-			planoDAO.deleteAll();	
+			if (getNextServerID(planoDAO) >= 3) {
+				return;
+			}
+			
+			//pranchaXSimboloDAO.deleteAll();
+			//planoXPranchaDAO.deleteAll();
+			//simboloDAO.deleteAll();
+			//pranchaDAO.deleteAll();
+			//planoDAO.deleteAll();	
 			
 			int lastIDCheckPoint = 0;
 			
@@ -195,7 +178,6 @@ public class Gerenciador extends Observable {
 				}
 								
 				simboloDAO.insert(simboloBD);
-				idSimboloCheckPoint++;		
 				
 				lastIDCheckPoint = simboloBD.getServerID();
 			}
@@ -210,7 +192,6 @@ public class Gerenciador extends Observable {
 				planoBD.setCustomText("");
 				
 				planoDAO.insert(planoBD);
-				idPlano++;
 				
 				int position = 0;
 				for (Prancha prancha : plano.getPranchas()) {					
@@ -225,7 +206,6 @@ public class Gerenciador extends Observable {
 					pranchaBD.setDescription("???");								
 					
 					pranchaDAO.insert(pranchaBD);
-					idPrancha++; 				
 									
 					GroupPlanRelationship planoXPranchaBD = new GroupPlanRelationship();
 					planoXPranchaBD.setServerID(getNextServerID(planoXPranchaDAO));
@@ -233,7 +213,6 @@ public class Gerenciador extends Observable {
 					planoXPranchaBD.setPlanID(pranchaBD.getServerID());
 					
 					planoXPranchaDAO.insert(planoXPranchaBD);
-					idPlanoXPrancha++;
 					
 					Simbolo simbolo = prancha.getSimbolo();
 					
@@ -257,7 +236,6 @@ public class Gerenciador extends Observable {
 					}
 									
 					simboloDAO.insert(simboloBD);
-					idSimbolo++;
 						
 					SymbolPlan pranchaXSimboloBD = new SymbolPlan();
 					pranchaXSimboloBD.setServerID(getNextServerID(pranchaXSimboloDAO));
@@ -266,7 +244,6 @@ public class Gerenciador extends Observable {
 					pranchaXSimboloBD.setPosition(position);
 					
 					pranchaXSimboloDAO.insert(pranchaXSimboloBD);
-					idPranchaXSimbolo++;
 					position++;				
 															
 				}						
@@ -304,7 +281,7 @@ public class Gerenciador extends Observable {
 
 			Log.i("SIMBOLOS", "-------------------------------");
 			for (Symbol simbolo : simboloDAO.loadAll()) {
-				Log.i("SIMBOLOS", simbolo.getServerID() + " " + simbolo.getName());				
+				Log.i("SIMBOLOS", simbolo.getServerID() + " " + simbolo.getName() + " " + simbolo.getAscRepresentation());				
 			}
 			Log.i("SIMBOLOS", "-------------------------------");
 
@@ -344,6 +321,10 @@ public class Gerenciador extends Observable {
 						}
 					}																								
 				}				
+			}
+			
+			if (!planoBD.getIsNative()) {
+				plano.carregarPlanoCustomizado();
 			}
 			
 			planosBD.add(plano);
@@ -534,7 +515,9 @@ public class Gerenciador extends Observable {
 				
 		Cursor c = db.rawQuery("SELECT MAX(SERVER_ID) AS MAIOR FROM " + tableDAO.getTablename(), null);
 		
-		return c.getColumnIndex("MAIOR") + 1;
+		c.moveToNext();
+		
+		return c.getInt(c.getColumnIndex("MAIOR")) + 1;
 	}
 	
 	public PlanoBanco criarNovoPlano() {

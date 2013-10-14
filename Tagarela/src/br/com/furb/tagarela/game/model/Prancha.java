@@ -1,6 +1,5 @@
 package br.com.furb.tagarela.game.model;
 
-import br.com.furb.tagarela.model.Plan;
 
 public class Prancha {
 
