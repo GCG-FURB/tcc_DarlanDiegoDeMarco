@@ -155,6 +155,7 @@ public final class R {
         public static final int hello_world=0x7f080002;
         public static final int image_meaning=0x7f08001c;
         public static final int jogar=0x7f080008;
+        public static final int link_tagarela=0x7f080026;
         public static final int link_video=0x7f080013;
         public static final int login_ask=0x7f08001f;
         public static final int no=0x7f080022;
@@ -166,6 +167,8 @@ public final class R {
         public static final int search_symbol=0x7f080020;
         public static final int symbol_create=0x7f080006;
         public static final int symbol_image=0x7f08001b;
+        public static final int tagarela=0x7f080024;
+        public static final int title=0x7f080027;
         public static final int title_activity_configuracoes=0x7f08000c;
         public static final int title_activity_editor_coordenadas=0x7f080011;
         public static final int title_activity_gerenciar_lista=0x7f080012;
@@ -177,6 +180,7 @@ public final class R {
         public static final int title_activity_teste_jogo=0x7f080023;
         public static final int title_symbol_create=0x7f080017;
         public static final int title_user_create=0x7f08001a;
+        public static final int user_image=0x7f080025;
         public static final int view_symbols=0x7f08001d;
         public static final int welcome_message=0x7f08001e;
         public static final int yes=0x7f080021;

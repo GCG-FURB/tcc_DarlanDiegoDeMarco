@@ -37,5 +37,9 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="title_activity_teste_jogo">TesteJogo</string>
+    <string name="tagarela">Tagarela</string>
+    <string name="user_image">Imagem do usuário</string>
+    <string name="link_tagarela">www.inf.furb.br/gcg/tagarela</string>
+    <string name="title">Titulo</string>
 
 </resources>

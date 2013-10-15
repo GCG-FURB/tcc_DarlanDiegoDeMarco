@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.view.PrincipalJogo;
-import br.com.furb.tagarela.controler.SyncInformationControler;
+import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
