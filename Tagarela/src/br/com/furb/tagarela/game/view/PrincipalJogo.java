@@ -124,7 +124,7 @@ public class PrincipalJogo extends Activity implements Observer {
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(),	GerenciarLista.class);
 
-				if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getIsNative()) {
+				if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText().equals("")) {
 					i.putExtra("planoindex", -1);
 				}
 				else
@@ -155,7 +155,7 @@ public class PrincipalJogo extends Activity implements Observer {
 	private void exibirPLano(){
 		edPlano.setText(gerenciador.getPlanoBD(planoIndex).getPlanoBD().getName());
 		
-		if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getIsNative()) {
+		if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText().equals("")) {
 			btnNovaLista.setText("Nova Lista");
 		}
 		else

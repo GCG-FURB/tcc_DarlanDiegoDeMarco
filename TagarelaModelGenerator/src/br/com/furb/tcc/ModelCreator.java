@@ -17,7 +17,7 @@ public class ModelCreator {
 	private static Entity group_plan_relationship;
 
 	public static void main(String[] args) {
-		Schema schema = new Schema(12, "br.com.furb.tagarela.model");
+		Schema schema = new Schema(13, "br.com.furb.tagarela.model");
 		addUsers(schema);
 		addCategories(schema);
 		addSymbols(schema);
@@ -51,7 +51,6 @@ public class ModelCreator {
 		group_plan.addIntProperty("hunterID");
 		group_plan.addIntProperty("preyID");
 		group_plan.addStringProperty("name");
-		group_plan.addBooleanProperty("isNative");
 		group_plan.addStringProperty("customText");
 	}
 

@@ -120,11 +120,11 @@ public class Gerenciador extends Observable {
 			public void run() {
 				//downloadArquivos();		
 				
-				CarregarPlanos();
+				//CarregarPlanos();
 				
-				CarregarCheckPoints();
+				//CarregarCheckPoints();
 				
-				InicializarBanco();
+				//InicializarBanco();
 				
 			    CarregarPlanosBD(); 
 				
@@ -188,7 +188,6 @@ public class Gerenciador extends Observable {
 				planoBD.setName(plano.getNome());
 				planoBD.setHunterID(lastIDCheckPoint);
 				planoBD.setPreyID(lastIDCheckPoint-5);			
-				planoBD.setIsNative(true);
 				planoBD.setCustomText("");
 				
 				planoDAO.insert(planoBD);
@@ -323,7 +322,7 @@ public class Gerenciador extends Observable {
 				}				
 			}
 			
-			if (!planoBD.getIsNative()) {
+			if (!planoBD.getCustomText().equals("")) {
 				plano.carregarPlanoCustomizado();
 			}
 			

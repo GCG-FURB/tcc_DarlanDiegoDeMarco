@@ -57,10 +57,9 @@ public class PlanoBanco {
 						
 		ContentValues values = new ContentValues();
 		values.put("Name", planoBD.getName());
-		values.put("Custom_Text", planoBD.getCustomText());
 		values.put("Hunter_ID", planoBD.getHunterID());
 		values.put("Prey_ID", planoBD.getPreyID());
-		values.put("Is_Native", planoBD.getIsNative());
+		values.put("Custom_Text", planoBD.getCustomText());
 		
 		db.update(planoDAO.getTablename(), values, "Server_ID = ?", new String[] {planoBD.getServerID().toString()});
 		

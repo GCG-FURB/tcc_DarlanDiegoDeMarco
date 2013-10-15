@@ -69,10 +69,9 @@ public class GerenciarLista extends Activity {
 				}
 				
 				plano.getPlanoBD().setName(edNomePlano.getText().toString());
-				plano.getPlanoBD().setCustomText(edPalavras.getText().toString());
 				plano.getPlanoBD().setHunterID(gerenciador.getPlanosBD().get(0).getPlanoBD().getHunterID());
 				plano.getPlanoBD().setPreyID(gerenciador.getPlanosBD().get(0).getPlanoBD().getPreyID());
-				plano.getPlanoBD().setIsNative(Boolean.FALSE);
+				plano.getPlanoBD().setCustomText(edPalavras.getText().toString());
 								
 				plano.gravarPlano();
 				
