@@ -52,14 +52,14 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getApplicationContext(), PrincipalJogo.class);
-				startActivity(i);		
+				startActivity(i);
 			}
 
 		});
-		
+
 		TextView viewSymbol = (TextView) findViewById(R.id.view_symbols);
 		viewSymbol.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent viewSymbols = new Intent(getApplicationContext(), ViewSymbolsActivity.class);
@@ -129,10 +129,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 	@Override
 	public void syncInformations() {
 		SyncInformationControler.getInstance().syncCategories();
-		SyncInformationControler.getInstance().syncSymbols();		
+		SyncInformationControler.getInstance().syncSymbols();
 	}
-
-
-
 
 }
