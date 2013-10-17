@@ -120,11 +120,11 @@ public class Gerenciador extends Observable {
 			public void run() {
 				//downloadArquivos();		
 				
-				//CarregarPlanos();
+				CarregarPlanos();
 				
-				//CarregarCheckPoints();
+				CarregarCheckPoints();
 				
-				//InicializarBanco();
+				InicializarBanco();
 				
 			    CarregarPlanosBD(); 
 				
@@ -142,16 +142,16 @@ public class Gerenciador extends Observable {
 			PlanDao pranchaDAO = DaoProvider.getInstance(null).getPlanDao();
 			SymbolPlanDao pranchaXSimboloDAO = DaoProvider.getInstance(null).getSymbolPlanDao();
 			SymbolDao simboloDAO = DaoProvider.getInstance(null).getSymbolDao();
+						
+//			pranchaXSimboloDAO.deleteAll();
+//			planoXPranchaDAO.deleteAll();
+//			simboloDAO.deleteAll();
+//			pranchaDAO.deleteAll();
+//			planoDAO.deleteAll();	 
 			
 			if (getNextServerID(planoDAO) >= 3) {
 				return;
-			}
-			
-			//pranchaXSimboloDAO.deleteAll();
-			//planoXPranchaDAO.deleteAll();
-			//simboloDAO.deleteAll();
-			//pranchaDAO.deleteAll();
-			//planoDAO.deleteAll();	
+			}			
 			
 			int lastIDCheckPoint = 0;
 			

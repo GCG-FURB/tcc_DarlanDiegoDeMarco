@@ -155,7 +155,8 @@ public class PrincipalJogo extends Activity implements Observer {
 	private void exibirPLano(){
 		edPlano.setText(gerenciador.getPlanoBD(planoIndex).getPlanoBD().getName());
 		
-		if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText().equals("")) {
+		String customText = gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText();
+		if (customText.equals("")) {
 			btnNovaLista.setText("Nova Lista");
 		}
 		else
