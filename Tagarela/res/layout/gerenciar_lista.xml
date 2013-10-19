@@ -66,8 +66,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Palavras:" >
             </TextView>
-            			
-			<EditText 
+            
+			<EditText  		
 			    android:layout_width="1000dp"
 			    android:layout_height="wrap_content"
 			    android:minLines="5"

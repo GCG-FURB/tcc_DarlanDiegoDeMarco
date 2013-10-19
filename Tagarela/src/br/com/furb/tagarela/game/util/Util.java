@@ -26,8 +26,6 @@ import android.net.NetworkInfo.State;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import br.com.furb.tagarela.game.controler.Gerenciador;
 
 public final class Util {
 	
@@ -241,10 +239,10 @@ public final class Util {
 		}
 	}
 		
-	public static void aplicarFontView(TextView v) {
-		v.setTypeface(Gerenciador.getInstance().getFontJogo());
-		v.setTextSize(Gerenciador.getInstance().getsizeFont());			
-	}
+//	public static void aplicarFontView(TextView v) {
+//		v.setTypeface(Gerenciador.getInstance().getFontJogo());
+//		v.setTextSize(Gerenciador.getInstance().getsizeFont());			
+//	}
 	
 	public static boolean deleteDir(File dir) {
 		if (dir.isDirectory()) {

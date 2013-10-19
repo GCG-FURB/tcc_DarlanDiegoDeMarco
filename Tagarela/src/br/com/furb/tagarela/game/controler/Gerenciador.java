@@ -87,13 +87,15 @@ public class Gerenciador extends Observable {
 		this.context = context;
 		
 		if (this.fontJogo == null)
-			this.fontJogo = Typeface.createFromAsset(this.context.getAssets(), "fonts/Prescriptbold.ttf");
+			//this.fontJogo = Typeface.createFromAsset(this.context.getAssets(), "fonts/Prescriptbold.ttf");
+			//this.fontJogo = Typeface.createFromAsset(this.context.getAssets(), "fonts/BodoniXT.ttf");
+			this.fontJogo = Typeface.DEFAULT;
 				
 	}
 	
-	public Typeface getFontJogo() {
-		return fontJogo;
-	}
+//	public Typeface getFontJogo() {
+//		return fontJogo;
+//	}
 
 	public void setFontJogo(Typeface fontJogo) {
 		this.fontJogo = fontJogo;

@@ -2,11 +2,9 @@ package br.com.furb.tagarela.game.view;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -47,16 +45,17 @@ public class PrincipalJogo extends Activity implements Observer {
 		
 		progresso = new ProgressDialog(this);
 		handler = new Handler();
-		
-		/* Setting up fonts */
-		Typeface fontFace = Typeface.createFromAsset(getAssets(), "fonts/Prescriptbold.ttf");
+		gerenciador = Gerenciador.getInstance();
+		gerenciador.setContext(this);
+		gerenciador.addObserver(this);
+				
 		tvTextoSuperior = (TextView)findViewById(R.id.tvTextoSuperior);
 		       
-		tvTextoSuperior.setTypeface(fontFace);
+		//tvTextoSuperior.setTypeface(gerenciador.getFontJogo());
 		tvTextoSuperior.setTextSize(60.f);
 		       		
 		edPlano = (EditText) this.findViewById(R.id.edPlano);
-		edPlano.setTypeface(fontFace);
+		//edPlano.setTypeface(gerenciador.getFontJogo());
 		edPlano.setTextSize(60.f);
 		
 		btnPrevius = (ImageView) this.findViewById(R.id.btnPrevius);
@@ -94,7 +93,7 @@ public class PrincipalJogo extends Activity implements Observer {
 		});
 
 		btnJogar = (Button) this.findViewById(R.id.btnJogar);
-		btnJogar.setTypeface(fontFace);
+		//btnJogar.setTypeface(gerenciador.getFontJogo());
 		btnJogar.setTextSize(60.f);
 						
 		btnJogar.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +115,7 @@ public class PrincipalJogo extends Activity implements Observer {
 		});
 		
 		btnNovaLista = (Button) this.findViewById(R.id.btnNovaLista);
-		btnNovaLista.setTypeface(fontFace);
+		//btnNovaLista.setTypeface(gerenciador.getFontJogo());
 		btnNovaLista.setTextSize(60.f);						
 		btnNovaLista.setOnClickListener(new View.OnClickListener() {
 			
@@ -138,9 +137,6 @@ public class PrincipalJogo extends Activity implements Observer {
 		});		
 		
 		startProgressBar();
-		gerenciador = Gerenciador.getInstance();
-		gerenciador.setContext(this);
-		gerenciador.addObserver(this);
 		gerenciador.prepararArquivos();		
 								
 	}

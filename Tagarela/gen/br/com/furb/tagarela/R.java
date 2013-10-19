@@ -51,15 +51,16 @@ public final class R {
         public static final int customedit=0x7f020002;
         public static final int download=0x7f020003;
         public static final int especialista=0x7f020004;
-        public static final int fundo=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int imagem=0x7f020007;
-        public static final int letra_a=0x7f020008;
-        public static final int myshape=0x7f020009;
-        public static final int next=0x7f02000a;
-        public static final int paciente=0x7f02000b;
-        public static final int tutor=0x7f02000c;
-        public static final int user=0x7f02000d;
+        public static final int fim=0x7f020005;
+        public static final int fundo=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int imagem=0x7f020008;
+        public static final int letra_a=0x7f020009;
+        public static final int myshape=0x7f02000a;
+        public static final int next=0x7f02000b;
+        public static final int paciente=0x7f02000c;
+        public static final int tutor=0x7f02000d;
+        public static final int user=0x7f02000e;
     }
     public static final class id {
         public static final int LinearLayout=0x7f0b0000;
