@@ -74,9 +74,11 @@ public class Gerenciador extends Observable {
 		 return instance; 		
 	}
 		
-	public void init(){
+	public void inicializarPlanos(){
 		planos.clear();
 		checkPoints.clear();
+		planosBD.clear();
+		checkPointsBD.clear();
 	}
 		
 	public Context getContext() {
@@ -120,7 +122,8 @@ public class Gerenciador extends Observable {
 	public void prepararArquivos(){
 		new Thread() {		
 			public void run() {
-				//downloadArquivos();		
+				//downloadArquivos();	
+				inicializarPlanos();
 				
 				CarregarPlanos();
 				
@@ -338,7 +341,6 @@ public class Gerenciador extends Observable {
 	}
 	
 	private void CarregarPlanos() {						
-		init();
 		File file = new File(getDirPlanos());
 
 		File[] planosArray;
