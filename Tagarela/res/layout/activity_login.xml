@@ -113,6 +113,18 @@
             android:text="@string/view_symbols"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/link_color" />
+
+        <TextView
+            android:id="@+id/create_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:text="@string/create_plan"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/link_color" />
         
         <TextView
             android:id="@+id/gamePlay"

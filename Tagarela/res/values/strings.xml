@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tagarela</string>
     <string name="action_settings">Settings</string>
+    <string name="app_name">Tagarela</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_post">PostActivity</string>
     <string name="title_activity_main">MainActivity</string>
@@ -41,5 +41,6 @@
     <string name="user_image">Imagem do usuário</string>
     <string name="link_tagarela">www.inf.furb.br/gcg/tagarela</string>
     <string name="title">Titulo</string>
-
+    <string name="layout_choose">Selecione o layout do plano</string>
+    <string name="create_plan">Criar Plano</string>
 </resources>

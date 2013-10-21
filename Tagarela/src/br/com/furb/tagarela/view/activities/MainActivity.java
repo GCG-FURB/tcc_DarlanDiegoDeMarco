@@ -16,6 +16,7 @@ import br.com.furb.tagarela.interfaces.UserTypeListener;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.view.dialogs.CategoryChooserDialog;
+import br.com.furb.tagarela.view.dialogs.PlanLayoutDialog;
 import br.com.furb.tagarela.view.dialogs.SymbolCreateDialog;
 import br.com.furb.tagarela.view.dialogs.TypeChooserDialog;
 import br.com.furb.tagarela.view.dialogs.UserCreateDialog;
@@ -64,6 +65,16 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 			public void onClick(View v) {
 				Intent viewSymbols = new Intent(getApplicationContext(), ViewSymbolsActivity.class);
 				startActivity(viewSymbols);
+			}
+		});
+		
+		TextView createPlan = (TextView) findViewById(R.id.create_plan);
+		createPlan.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				PlanLayoutDialog planLayoutDialog = new PlanLayoutDialog();
+				planLayoutDialog.show(getSupportFragmentManager(), "");		
 			}
 		});
 	}

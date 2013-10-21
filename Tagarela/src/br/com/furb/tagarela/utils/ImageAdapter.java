@@ -2,70 +2,67 @@ package br.com.furb.tagarela.utils;
 
 import java.util.List;
 
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.R;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.model.Category;
-import br.com.furb.tagarela.model.DaoProvider;
-import br.com.furb.tagarela.model.Symbol;
-import br.com.furb.tagarela.model.SymbolDao.Properties;
 
 public class ImageAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<Symbol> symbols;
 	private int layoutResourceId;
 
-	// Método
-	public ImageAdapter(Context context, int layoutResourceId, List<Symbol> symbols) {
+	public ImageAdapter(Context context, int layoutResourceId) {
 		this.context = context;
-		this.symbols = symbols;
 		this.layoutResourceId = layoutResourceId;
 	}
-
+	
+	@Override
 	public int getCount() {
-		return symbols.size();
+		return mThumbIds.length;
 	}
-
+	
 	@Override
 	public Object getItem(int position) {
-
-		return symbols.get(position);
+		return mThumbIds[position];
 	}
-
+	
 	@Override
 	public long getItemId(int position) {
-
 		return position;
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
 		View s = convertView;
 		if(s == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater(); 
 			s = inflater.inflate(layoutResourceId, parent, false);
 		}
 		
-		
-		Symbol symbol = symbols.get(position);
-		Category category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder().where(Properties.ServerID.eq(symbol.getCategoryID())).unique();
-		ImageView imageView = (ImageView) s.findViewById(R.id.symbol_viewer);
-		imageView.setPadding(10, 10, 10, 10);
-		imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-		imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
-		imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
-		//imageView.setAdjustViewBounds(true);
+		ImageView imageView;
+		Log.i("log tag", "gotten resources: " + mThumbIds);
+		if (convertView == null) { // if it's not recycled, initialize some
+									// attributes
+			imageView = new ImageView(context);
+			imageView.setLayoutParams(new GridView.LayoutParams(210, 210));
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		} else {
+			imageView = (ImageView) convertView;
+		}
+
+		imageView.setImageResource(mThumbIds[position]);
 		return imageView;
 	}
 
+	// references to our images
+	private Integer[] mThumbIds = { R.drawable.plan1x1, R.drawable.plan1x2, R.drawable.plan1x3, R.drawable.plan2x1, R.drawable.plan2x2, R.drawable.plan2x3, R.drawable.plan3x1, R.drawable.plan3x2, R.drawable.plan3x3 };
 }

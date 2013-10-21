@@ -23,7 +23,7 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.SymbolDao.Properties;
-import br.com.furb.tagarela.utils.ImageAdapter;
+import br.com.furb.tagarela.utils.SymbolsAdapter;
 
 public class ViewSymbolsActivity extends Activity {
 
@@ -53,7 +53,7 @@ public class ViewSymbolsActivity extends Activity {
 	private void setupGridView() {
 		final List<Symbol> symbols = DaoProvider.getInstance(null).getSymbolDao().queryBuilder().where(Properties.UserID.eq(MainActivity.getUsuarioLogado().getServerID())).list();
 		GridView gridView = (GridView) findViewById(R.id.symbolsViewer);
-		gridView.setAdapter(new ImageAdapter(this, R.layout.view_symbol, symbols));
+		gridView.setAdapter(new SymbolsAdapter(this, R.layout.view_symbol, symbols));
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
