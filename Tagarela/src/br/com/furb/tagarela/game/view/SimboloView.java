@@ -4,15 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,7 +20,6 @@ import android.graphics.PointF;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,6 +27,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.PlanoBanco;
 import br.com.furb.tagarela.game.model.PranchaBanco;
@@ -45,10 +44,12 @@ public class SimboloView extends ImageView implements OnTouchListener {
 	private SimboloBanco simbolo = null;
 	private Paint paint = null;
 	private List<PointF> points = null;
-	private List<PointF> wayPoints = null;	
+	private List<PointF> wayPoints = null;
+    private MediaPlayer  mPlayer = null;        
 	
 	private boolean readOnly = false; 
 	private boolean simboloCarregado = false;
+	private boolean fimDeJogo = false;
 	
 	private Bitmap bixo = null;
 	private Bitmap drawingCache = null;
@@ -58,7 +59,7 @@ public class SimboloView extends ImageView implements OnTouchListener {
 	// EDITOR DE COORDENADAS
 	public TextView edPointX = null;
 	public TextView edPointY = null;
-	public ImageView btnProximo = null;
+	public Jogo jogoActivity = null;
 		
 	public List<PointF> getPoints() {
 		return points;
@@ -144,6 +145,37 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		set.play(scaleXIn).with(rotateClockWise).with(scaleYIn);
 		set.setDuration(1000);
 		set.setStartDelay(0);
+		
+		set.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// TODO Auto-generated method stub
+				if (fimDeJogo) {
+					playSound();
+				}
+
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				// TODO Auto-generated method stub
+
+			}
+		});		
+		
 		set.start();
 	}
 
@@ -268,7 +300,11 @@ public class SimboloView extends ImageView implements OnTouchListener {
 				// TODO Auto-generated method stub
 				//playAnimationIn();
 				
-				btnProximo.callOnClick();
+				if (!jogoActivity.ProximaPrancha()) {
+					fimDeJogo = true;
+					playAnimationOut();				
+				}
+								
 			}
 
 			@Override
@@ -282,9 +318,9 @@ public class SimboloView extends ImageView implements OnTouchListener {
 	}
 		
 	public void playSound(){
-        try {
-            MediaPlayer  mPlayer = new MediaPlayer();        
-            
+        try {       
+    		mPlayer = new MediaPlayer();
+        	
             byte[] b = simbolo.getSimboloBD().getSound();
             
             if (b == null) {
@@ -293,22 +329,25 @@ public class SimboloView extends ImageView implements OnTouchListener {
 			
             b = Base64Utils.decodeAudioFromBase64(new String(simbolo.getSimboloBD().getSound()));
             
-            File file = new File(getContext().getExternalFilesDir(null) + "/atemp.m4a");
-                        
-            if (!file.exists()) {
-            	file.createNewFile();
+            if (fimDeJogo) {
+            	AssetFileDescriptor descriptor = getContext().getAssets().openFd("music/musica_fim.mp3");
+                mPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                mPlayer.setLooping(true);
+                descriptor.close();            	            	                
             }
-            
-            FileUtils.writeByteArrayToFile(file, b);
-			
-            //File file = new File(simbolo.getCaminhoAudio());
-            
-//            if (!file.exists())
-//            	return;
-            
-            Uri uri = Uri.fromFile(file);                    
-			
-			mPlayer.setDataSource(getContext(), uri);
+            else{            
+                File file = new File(getContext().getExternalFilesDir(null) + "/atemp.m4a");
+	                        
+	            if (!file.exists()) {
+	            	file.createNewFile();
+	            }
+	            
+	            FileUtils.writeByteArrayToFile(file, b);
+					            
+	            Uri uri = Uri.fromFile(file);                    
+				
+				mPlayer.setDataSource(getContext(), uri);
+            }
 			
 			mPlayer.setOnCompletionListener(new OnCompletionListener() {
 
@@ -410,43 +449,31 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		if (!simboloCarregado && getWidth() > 0) {
 			this.simboloCarregado = true;
 						
-			Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
-			
-			this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
-			//this.setImageBitmap(Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getSimboloBmp(getWidth()));			
-					
-			Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
-
+			if (fimDeJogo) {
+				this.setImageResource(R.drawable.fim);
+				readOnly = true;
+			}
+			else 			
+				this.setImageBitmap(simbolo.getSimboloBmp(getWidth()));
+						
 			if (!readOnly) {
 				wayPoints = simbolo.getCoordenadasBmp(getWidth());
-				//wayPoints = Gerenciador.getInstance().getPlanosBD().get(0).getPrancha(0).getSimbolo().getCoordenadasBmp(getWidth());
 
-				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
-								
-				//Simbolo s = Gerenciador.getInstance().getCheckPoint(simbolo.getSubId());
 				SimboloBanco s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getHunterID());
 				bixo = s.getSimboloBmp((int) dimWayPoint);
 				
-				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
-
-				//s = Gerenciador.getInstance().getCheckPointRelacionado(s.getSimboloName());
 				s = Gerenciador.getInstance().getCheckPointServerID(plano.getPlanoBD().getPreyID());
-				checkPoint = s.getSimboloBmp((int) dimWayPoint);
-				
-				Log.i("TEMPO", DateFormat.format("hh:mm:ss", System.currentTimeMillis()) + "");
-
-				Log.i("Bixo.W", "" + bixo.getWidth());
-				Log.i("Bixo.H", "" + bixo.getHeight());
-				Log.i("CheckPoint.W", "" + checkPoint.getWidth());
-				Log.i("CheckPoint.H", "" + checkPoint.getHeight());
-								
+				checkPoint = s.getSimboloBmp((int) dimWayPoint);				
 			}
-		}
-				
+		}				
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		if (readOnly) {
+			return true;
+		}
+		
 		// garante que evento não ultrapasse limites da view
 		if ((event.getX() > 0 && event.getX() <= getWidth()) && (event.getY() > 0 && event.getY() <= getHeight())) {
 			PointF p = new PointF();
@@ -506,6 +533,19 @@ public class SimboloView extends ImageView implements OnTouchListener {
 		}
 				
 		return true;
+	}
+
+	public SimboloBanco getSimbolo() {
+		return simbolo;
+	}
+
+	public void setSimbolo(SimboloBanco simbolo) {
+		this.simbolo = simbolo;
+	}		
+	
+	public void stopSoundPlay(){
+		if (mPlayer != null)
+			mPlayer.release();
 	}
 	
 }

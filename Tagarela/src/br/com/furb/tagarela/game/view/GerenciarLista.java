@@ -1,10 +1,11 @@
 package br.com.furb.tagarela.game.view;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -58,7 +59,20 @@ public class GerenciarLista extends Activity {
 			tvTextoSuperior.setText("Incluir Lista");
 			btnRemover.setEnabled(false);			
 		}
-
+		
+		edPalavras.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+		        if (keyCode == KeyEvent.KEYCODE_ENTER) { 
+		        	return true;		        	
+		        }
+		        
+				// TODO Auto-generated method stub
+				return false;
+			}
+						
+		});
+									
 		btnGravar.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -71,8 +85,8 @@ public class GerenciarLista extends Activity {
 				plano.getPlanoBD().setName(edNomePlano.getText().toString());
 				plano.getPlanoBD().setHunterID(gerenciador.getPlanosBD().get(0).getPlanoBD().getHunterID());
 				plano.getPlanoBD().setPreyID(gerenciador.getPlanosBD().get(0).getPlanoBD().getPreyID());
-				plano.getPlanoBD().setCustomText(edPalavras.getText().toString());
-								
+				plano.getPlanoBD().setCustomText(removerLixoString(edPalavras.getText().toString()));
+												
 				plano.gravarPlano();
 				
 				if (planoIndex < 0) {
@@ -111,40 +125,56 @@ public class GerenciarLista extends Activity {
 			}
 		});		
 	}
+	
+	private String removerLixoString(String s){
+		char[] c = s.toCharArray();
 
+		for (int i = 0; i < c.length; i++) {
+			char d = c[i];
+
+			if (!(((d >= 48) && (d <= 57)) || ((d >= 65) && (d <= 90)) || ((d >= 97) && (d <= 122)) || (d == 32))) {
+				d = 0;
+			}
+
+			c[i] = d;
+		}
+
+		return String.valueOf(c);				
+	}
+	
 	private void inicializarCampos(){
-		Typeface fontFace = gerenciador.getFontJogo();
+//		Typeface fontFace = gerenciador.getFontJogo();
 		
 		tvTextoSuperior = (TextView)findViewById(R.id.tvTextoSuperior);		       
-		tvTextoSuperior.setTypeface(fontFace);
+//		tvTextoSuperior.setTypeface(fontFace);
 		tvTextoSuperior.setTextSize(60.f);
 		       		
 		tvNomeLista = (TextView)findViewById(R.id.tvNomeLista);		       
-		tvNomeLista.setTypeface(fontFace);
+//		tvNomeLista.setTypeface(fontFace);
 		tvNomeLista.setTextSize(40.f);
 
 		edNomePlano = (EditText)findViewById(R.id.edNomePlano);		       
-		edNomePlano.setTypeface(fontFace);
+//		edNomePlano.setTypeface(fontFace);
 		edNomePlano.setTextSize(40.f);
 		
 		tvPalavras = (TextView)findViewById(R.id.tvPalavras);		       
-		tvPalavras.setTypeface(fontFace);
+//		tvPalavras.setTypeface(fontFace);
 		tvPalavras.setTextSize(40.f);
 
 		edPalavras = (EditText)findViewById(R.id.edPalavras);		       
-		edPalavras.setTypeface(fontFace);
+//		edPalavras.setTypeface(fontFace);
 		edPalavras.setTextSize(40.f);
 
 		btnGravar = (Button)findViewById(R.id.btnGravar);		       
-		btnGravar.setTypeface(fontFace);
+//		btnGravar.setTypeface(fontFace);
 		btnGravar.setTextSize(40.f);
 
 		btnRemover = (Button)findViewById(R.id.btnRemover);		       
-		btnRemover.setTypeface(fontFace);
+//		btnRemover.setTypeface(fontFace);
 		btnRemover.setTextSize(40.f);
 
 		btnCancelar = (Button)findViewById(R.id.btnCancelar);		       
-		btnCancelar.setTypeface(fontFace);
+//		btnCancelar.setTypeface(fontFace);
 		btnCancelar.setTextSize(40.f);		
 	}
 	

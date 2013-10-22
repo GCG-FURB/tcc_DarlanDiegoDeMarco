@@ -33,8 +33,7 @@ public class PlanLayoutDialog extends DialogFragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				// TODO Auto-generated method stub
-				
+			
 			}
 		});
 	}

@@ -104,6 +104,7 @@ public class Jogo extends Activity {
 				}
 			}
 		});
+		btnVoltar.setVisibility(View.INVISIBLE);
 
 		btnProximo.setOnClickListener(new View.OnClickListener() {
 
@@ -131,9 +132,10 @@ public class Jogo extends Activity {
 				}
 			}
 		});
+		btnProximo.setVisibility(View.INVISIBLE);
 		
 		simboloView.setPlano(plano);
-		simboloView.btnProximo = btnProximo;
+		simboloView.jogoActivity = this;
 		
 		// EDITOR DE COORDENADAS
 		jogoLayoutLeft = (LinearLayout) this.findViewById(R.id.jogoLayoutLeft);
@@ -186,6 +188,33 @@ public class Jogo extends Activity {
 		gerarPreVisualizacao();
 	}
 	
+	public boolean ProximaPrancha(){
+		boolean xAchou = false;
+		if (pranchaIndex < (plano.getPranchas().size() - 1)) {
+			pranchaIndex++;
+			prancha = plano.getPrancha(pranchaIndex);
+			
+			xAchou = true;
+			while (prancha.getSimbolo().getSimboloBD().getName().equals(" ")) {
+				xAchou = false;
+				
+				if (pranchaIndex < (plano.getPranchas().size() - 1)) {
+					pranchaIndex++;
+					prancha = plano.getPrancha(pranchaIndex);
+					xAchou = true;
+				}
+			}			
+		}	
+						
+		gerarHistorico();
+		if (xAchou) {
+			aplicarPrancha();
+			edCoordenadas.setText("");
+		}						
+		
+		return xAchou;
+	}
+	
 	private void gerarPreVisualizacao() {		
 		jogoLayoutText.removeAllViewsInLayout();
 		
@@ -229,22 +258,11 @@ public class Jogo extends Activity {
 						
 			android.view.ViewGroup.LayoutParams lParams = new LayoutParams(lParamsImg);
 			
-			// Letras Maiusculas
-			if (pranchaIndex > 0) {											
-				PranchaBanco prachaOld = plano.getPrancha(pranchaIndex-1);
-				
-				int dec = 2;
-				while ((pranchaIndex-dec > 0) && (prachaOld.getSimbolo().getSimboloBD().getName().equals(" "))) {
-					prachaOld = plano.getPrancha(pranchaIndex-dec);					
-					dec++;
-				}
-							
-				char c = prachaOld.getSimbolo().getSimboloBD().getName().toCharArray()[0]; 
-				// Letras Maiusculas ou Números
-				if (((c >= 65) && ((c <= 90))) || ((c >= 48) && (c <= 57))) {
-					lParams.width = 70;
-					lParams.height = 70;
-				}				
+			char c = simboloView.getSimbolo().getSimboloBD().getName().toCharArray()[0];
+			// Letras Maiusculas ou Números
+			if (((c >= 65) && ((c <= 90))) || ((c >= 48) && (c <= 57))) {
+				lParams.width = 70;
+				lParams.height = 70;
 			}
 			
 			List<PointF> points = new ArrayList<PointF>();
@@ -308,4 +326,21 @@ public class Jogo extends Activity {
 		
 	}
 
+	public void ConcluirPlano() {
+		ImageView imgView = new ImageView(getApplicationContext());
+		
+		android.view.ViewGroup.LayoutParams lp = new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+		imgView.setLayoutParams(new LayoutParams(lp));
+		
+		imgView.setBackgroundResource(R.drawable.fim);
+					
+	}
+	
+	@Override
+	protected void onStop() {
+		simboloView.stopSoundPlay();
+		
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
 }

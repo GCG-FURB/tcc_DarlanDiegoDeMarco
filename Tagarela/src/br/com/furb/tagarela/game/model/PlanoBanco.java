@@ -2,7 +2,6 @@ package br.com.furb.tagarela.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import br.com.furb.tagarela.model.DaoProvider;
@@ -87,7 +86,7 @@ public class PlanoBanco {
 				
 				addPrancha(prancha);
 			}
-			else {
+			else {				
 				for (Symbol simboloBD : simboloDAO.queryRaw("where Asc_Representation = ?", String.valueOf(d))) {
 					SimboloBanco simbolo = new SimboloBanco(simboloBD);
 					
