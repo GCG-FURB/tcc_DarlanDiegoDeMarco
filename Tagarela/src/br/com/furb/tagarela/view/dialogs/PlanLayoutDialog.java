@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.interfaces.LayoutListener;
 import br.com.furb.tagarela.utils.ImageAdapter;
 
 public class PlanLayoutDialog extends DialogFragment {
@@ -26,6 +27,7 @@ public class PlanLayoutDialog extends DialogFragment {
 		return builder.create();
 	}
 
+	
 	private void setupGridView(View view) {
 		GridView gridView = (GridView) view.findViewById(R.id.layout_chooser);
 		gridView.setAdapter(new ImageAdapter(getActivity(), R.layout.view_symbol));
@@ -33,7 +35,8 @@ public class PlanLayoutDialog extends DialogFragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			
+				((LayoutListener) getActivity()).onLayoutReturnValue(position);
+				getDialog().dismiss();
 			}
 		});
 	}

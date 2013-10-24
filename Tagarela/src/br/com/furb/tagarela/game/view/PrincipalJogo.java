@@ -2,6 +2,7 @@ package br.com.furb.tagarela.game.view;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;

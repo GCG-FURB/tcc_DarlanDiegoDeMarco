@@ -56,29 +56,4 @@ public class CategoryChooserDialog extends DialogFragment {
 		};
 	}
 
-	private void syncCategories() {
-		String results = JsonUtils.getCategoriesResponse();
-		results = JsonUtils.validaJson(results);
-		JSONArray categories;
-		try {
-			categories = new JSONArray(results);
-			JSONObject category = new JSONObject();
-			CategoryDao categoryDao = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao();
-			for (int i = 0; i < categories.length(); i++) {
-				category = categories.getJSONObject(i);
-				Category newCategory = new Category();
-				newCategory.setBlue(category.getInt("blue"));
-				newCategory.setGreen(category.getInt("green"));
-				newCategory.setRed(category.getInt("red"));
-				newCategory.setName(category.getString("name"));
-				newCategory.setServerID(category.getInt("id"));
-				if (categoryDao.queryBuilder().where(Properties.ServerID.eq(category.getInt("id"))).list().size() <= 0) {
-					categoryDao.insert(newCategory);
-				}
-			}
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
 }

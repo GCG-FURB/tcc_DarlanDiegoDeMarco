@@ -1,9 +1,5 @@
 package br.com.furb.tagarela.utils;
 
-import java.util.List;
-
-import br.com.furb.tagarela.model.Symbol;
-import br.com.furb.tagarela.R;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import br.com.furb.tagarela.R;
 
 public class ImageAdapter extends BaseAdapter {
 

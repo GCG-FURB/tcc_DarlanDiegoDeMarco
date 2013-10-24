@@ -2,13 +2,14 @@
 
 package br.com.furb.tagarela.game.util;
 
-import android.annotation.SuppressLint;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.annotation.SuppressLint;
 
 /** 
  * Classe resposnsável por realizar a leitura dos arquivos de propriedades

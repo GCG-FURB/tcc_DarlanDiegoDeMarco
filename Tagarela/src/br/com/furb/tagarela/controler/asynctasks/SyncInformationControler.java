@@ -1,7 +1,6 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
 import android.app.Activity;
-import android.view.View;
 
 
 public class SyncInformationControler {

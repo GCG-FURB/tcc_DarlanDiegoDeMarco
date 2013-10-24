@@ -13,7 +13,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;

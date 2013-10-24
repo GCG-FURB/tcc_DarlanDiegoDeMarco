@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.CategoryDao;
-import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.CategoryDao.Properties;
+import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.utils.JsonUtils;
 
 class SyncCategoriesTask extends AsyncTask<Integer, Integer, Void> {

@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.game.view.PrincipalJogo;
 import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
+import br.com.furb.tagarela.game.view.PrincipalJogo;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
+import br.com.furb.tagarela.interfaces.LayoutListener;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
 import br.com.furb.tagarela.model.DaoProvider;
@@ -23,7 +24,7 @@ import br.com.furb.tagarela.view.dialogs.UserCreateDialog;
 import br.com.furb.tagarela.view.dialogs.UserLoginDialog;
 import br.com.furb.tagarela.view.dialogs.WelcomeDialog;
 
-public class MainActivity extends FragmentActivity implements UserTypeListener, CategoryTypeListener, UserLoginListener {
+public class MainActivity extends FragmentActivity implements UserTypeListener, CategoryTypeListener, UserLoginListener, LayoutListener {
 
 	private static User usuarioLogado;
 
@@ -141,6 +142,16 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 	public void syncInformations() {
 		SyncInformationControler.getInstance().syncCategories();
 		SyncInformationControler.getInstance().syncSymbols();
+	}
+
+	@Override
+	public void onLayoutReturnValue(int layout) {
+		System.out.println(layout);
+		Intent createPlan = new Intent(getApplicationContext(), CreatePlanActivity.class);
+		Bundle b = new Bundle();
+		b.putInt("layout", layout);
+		createPlan.putExtras(b);
+		startActivity(createPlan);
 	}
 
 }

@@ -43,4 +43,18 @@
     <string name="title">Titulo</string>
     <string name="layout_choose">Selecione o layout do plano</string>
     <string name="create_plan">Criar Plano</string>
+    <string name="symbol_one">símbolo um</string>
+    <string name="symbol_two">símbolo dois</string>
+    <string name="symbol_three">símbolo três</string>
+    <string name="symbol_four">símbolo quatro</string>
+    <string name="symbol_five">símbolo cinco</string>
+    <string name="symbol_six">símbolo seis</string>
+    <string name="symbol_seven">símbolo sete</string>
+    <string name="symbol_eight">símbolo oito</string>
+    <string name="symbol_nine">símbolo nove</string>
+    <string name="people">Pessoas</string>
+    <string name="verb">Verbos</string>
+    <string name="noun">Substantivos</string>
+    
+    
 </resources>
