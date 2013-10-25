@@ -8,6 +8,7 @@
         android:id="@+id/symbol_viewer"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
         android:contentDescription="@string/symbol_image"
         android:padding="10dp"
         android:scaleType="centerCrop"

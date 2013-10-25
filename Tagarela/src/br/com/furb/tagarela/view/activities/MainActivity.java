@@ -112,10 +112,10 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 	}
 
 	@Override
-	public void onCategoryReturnValue(Long categoryID) {
+	public void onCategoryReturnValue(int categoryID) {
 		SymbolCreateDialog symbolCreate = new SymbolCreateDialog();
 		Bundle args = new Bundle();
-		args.putLong("categoryID", categoryID);
+		args.putInt("categoryID", categoryID);
 		symbolCreate.setArguments(args);
 		symbolCreate.show(getSupportFragmentManager(), "");
 

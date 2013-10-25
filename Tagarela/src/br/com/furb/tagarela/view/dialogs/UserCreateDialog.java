@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.controler.asynctasks.SyncCreatedUserTask;
+import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.utils.BitmapHelper;
@@ -88,12 +90,7 @@ public class UserCreateDialog extends DialogFragment {
 				user.setName(((EditText) getDialog().findViewById(R.id.edName)).getText().toString());
 				user.setType(userType);
 				user.setPatientPicture(getUserPictureByteArray());
-				HttpUtils.userPost(user, ((EditText) getDialog().findViewById(R.id.edPassword)).getText().toString(), getActivity());
-				ImageView userPhoto = (ImageView) getActivity().findViewById(R.id.userPhoto);
-				userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
-				TextView welcomeMessage = (TextView) getActivity().findViewById(R.id.welcomeMessage);
-				welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
-				((UserLoginListener) getActivity()).syncInformations();
+				SyncInformationControler.getInstance().syncCreatedUser(getActivity(), user, ((EditText) getDialog().findViewById(R.id.edPassword)).getText().toString());
 			}
 
 			private byte[] getUserPictureByteArray() {

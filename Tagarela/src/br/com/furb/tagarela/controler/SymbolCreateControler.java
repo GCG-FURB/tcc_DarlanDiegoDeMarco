@@ -23,6 +23,7 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class SymbolCreateControler {
 
@@ -139,6 +140,7 @@ public class SymbolCreateControler {
 			symbol.setVideoLink(videoLink);
 			symbol.setPicture(getSymbolPictureByteArray());
 			symbol.setSound(soundBytes);
+			symbol.setUserID(MainActivity.getUsuarioLogado().getServerID());
 			DaoProvider.getInstance(context).getSymbolDao().insert(symbol);
 			return symbol;
 		} catch (IOException e) {

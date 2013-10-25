@@ -33,7 +33,7 @@ public class CategoryChooserDialog extends DialogFragment {
 		CategoryDao categoryDao = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao();
 		categoriesList = categoryDao.queryBuilder().list();
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.dialog_category_chooser, null);
+		View view = inflater.inflate(R.layout.list_category_chooser, null);
 		ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(getActivity(), android.R.layout.simple_list_item_1, categoriesList);
 		ListView listView = (ListView) view.findViewById(R.id.category_list);
 		listView.setOnItemClickListener(getCategoryListener());
@@ -50,7 +50,7 @@ public class CategoryChooserDialog extends DialogFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Category selectedCategory = (Category) parent.getItemAtPosition(position);
-				((CategoryTypeListener) getActivity()).onCategoryReturnValue(selectedCategory.getId());
+ 				((CategoryTypeListener) getActivity()).onCategoryReturnValue(selectedCategory.getServerID());
 				dismiss();
 			}
 		};

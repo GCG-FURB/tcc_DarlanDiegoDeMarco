@@ -195,18 +195,19 @@ public final class R {
         public static final int dialog_user_type_chooser=0x7f030007;
         public static final int gerenciar_lista=0x7f030008;
         public static final int jogo=0x7f030009;
-        public static final int login_dialog=0x7f03000a;
-        public static final int plan_layout_eight=0x7f03000b;
-        public static final int plan_layout_five=0x7f03000c;
-        public static final int plan_layout_four=0x7f03000d;
-        public static final int plan_layout_one=0x7f03000e;
-        public static final int plan_layout_seven=0x7f03000f;
-        public static final int plan_layout_six=0x7f030010;
-        public static final int plan_layout_three=0x7f030011;
-        public static final int plan_layout_two=0x7f030012;
-        public static final int plan_layout_zero=0x7f030013;
-        public static final int principal_jogo=0x7f030014;
-        public static final int view_symbol=0x7f030015;
+        public static final int list_category_chooser=0x7f03000a;
+        public static final int login_dialog=0x7f03000b;
+        public static final int plan_layout_eight=0x7f03000c;
+        public static final int plan_layout_five=0x7f03000d;
+        public static final int plan_layout_four=0x7f03000e;
+        public static final int plan_layout_one=0x7f03000f;
+        public static final int plan_layout_seven=0x7f030010;
+        public static final int plan_layout_six=0x7f030011;
+        public static final int plan_layout_three=0x7f030012;
+        public static final int plan_layout_two=0x7f030013;
+        public static final int plan_layout_zero=0x7f030014;
+        public static final int principal_jogo=0x7f030015;
+        public static final int view_symbol=0x7f030016;
     }
     public static final class menu {
         public static final int gerenciar_lista=0x7f0a0000;

@@ -9,17 +9,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.interfaces.CategoryTypeListener;
+import br.com.furb.tagarela.interfaces.SymbolCategoryListener;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.CategoryDao;
 import br.com.furb.tagarela.model.CategoryDao.Properties;
 import br.com.furb.tagarela.model.DaoProvider;
 
 public class SymbolCategoryDialog extends DialogFragment {
+
+	private int position;
+	private Category cPeople;
+	private Category cVerb;
+	private Category cNoun;
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_category_chooser, null);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		position = getArguments().getInt("layoutPosition");
 		addListeners(view);
 		setBorders(view);
 		builder.setView(view);
@@ -29,9 +36,9 @@ public class SymbolCategoryDialog extends DialogFragment {
 
 	private void setBorders(View view) {
 		CategoryDao categoryDao = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao();
-		Category cPeople = categoryDao.queryBuilder().where(Properties.Name.eq("Pessoas")).unique();
-		Category cVerb = categoryDao.queryBuilder().where(Properties.Name.eq("Verbos")).unique();
-		Category cNoun = categoryDao.queryBuilder().where(Properties.Name.eq("Substantivos")).unique();
+		cPeople = categoryDao.queryBuilder().where(Properties.Name.eq("Pessoas")).unique();
+		cVerb = categoryDao.queryBuilder().where(Properties.Name.eq("Verbos")).unique();
+		cNoun = categoryDao.queryBuilder().where(Properties.Name.eq("Substantivos")).unique();
 
 		ImageView people = (ImageView) view.findViewById(R.id.people_category);
 		ImageView verb = (ImageView) view.findViewById(R.id.verb_category);
@@ -43,9 +50,9 @@ public class SymbolCategoryDialog extends DialogFragment {
 	}
 
 	private void addListeners(View view) {
-		view.findViewById(R.id.people_category).setOnClickListener(addSymbolCategoryListener(R.id.imgPatient));
-		view.findViewById(R.id.verb_category).setOnClickListener(addSymbolCategoryListener(R.id.imgSpecialist));
-		view.findViewById(R.id.nouns_category).setOnClickListener(addSymbolCategoryListener(R.id.imgTutor));
+		view.findViewById(R.id.people_category).setOnClickListener(addSymbolCategoryListener(R.id.people_category));
+		view.findViewById(R.id.verb_category).setOnClickListener(addSymbolCategoryListener(R.id.verb_category));
+		view.findViewById(R.id.nouns_category).setOnClickListener(addSymbolCategoryListener(R.id.nouns_category));
 	}
 
 	private OnClickListener addSymbolCategoryListener(final int id) {
@@ -53,15 +60,16 @@ public class SymbolCategoryDialog extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
-				CategoryTypeListener activity = (CategoryTypeListener) getActivity();
+				SymbolCategoryListener activity = (SymbolCategoryListener) getActivity();
 				if (id == R.id.people_category) {
-					activity.onCategoryReturnValue(0L);
+
+					activity.onCategoryReturnValue(position, cPeople.getServerID());
 				}
 				if (id == R.id.verb_category) {
-					activity.onCategoryReturnValue(1L);
+					activity.onCategoryReturnValue(position, cVerb.getServerID());
 				}
 				if (id == R.id.nouns_category) {
-					activity.onCategoryReturnValue(2L);
+					activity.onCategoryReturnValue(position, cNoun.getServerID());
 				}
 				dismiss();
 			}

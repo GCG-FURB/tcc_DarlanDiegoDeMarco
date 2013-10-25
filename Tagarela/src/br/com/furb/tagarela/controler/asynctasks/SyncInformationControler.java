@@ -1,6 +1,8 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
 import android.app.Activity;
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.model.User;
 
 
 public class SyncInformationControler {
@@ -27,6 +29,14 @@ public class SyncInformationControler {
 	
 	public void syncUser(Activity activity, String id){
 		new SyncUserTask(activity).execute(id);
+	}
+	
+	public void syncCreatedUser(Activity activity, User user, String password){
+		new SyncCreatedUserTask(activity, user, password).execute();
+	}
+	
+	public void syncCreatendSymbol(Activity activity, Symbol symbol){
+		new SyncCreatedSymbolTask(activity, symbol).execute();
 	}
 
 }

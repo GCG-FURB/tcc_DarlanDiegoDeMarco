@@ -50,21 +50,26 @@ public class SymbolsAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View s = convertView;
-		if(s == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater(); 
+		if (s == null) {
+			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			s = inflater.inflate(layoutResourceId, parent, false);
 		}
-		
-		
+
 		Symbol symbol = symbols.get(position);
-		Category category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder().where(Properties.ServerID.eq(symbol.getCategoryID())).unique();
+		Category category = symbol.getCategory();
+		if(category == null){
+			category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder().where(br.com.furb.tagarela.model.CategoryDao.Properties.ServerID.eq(symbol.getCategoryID())).unique();
+		}
 		ImageView imageView = (ImageView) s.findViewById(R.id.symbol_viewer);
 		imageView.setPadding(10, 10, 10, 10);
 		imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 		imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
-		imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
-		//imageView.setAdjustViewBounds(true);
+		if (category != null) {
+
+			imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
+		}
+		// imageView.setAdjustViewBounds(true);
 		return imageView;
 	}
 

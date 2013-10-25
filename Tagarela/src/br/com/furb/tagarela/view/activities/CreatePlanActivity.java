@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.interfaces.SymbolCategoryListener;
 import br.com.furb.tagarela.utils.listeners.SymbolPositionListener;
+import br.com.furb.tagarela.view.dialogs.CategorySymbolsDialog;
 
-public class CreatePlanActivity extends FragmentActivity {
+public class CreatePlanActivity extends FragmentActivity implements SymbolCategoryListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,5 +90,16 @@ public class CreatePlanActivity extends FragmentActivity {
 
 	private void addImageListener(int id, int position) {
 		((ImageView) findViewById(id)).setOnClickListener(new SymbolPositionListener(position, getSupportFragmentManager()));
+	}
+
+	@Override
+	public void onCategoryReturnValue(int position, long category) {
+		CategorySymbolsDialog categorySymbolsDialog = new CategorySymbolsDialog();
+		Bundle b = new Bundle();
+		b.putInt("position", position);
+		b.putLong("category", category);
+		categorySymbolsDialog.setArguments(b);
+		categorySymbolsDialog.show(getFragmentManager(), null);
+		
 	}
 }

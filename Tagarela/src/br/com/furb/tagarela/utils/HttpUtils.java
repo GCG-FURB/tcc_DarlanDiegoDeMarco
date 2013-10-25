@@ -97,7 +97,7 @@ public class HttpUtils {
 				return response.getStatusLine().getStatusCode();
 			}
 		} catch (Exception e) {
-
+			e.getMessage();
 		}
 		return -1;
 	}
@@ -125,7 +125,8 @@ public class HttpUtils {
 				return response.getStatusLine().getStatusCode();
 			}
 		} catch (Exception e) {
-
+			e.getMessage();
+			e.printStackTrace();
 		}
 		return -1;
 	}

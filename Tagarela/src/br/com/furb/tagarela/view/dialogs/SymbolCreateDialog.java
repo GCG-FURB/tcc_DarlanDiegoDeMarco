@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.controler.SymbolCreateControler;
+import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
@@ -26,7 +27,7 @@ import br.com.furb.tagarela.utils.HttpUtils;
 
 public class SymbolCreateDialog extends DialogFragment {
 
-	private long categoryID;
+	private int categoryID;
 	private SymbolCreateControler controler;
 	private Category category;
 
@@ -34,7 +35,7 @@ public class SymbolCreateDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.dialog_symbol_create, null);
-		categoryID = getArguments().getLong("categoryID");
+		categoryID = getArguments().getInt("categoryID");
 		initComponents(view);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setView(view);
@@ -59,7 +60,7 @@ public class SymbolCreateDialog extends DialogFragment {
 
 	private void initComponents(View view) {
 		controler = new SymbolCreateControler(view);
-		category = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao().queryBuilder().where(Properties.Id.eq(categoryID)).unique();
+		category = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao().queryBuilder().where(Properties.ServerID.eq(categoryID)).unique();
 		ImageView img = (ImageView) view.findViewById(R.id.symbol_image);
 		img.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
 		img.setOnClickListener(getSymbolImageListener());
@@ -116,9 +117,7 @@ public class SymbolCreateDialog extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Symbol symbol = controler.createSymbol(category, getActivity().getApplicationContext());
-				if(symbol != null){
-					HttpUtils.symbolPost(symbol, getActivity());
-				}
+				SyncInformationControler.getInstance().syncCreatendSymbol(getActivity(), symbol);
 			}
 		};
 	}
