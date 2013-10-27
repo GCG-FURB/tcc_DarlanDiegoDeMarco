@@ -9,7 +9,7 @@
     <string name="hello_message">Olá, bem vindo ao Tagarela!</string>
     <string name="symbol_create">Criar Símbolo</string>
     <string name="game_play">Jogar Plano</string>
-    <string name="jogar">Escrever!</string>
+    <string name="jogar">Escrever</string>
     <string name="configuracoes">Configurações</string>
     <string name="sair">Sair</string>
     <string name="title_activity_jogo">Jogo</string>

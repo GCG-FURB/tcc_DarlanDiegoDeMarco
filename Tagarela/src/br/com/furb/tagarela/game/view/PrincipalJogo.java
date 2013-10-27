@@ -154,10 +154,10 @@ public class PrincipalJogo extends Activity implements Observer {
 		
 		String customText = gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText();
 		if (customText.equals("")) {
-			btnNovaLista.setText("Nova Lista");
+			btnNovaLista.setText("Criar Plano");
 		}
 		else
-			btnNovaLista.setText("Editar Lista");		
+			btnNovaLista.setText("Alterar Plano");		
 	}
 
 	@Override

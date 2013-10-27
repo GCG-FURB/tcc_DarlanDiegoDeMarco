@@ -51,12 +51,12 @@ public class GerenciarLista extends Activity {
 			edNomePlano.setText(plano.getPlanoBD().getName());	
 			edPalavras.setText(plano.getPlanoBD().getCustomText());
 			
-			tvTextoSuperior.setText("Alterar Lista");
+			tvTextoSuperior.setText("Alterar Plano");
 			btnRemover.setEnabled(true);
 		}
 		else
 		{
-			tvTextoSuperior.setText("Incluir Lista");
+			tvTextoSuperior.setText("Incluir Plano");
 			btnRemover.setEnabled(false);			
 		}
 		
