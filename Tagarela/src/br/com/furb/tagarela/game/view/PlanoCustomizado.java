@@ -15,7 +15,7 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.game.controler.Gerenciador;
 import br.com.furb.tagarela.game.model.PlanoBanco;
 
-public class GerenciarLista extends Activity {
+public class PlanoCustomizado extends Activity {
 
 	private TextView tvTextoSuperior = null;
 	private TextView tvNomeLista = null;
@@ -38,7 +38,7 @@ public class GerenciarLista extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				
-		setContentView(R.layout.gerenciar_lista);
+		setContentView(R.layout.plano_customizado);
 		
 		gerenciador = Gerenciador.getInstance();
 		inicializarCampos();

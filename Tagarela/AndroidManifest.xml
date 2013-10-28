@@ -43,7 +43,7 @@
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name="br.com.furb.tagarela.game.view.GerenciarLista"
+            android:name="br.com.furb.tagarela.game.view.PlanoCustomizado"
             android:label="@string/title_activity_gerenciar_lista" >
         </activity>
         <activity

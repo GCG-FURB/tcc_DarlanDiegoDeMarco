@@ -122,7 +122,7 @@ public class PrincipalJogo extends Activity implements Observer {
 			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(),	GerenciarLista.class);
+				Intent i = new Intent(getApplicationContext(),	PlanoCustomizado.class);
 
 				if (gerenciador.getPlanoBD(planoIndex).getPlanoBD().getCustomText().equals("")) {
 					i.putExtra("planoindex", -1);
@@ -138,7 +138,7 @@ public class PrincipalJogo extends Activity implements Observer {
 		});		
 		
 		startProgressBar();
-		gerenciador.prepararArquivos();		
+		gerenciador.prepararJogo();		
 								
 	}
 	
