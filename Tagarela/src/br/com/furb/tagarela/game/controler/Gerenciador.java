@@ -119,7 +119,7 @@ public class Gerenciador extends Observable {
 		return context.getExternalFilesDir(null) + "/" + dirCheckPoints;
 	}
 			
-	public void prepararArquivos(){
+	public void prepararJogo(){
 		new Thread() {		
 			public void run() {
 				//downloadArquivos();	

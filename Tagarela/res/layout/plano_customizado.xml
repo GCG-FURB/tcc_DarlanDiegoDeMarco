@@ -10,7 +10,7 @@
     <TextView 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="Incluir/Alterar Listas"
+	    android:text="Incluir/Alterar Planos"
 		android:layout_gravity="center"
 		android:layout_marginTop="20dp"
 		android:id="@+id/tvTextoSuperior"
@@ -33,13 +33,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Nome da lista:" >
+                android:text="Nome do plano:" >
             </TextView>
             			
 			<EditText 
 			    android:layout_width="1000dp"
 			    android:layout_height="wrap_content"
-				android:hint="Toque para incluir o nome da lista"
+				android:hint="Toque para incluir o nome do plano"
 				android:gravity="center"
 				android:layout_gravity="center"
 				android:id="@+id/edNomePlano"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Palavras:" >
+                android:text="Texto customizado:" >
             </TextView>
             
 			<EditText  		
@@ -73,7 +73,7 @@
 			    android:minLines="5"
 			    android:maxLines="5"			    
 				android:layout_gravity="center"
-				android:hint="Toque para incluir as palavras"
+				android:hint="Toque para incluir o texto"
 				android:id="@+id/edPalavras"
 				android:layout_marginTop="10dp"
 				android:background="@android:drawable/edit_text"/>
