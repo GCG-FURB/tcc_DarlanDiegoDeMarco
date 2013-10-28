@@ -2,10 +2,6 @@ package br.com.furb.tagarela.view.dialogs;
 
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -20,9 +16,7 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.CategoryDao;
-import br.com.furb.tagarela.model.CategoryDao.Properties;
 import br.com.furb.tagarela.model.DaoProvider;
-import br.com.furb.tagarela.utils.JsonUtils;
 
 public class CategoryChooserDialog extends DialogFragment {
 

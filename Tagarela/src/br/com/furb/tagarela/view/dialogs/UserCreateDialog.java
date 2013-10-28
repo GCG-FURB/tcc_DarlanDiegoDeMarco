@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,14 +17,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import br.com.furb.tagarela.R;
-import br.com.furb.tagarela.controler.asynctasks.SyncCreatedUserTask;
 import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
-import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.utils.BitmapHelper;
-import br.com.furb.tagarela.utils.HttpUtils;
 
 public class UserCreateDialog extends DialogFragment {
 

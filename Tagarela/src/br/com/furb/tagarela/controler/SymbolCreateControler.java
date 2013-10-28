@@ -37,6 +37,14 @@ public class SymbolCreateControler {
 	public SymbolCreateControler(View view) {
 		this.view = view;
 		this.mfilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/symbol.m4a";
+		try {
+			File f = new File(mfilePath);
+			if (!f.exists()) {
+				f.createNewFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void recordPressed() {
@@ -135,6 +143,7 @@ public class SymbolCreateControler {
 			byte[] soundBytes = FileUtils.readFileToByteArray(sound);
 			Symbol symbol = new Symbol();
 			symbol.setCategory(category);
+			symbol.setCategoryID(category.getServerID());
 			symbol.setIsGeneral(false);
 			symbol.setName(symbolName);
 			symbol.setVideoLink(videoLink);
@@ -148,8 +157,6 @@ public class SymbolCreateControler {
 			return null;
 		}
 	}
-	
-	
 
 	private byte[] getSymbolPictureByteArray() {
 		ImageView image = (ImageView) view.findViewById(R.id.symbol_image);

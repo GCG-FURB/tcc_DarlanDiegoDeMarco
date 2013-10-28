@@ -35,7 +35,7 @@ public class SyncInformationControler {
 		new SyncCreatedUserTask(activity, user, password).execute();
 	}
 	
-	public void syncCreatendSymbol(Activity activity, Symbol symbol){
+	public void syncCreatedSymbol(Activity activity, Symbol symbol){
 		new SyncCreatedSymbolTask(activity, symbol).execute();
 	}
 

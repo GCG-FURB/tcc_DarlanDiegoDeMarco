@@ -57,7 +57,7 @@ public class UserLoginDialog extends DialogFragment {
 					showWelcomeScreen();
 					((UserLoginListener) getActivity()).syncInformations();
 				} else {
-					LayoutInflater inflater = getActivity().getLayoutInflater();
+					//LayoutInflater inflater = getActivity().getLayoutInflater();
 					SyncInformationControler.getInstance().syncUser(getActivity(), id);
 				}
 			}

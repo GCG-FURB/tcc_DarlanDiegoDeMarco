@@ -16,7 +16,6 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
-import br.com.furb.tagarela.model.SymbolDao.Properties;
 
 public class SymbolsAdapter extends BaseAdapter {
 

@@ -1,7 +1,6 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
@@ -21,11 +20,13 @@ import br.com.furb.tagarela.view.activities.MainActivity;
 		try {
 			symbols = new JSONArray(results);
 			SymbolDao symbolDao = DaoProvider.getInstance(null).getSymbolDao();
+			JSONObject symbol = null;
+			Symbol newSymbol  = null;
 			for (int i = 0; i < symbols.length(); i++) {
-				JSONObject symbol = symbols.getJSONObject(i);
+				symbol = symbols.getJSONObject(i);
 				if (symbol.getInt("user_id") == MainActivity.getUsuarioLogado().getServerID()
 						&& symbolDao.queryBuilder().where(SymbolDao.Properties.ServerID.eq(symbol.getInt("id"))).list().size() <= 0) {
-					Symbol newSymbol = new Symbol();
+					newSymbol  = new Symbol();
 					newSymbol.setCategoryID(symbol.getInt("category_id"));
 					newSymbol.setIsGeneral(false);
 					newSymbol.setName(symbol.getString("name"));
@@ -36,7 +37,7 @@ import br.com.furb.tagarela.view.activities.MainActivity;
 					symbolDao.insert(newSymbol);
 				}
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -24,7 +24,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="430dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_three"
             android:padding="10dp"
             android:scaleType="fitXY"
@@ -35,12 +35,11 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="430dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_five"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/imagem" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +62,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_four"
             android:padding="10dp"
             android:scaleType="fitXY"
@@ -74,12 +73,11 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_six"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/imagem" />
-
     </LinearLayout>
 
 </LinearLayout>
