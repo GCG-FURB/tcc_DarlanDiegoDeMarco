@@ -12,7 +12,7 @@ import br.com.furb.tagarela.utils.Base64Utils;
 
 public class SimboloBanco {
 
-	private Symbol simboloBD = new Symbol();
+	private Symbol simboloBD = null;
 		
 	public SimboloBanco(Symbol simboloBD){
 		this.simboloBD = simboloBD;

@@ -29,12 +29,12 @@ import android.view.View;
 
 public final class Util {
 	
-	public final static View.OnClickListener AbrirTela(final Context context, final Class<? extends Activity> clazz){		
+	public final static View.OnClickListener abrirTela(final Context context, final Class<? extends Activity> clazz){		
 		Intent i = new Intent(context, clazz);
-		return AbrirTela(context, i);
+		return abrirTela(context, i);
 	}	
 	
-	public final static View.OnClickListener AbrirTela(final Context context, final Intent i){
+	public final static View.OnClickListener abrirTela(final Context context, final Intent i){
 		View.OnClickListener evento = new View.OnClickListener() {
 			
 			@Override
@@ -105,7 +105,7 @@ public final class Util {
 		return inSampleSize;
 	}	
 	
-	public final static void Vibrar(Context context, long milliseconds) {
+	public final static void vibrar(Context context, long milliseconds) {
 		Vibrator rr = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		//long milliseconds = 100;
 		rr.vibrate(milliseconds);
@@ -118,7 +118,7 @@ public final class Util {
     }	
 		
 	@SuppressLint("NewApi")
-	public final static void AplicarAnimation(Object obj, Boolean stateIn){
+	public final static void aplicarAnimation(Object obj, Boolean stateIn){
 		ObjectAnimator scaleXOut = ObjectAnimator.ofFloat(obj, "scaleX", 1f, 0f);
 		ObjectAnimator scaleXIn = ObjectAnimator.ofFloat(obj, "scaleX", 0f, 1f);
 		ObjectAnimator scaleYOut = ObjectAnimator.ofFloat(obj, "scaleY", 1f, 0f);

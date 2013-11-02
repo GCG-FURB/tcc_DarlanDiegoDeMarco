@@ -20,7 +20,7 @@ import br.com.furb.tagarela.model.SymbolPlanDao;
 public class PlanoBanco {
 
 	private List<PranchaBanco> pranchas = null;
-	private GroupPlan planoBD = new GroupPlan();
+	private GroupPlan planoBD = null;
 	
 	public PlanoBanco(GroupPlan planoBD) {
 		super();

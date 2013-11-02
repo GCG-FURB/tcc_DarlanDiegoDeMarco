@@ -530,7 +530,7 @@ public class SimboloView extends ImageView implements OnTouchListener {
 					
 				}
 				else 
-					Util.Vibrar(getContext(), 100);
+					Util.vibrar(getContext(), 100);
 			}					
 		}
 				
