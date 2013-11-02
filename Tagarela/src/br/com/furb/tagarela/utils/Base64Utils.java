@@ -12,6 +12,8 @@ import android.util.Base64;
 import android.util.Log;
 
 public class Base64Utils {
+	private static Bitmap bitmap;
+	
 	public static String encodeImageTobase64(Bitmap image) {
 		Bitmap immagex = image;
 		ByteArrayOutputStream byteOutPutStream = new ByteArrayOutputStream();
@@ -29,7 +31,10 @@ public class Base64Utils {
 	}
 
 	public static byte[] decodeImageBase64ToByteArray(String input) {
-		Bitmap bitmap = decodeImageBase64(input);
+		if(bitmap != null){
+			bitmap.recycle();
+		}
+		bitmap = decodeImageBase64(input);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		return stream.toByteArray();

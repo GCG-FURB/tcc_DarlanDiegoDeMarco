@@ -1,10 +1,10 @@
 package br.com.furb.tagarela.utils.listeners;
 
-import br.com.furb.tagarela.view.dialogs.SymbolCategoryDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import br.com.furb.tagarela.view.dialogs.SymbolCategoryDialog;
 
 public class SymbolPositionListener implements OnClickListener {
 

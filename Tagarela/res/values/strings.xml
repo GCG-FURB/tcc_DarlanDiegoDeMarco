@@ -55,6 +55,10 @@
     <string name="people">Pessoas</string>
     <string name="verb">Verbos</string>
     <string name="noun">Substantivos</string>
+    <string name="patient">Paciente</string>
+    <string name="especialist">Especialista</string>
+    <string name="tutor">Tutor</string>
+    <string name="adicionar_plano">Adicionar plano</string>
     
     
 </resources>

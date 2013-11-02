@@ -25,7 +25,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="300dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_four"
             android:padding="10dp"
             android:scaleType="fitXY"
@@ -36,12 +36,11 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="300dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_seven"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/imagem" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +64,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_five"
             android:padding="10dp"
             android:scaleType="fitXY"
@@ -76,12 +75,11 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_eight"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/imagem" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -105,7 +103,7 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_six"
             android:padding="10dp"
             android:scaleType="fitXY"
@@ -116,12 +114,11 @@
             android:layout_width="210dp"
             android:layout_height="210dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@string/symbol_nine"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/imagem" />
-
     </LinearLayout>
 
 </LinearLayout>

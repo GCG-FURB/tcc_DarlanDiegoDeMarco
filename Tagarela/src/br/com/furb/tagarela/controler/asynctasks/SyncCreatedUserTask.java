@@ -1,30 +1,16 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
-import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.User;
-import br.com.furb.tagarela.model.UserDao;
 import br.com.furb.tagarela.utils.HttpUtils;
-import br.com.furb.tagarela.utils.JsonUtils;
-import br.com.furb.tagarela.view.activities.MainActivity;
-import br.com.furb.tagarela.view.dialogs.UserLoginDialog;
 
 public class SyncCreatedUserTask extends AsyncTask<String, Void, Void> {
 	private ProgressDialog progress;

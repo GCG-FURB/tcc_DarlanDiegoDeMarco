@@ -23,7 +23,6 @@ import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.UserDao.Properties;
 import br.com.furb.tagarela.utils.BitmapHelper;
-import br.com.furb.tagarela.utils.HttpUtils;
 
 public class SymbolCreateDialog extends DialogFragment {
 
@@ -117,7 +116,8 @@ public class SymbolCreateDialog extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Symbol symbol = controler.createSymbol(category, getActivity().getApplicationContext());
-				SyncInformationControler.getInstance().syncCreatendSymbol(getActivity(), symbol);
+				if (symbol != null)
+					SyncInformationControler.getInstance().syncCreatedSymbol(getActivity(), symbol);
 			}
 		};
 	}
