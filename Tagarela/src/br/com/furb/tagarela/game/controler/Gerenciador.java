@@ -191,8 +191,8 @@ public class Gerenciador extends Observable {
 				GroupPlan planoBD = new GroupPlan();
 				planoBD.setServerID(getNextServerID(planoDAO));
 				planoBD.setName(plano.getNome());
-				planoBD.setHunterID(lastIDCheckPoint);
-				planoBD.setPreyID(lastIDCheckPoint-5);			
+				planoBD.setHunterID(2);
+				planoBD.setPreyID(6);			
 				planoBD.setCustomText("");
 				
 				planoDAO.insert(planoBD);

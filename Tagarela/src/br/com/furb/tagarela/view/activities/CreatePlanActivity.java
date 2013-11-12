@@ -45,6 +45,7 @@ public class CreatePlanActivity extends FragmentActivity implements SymbolCatego
 	        case R.id.add:
 	            
 	    }
+	    return false;
 	}
 
 	private void setView(int layout) {
