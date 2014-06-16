@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import br.com.furb.tagarela.model.DaoMaster.DevOpenHelper;
 
+
 public class DaoProvider {
 	private SQLiteDatabase tagarelaDB;
 	private DaoMaster daoMaster;
@@ -15,6 +16,8 @@ public class DaoProvider {
     private SymbolPlanDao symbolPlanDao;
     private GroupPlanDao groupPlanDao;
     private GroupPlanRelationshipDao groupPlanRelationshipDao;
+	private ObservationDao observationDao;
+	private SymbolHistoricDao symbolHistoricDao;
 	
 	private Context context;
 
@@ -34,6 +37,8 @@ public class DaoProvider {
 	    symbolPlanDao = daoSession.getSymbolPlanDao();
 	    groupPlanDao = daoSession.getGroupPlanDao();
 	    groupPlanRelationshipDao = daoSession.getGroupPlanRelationshipDao();
+	    observationDao = daoSession.getObservationDao();
+	    symbolHistoricDao = daoSession.getSymbolHistoricDao();
 	}
 
 	public static DaoProvider getInstance(Context context) {
@@ -106,6 +111,24 @@ public class DaoProvider {
 
 	public void setSymbolDao(SymbolDao symbolDao) {
 		this.symbolDao = symbolDao;
+	}
+	
+
+	public ObservationDao getObservationDao() {
+		return observationDao;
+	}
+
+	public void setObservationDao(ObservationDao observationDao) {
+		this.observationDao = observationDao;
+	}
+
+	
+	public SymbolHistoricDao getSymbolHistoricDao() {
+		return symbolHistoricDao;
+	}
+
+	public void setSymbolHistoricDao(SymbolHistoricDao symbolHistoricDao) {
+		this.symbolHistoricDao = symbolHistoricDao;
 	}
 
 	public Context getContext() {

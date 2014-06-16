@@ -13,10 +13,10 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:columnWidth="200dp"
-        android:horizontalSpacing="20dp"
+        android:horizontalSpacing="15dp"
         android:numColumns="3"
         android:stretchMode="none"
-        android:verticalSpacing="20dp" >
+        android:verticalSpacing="15dp" >
 
     </GridView>
 

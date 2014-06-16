@@ -30,7 +30,7 @@
                     android:layout_height="200dp"
                     android:contentDescription="@string/user_image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/user"/>
 
                 <TextView
                     android:id="@+id/welcomeMessage"
@@ -39,6 +39,7 @@
                     android:paddingLeft="10dp"
                     android:text="@string/hello_message"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/link_color"
                     android:textSize="25sp" />
 
             </LinearLayout>
@@ -56,6 +57,7 @@
                     android:layout_gravity="center"
                     android:text="@string/tagarela"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/grey05"
                     android:textSize="50sp" />
 
                 <TextView
@@ -65,7 +67,9 @@
                     android:layout_gravity="center"
                     android:text="@string/link_tagarela"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/grey05"
                     android:textSize="40sp" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -76,13 +80,16 @@
             android:orientation="vertical" >
 
             <ListView
-                android:id="@+id/category_list"
+                android:id="@+id/plan_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/title"
-                android:divider="#FFECECEC"
-                android:dividerHeight="2sp" >
+                android:divider="#DEDEDE"
+                android:dividerHeight="1dp" >
+
             </ListView>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -96,11 +103,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="5dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:text="@string/symbol_create"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/link_color" />
+            android:textColor="@color/link_color"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/view_symbols"
@@ -108,11 +116,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:text="@string/view_symbols"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/link_color" />
+            android:textColor="@color/link_color"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/create_plan"
@@ -120,23 +129,38 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:text="@string/create_plan"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/link_color" />
-        
+            android:textColor="@color/link_color"
+            android:textSize="22sp" />
+
         <TextView
-            android:id="@+id/gamePlay"
+            android:id="@+id/observations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="10dp"
-            android:text="@string/game_play"
+            android:text="@string/observations"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/link_color" />
+            android:textColor="@color/link_color"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/historics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:text="@string/symbol_historic"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/link_color"
+            android:textSize="22sp" />
         
     </LinearLayout>
 

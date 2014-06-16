@@ -7,8 +7,8 @@
     <string name="title_activity_post">PostActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_message">Olá, bem vindo ao Tagarela!</string>
-    <string name="symbol_create">Criar Símbolo</string>
-    <string name="game_play">Jogar Plano</string>
+    <string name="symbol_create"><u>Criar símbolo</u></string>
+    <string name="game_play"><u>Jogar Plano</u></string>
     <string name="jogar">Escrever</string>
     <string name="configuracoes">Configurações</string>
     <string name="sair">Sair</string>
@@ -30,7 +30,7 @@
     <string name="title_user_create">Informe os campos abaixo</string>
     <string name="symbol_image">Simbolo</string>
     <string name="image_meaning">Significado da imagem</string>
-    <string name="view_symbols">Visualizar símbolos</string>
+    <string name="view_symbols"><u>Visualizar símbolos</u></string>
     <string name="welcome_message">Bem vindo ao Tagarela</string>
     <string name="login_ask">Você já possui um usuário no Tagarela?</string>
     <string name="search_symbol">Procurar símbolo</string>
@@ -39,10 +39,10 @@
     <string name="title_activity_teste_jogo">TesteJogo</string>
     <string name="tagarela">Tagarela</string>
     <string name="user_image">Imagem do usuário</string>
-    <string name="link_tagarela">www.inf.furb.br/gcg/tagarela</string>
+    <string name="link_tagarela">http://gcg.inf.furb.br/?page_id=992</string>
     <string name="title">Titulo</string>
     <string name="layout_choose">Selecione o layout do plano</string>
-    <string name="create_plan">Criar Plano</string>
+    <string name="create_plan"><u>Criar plano</u></string>
     <string name="symbol_one">símbolo um</string>
     <string name="symbol_two">símbolo dois</string>
     <string name="symbol_three">símbolo três</string>
@@ -58,7 +58,18 @@
     <string name="patient">Paciente</string>
     <string name="especialist">Especialista</string>
     <string name="tutor">Tutor</string>
-    <string name="adicionar_plano">Adicionar plano</string>
-    
-    
+    <string name="add_plan">Adicionar plano</string>
+    <string name="plan_name">Nome do plano</string>
+    <string name="user_id">ID do usuário</string>
+    <string name="plans">Planos</string>
+    <string name="observations"><u>Observações</u></string>
+    <string name="new_observation">Nova observação</string>
+    <string name="observations_text">Observações</string>
+    <string name="close">Fechar</string>
+    <string name="symbol_historic"><u>Histórico de símbolos</u></string>
+    <string name="invalid_information">Informações inválidas.</string>
+    <string name="fill_data">É necessário preencher todos os campos.</string>
+    <string name="user_data">Dados do usuário</string>
+    <string name="choose_a_category">Selecione uma categoria</string>
+    <string name="no_data_found">Não há itens para exibir.</string>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:contentDescription="@string/symbol_image"
         android:padding="10dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/user" />
 
     <LinearLayout

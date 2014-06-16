@@ -8,15 +8,23 @@ import org.json.JSONObject;
 import br.com.furb.tagarela.model.User;
 
 public class JsonUtils {
-	private static final String URL_CATEGORIES = "http://murmuring-falls-7702.herokuapp.com/categories/";
-	private static final String URL_USERS = "http://murmuring-falls-7702.herokuapp.com/users/";
-	private static final String URL_SYMBOLS = "http://murmuring-falls-7702.herokuapp.com/private_symbols";
+	public static final String URL_CATEGORIES = "http://murmuring-falls-7702.herokuapp.com/categories/";
+	public static final String URL_USERS = "http://murmuring-falls-7702.herokuapp.com/users/";
+	public static final String URL_SYMBOLS = "http://murmuring-falls-7702.herokuapp.com/private_symbols";
+	public static final String URL_SYMBOL_PLANS = "http://murmuring-falls-7702.herokuapp.com/symbol_plans";
+	public static final String URL_PLANS = "http://murmuring-falls-7702.herokuapp.com/plans";
+	public static final String URL_OBSERVATIONS ="http://murmuring-falls-7702.herokuapp.com/user_historics";
+	public static final String URL_HISTORICS ="http://murmuring-falls-7702.herokuapp.com/symbol_historics";
 
 	public static String validaJson(String results) {
+		if(results != null){
 		if (results.startsWith("{")) {
 			return "[" + results + "]";
 		}
 		return results;
+		} else {
+			return "[]";
+		}
 	}
 	
 	public static User getUser(JSONObject jsonUser) throws JSONException {
@@ -31,18 +39,12 @@ public class JsonUtils {
 
 	public static String getUserJsonResponse(String user) {
 		HttpGet httpGet = new HttpGet(URL_USERS + "/" + user);
-		return doGet(httpGet);
+		return validaJson(doGet(httpGet));
 	}
 
-	public static String getCategoriesResponse() {
-		HttpGet httpGet = new HttpGet(URL_CATEGORIES);
-		return doGet(httpGet);
-
-	}
-
-	public static String getSymbolsResponse() {
-		HttpGet httpGet = new HttpGet(URL_SYMBOLS);
-		return doGet(httpGet);
+	public static String getResponse(String url) {
+		HttpGet httpGet = new HttpGet(url);
+		return validaJson(doGet(httpGet));
 	}
 
 	private static String doGet(HttpGet httpGet) {

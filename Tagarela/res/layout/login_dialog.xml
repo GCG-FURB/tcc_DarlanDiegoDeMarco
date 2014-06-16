@@ -5,11 +5,11 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/login_id"
+        android:id="@+id/user_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="ID do usuário"
+        android:hint="@string/user_id"
         android:inputType="number" >
 
         <requestFocus />

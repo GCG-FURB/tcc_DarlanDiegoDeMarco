@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.model.Category;
-import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.view.activities.MainActivity;
 
@@ -83,7 +82,6 @@ public class SymbolCreateControler {
 		} catch (Exception e) {
 			Log.e("MEDIA_RECORDER", "prepare() failed");
 		}
-
 	}
 
 	private void stopClicked(View view) {
@@ -139,6 +137,10 @@ public class SymbolCreateControler {
 		}
 		try {
 			String symbolName = ((EditText) view.findViewById(R.id.image_meaning)).getText().toString();
+			
+			if("".equals(symbolName)){
+				return null;
+			}
 			String videoLink = ((EditText) view.findViewById(R.id.link_video)).getText().toString();
 			byte[] soundBytes = FileUtils.readFileToByteArray(sound);
 			Symbol symbol = new Symbol();
@@ -150,7 +152,6 @@ public class SymbolCreateControler {
 			symbol.setPicture(getSymbolPictureByteArray());
 			symbol.setSound(soundBytes);
 			symbol.setUserID(MainActivity.getUsuarioLogado().getServerID());
-			DaoProvider.getInstance(context).getSymbolDao().insert(symbol);
 			return symbol;
 		} catch (IOException e) {
 			e.printStackTrace();

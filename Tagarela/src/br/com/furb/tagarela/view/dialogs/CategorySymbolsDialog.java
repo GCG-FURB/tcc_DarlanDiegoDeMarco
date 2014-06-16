@@ -11,12 +11,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.adapter.SymbolsAdapter;
 import br.com.furb.tagarela.interfaces.SymbolPlanListener;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.SymbolDao.Properties;
-import br.com.furb.tagarela.model.SymbolPlan;
-import br.com.furb.tagarela.utils.SymbolsAdapter;
 import br.com.furb.tagarela.view.activities.MainActivity;
 import de.greenrobot.dao.query.QueryBuilder;
 

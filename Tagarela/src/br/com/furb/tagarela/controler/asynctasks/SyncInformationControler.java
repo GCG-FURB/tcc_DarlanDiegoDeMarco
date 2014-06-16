@@ -1,7 +1,10 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
 import android.app.Activity;
+import android.util.SparseArray;
+import br.com.furb.tagarela.model.Observation;
 import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.model.SymbolHistoric;
 import br.com.furb.tagarela.model.User;
 
 
@@ -38,5 +41,35 @@ public class SyncInformationControler {
 	public void syncCreatedSymbol(Activity activity, Symbol symbol){
 		new SyncCreatedSymbolTask(activity, symbol).execute();
 	}
+	
+	public void syncCreatedPlan(SparseArray<Symbol> symbolPlan, String planName, Activity mContext, int layout) {
+		new SyncCreatedPlanTask(symbolPlan, planName, mContext, layout).execute();
+	}
+
+	public void syncPlans(Activity activity) {
+		new SyncPlansTask(activity).execute();
+		
+	}
+
+	public void syncSymbolPlans(Activity activity) {
+		new SyncSymbolPlansTask(activity).execute();
+		
+	}
+	
+	public void syncCreatedObservation(Observation observation, Activity activity) {
+		new SyncCreatedObservationsTask(observation, activity).execute();
+	}
+	public void syncObservations() {
+		new SyncObservationsTask().execute();
+	}
+	
+	public void syncCreatedSymbolHistoric(SymbolHistoric symbolHistoric, Activity activity){
+		new SyncCreatedSymbolHistoricTask(symbolHistoric, activity).execute();
+	}
+	
+	public void syncHistorics() {
+		new SyncHistoricsTask().execute();
+	}
+
 
 }

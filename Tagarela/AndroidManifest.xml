@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,10 +22,19 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
+        
+        <receiver android:name="br.com.furb.tagarela.controler.receivers.ConnectivityChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="br.com.furb.tagarela.view.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +61,7 @@
         </activity>
         <activity
             android:name="br.com.furb.tagarela.view.activities.ViewSymbolsActivity"
-            android:screenOrientation="sensorLandscape" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -63,7 +72,11 @@
         </activity>
         <activity
             android:name="br.com.furb.tagarela.view.activities.CreatePlanActivity"
-            android:screenOrientation="sensorLandscape" >
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="br.com.furb.tagarela.view.activities.ViewPlanActivity"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.adapter.ImageAdapter;
 import br.com.furb.tagarela.interfaces.LayoutListener;
-import br.com.furb.tagarela.utils.ImageAdapter;
 
 public class PlanLayoutDialog extends DialogFragment {
 	
@@ -39,5 +39,11 @@ public class PlanLayoutDialog extends DialogFragment {
 				getDialog().dismiss();
 			}
 		});
+	}
+	
+	@Override
+	public void onResume() {
+		getDialog().getWindow().setLayout(700, 735);
+		super.onResume();
 	}
 }

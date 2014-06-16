@@ -20,10 +20,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.SearchView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.adapter.SymbolsAdapter;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.SymbolDao.Properties;
-import br.com.furb.tagarela.utils.SymbolsAdapter;
 
 public class ViewSymbolsActivity extends Activity {
 
@@ -73,6 +73,7 @@ public class ViewSymbolsActivity extends Activity {
 
 					mediaPlayer.prepare();
 					mediaPlayer.start();
+					fis.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

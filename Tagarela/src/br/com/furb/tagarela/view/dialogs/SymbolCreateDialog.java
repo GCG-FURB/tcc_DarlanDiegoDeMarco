@@ -3,7 +3,6 @@ package br.com.furb.tagarela.view.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +39,7 @@ public class SymbolCreateDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setView(view);
 		builder.setTitle(R.string.title_symbol_create);
-		builder.setPositiveButton(R.string.save, getSaveListener());
+		builder.setPositiveButton(R.string.save, null);
 		builder.setNegativeButton(R.string.cancel, null);
 		return builder.create();
 	}
@@ -48,10 +48,15 @@ public class SymbolCreateDialog extends DialogFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == 200) {
-				ImageView imageView = (ImageView) getDialog().findViewById(R.id.symbol_image);
+				ImageView imageView = (ImageView) getDialog().findViewById(
+						R.id.symbol_image);
 				Uri selectedImageUri;
 				selectedImageUri = data.getData();
-				imageView.setImageBitmap(BitmapHelper.decodeSampledBitmapFromResource(BitmapHelper.getRealPathFromURI(selectedImageUri, getActivity().getApplicationContext()), 400, 400));
+				imageView.setImageBitmap(BitmapHelper
+						.decodeSampledBitmapFromResource(BitmapHelper
+								.getRealPathFromURI(selectedImageUri,
+										getActivity().getApplicationContext()),
+								400, 400));
 
 			}
 		}
@@ -59,12 +64,17 @@ public class SymbolCreateDialog extends DialogFragment {
 
 	private void initComponents(View view) {
 		controler = new SymbolCreateControler(view);
-		category = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao().queryBuilder().where(Properties.ServerID.eq(categoryID)).unique();
+		category = DaoProvider
+				.getInstance(getActivity().getApplicationContext())
+				.getCategoryDao().queryBuilder()
+				.where(Properties.ServerID.eq(categoryID)).unique();
 		ImageView img = (ImageView) view.findViewById(R.id.symbol_image);
-		img.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
+		img.setBackgroundColor(Color.rgb(category.getRed(),
+				category.getGreen(), category.getBlue()));
 		img.setOnClickListener(getSymbolImageListener());
 
-		EditText categoryName = (EditText) view.findViewById(R.id.symbol_category);
+		EditText categoryName = (EditText) view
+				.findViewById(R.id.symbol_category);
 		categoryName.setEnabled(false);
 		categoryName.setText(category.getName());
 
@@ -78,7 +88,8 @@ public class SymbolCreateDialog extends DialogFragment {
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				Intent cameraIntent = new Intent(
+						android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 				Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 				galleryIntent.setType("image/*");
 
@@ -111,14 +122,36 @@ public class SymbolCreateDialog extends DialogFragment {
 		};
 	}
 
-	private android.content.DialogInterface.OnClickListener getSaveListener() {
-		return new android.content.DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Symbol symbol = controler.createSymbol(category, getActivity().getApplicationContext());
-				if (symbol != null)
-					SyncInformationControler.getInstance().syncCreatedSymbol(getActivity(), symbol);
-			}
-		};
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		AlertDialog d = (AlertDialog) getDialog();
+		if (d != null) {
+			Button positiveButton = (Button) d
+					.getButton(Dialog.BUTTON_POSITIVE);
+			positiveButton.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Symbol symbol = controler.createSymbol(category,
+							getActivity().getApplicationContext());
+					if (symbol != null) {
+						SyncInformationControler.getInstance()
+								.syncCreatedSymbol(getActivity(), symbol);
+					} else {
+						DialogFragment saveErrorFragment = new ErrorDialog();
+						Bundle bundle = new Bundle();
+						bundle.putString("error", getString(R.string.invalid_information));
+						saveErrorFragment.setArguments(bundle);
+						saveErrorFragment
+								.show(getActivity().getSupportFragmentManager(),
+										"SaveErrorDialog");
+						return;
+					}
+					dismiss();
+				}
+			});
+		}
 	}
 }

@@ -30,7 +30,7 @@ public class SymbolCategoryDialog extends DialogFragment {
 		addListeners(view);
 		setBorders(view);
 		builder.setView(view);
-		builder.setTitle("Selecione uma categoria");
+		builder.setTitle(R.string.choose_a_category);
 		return builder.create();
 	}
 

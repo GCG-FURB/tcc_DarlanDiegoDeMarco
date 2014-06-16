@@ -41,4 +41,10 @@ public class TypeChooserDialog extends DialogFragment {
 			}
 		};
 	}
+	
+	@Override
+	public void onResume() {
+		getDialog().getWindow().setLayout(700, 300);
+		super.onResume();
+	}
 }

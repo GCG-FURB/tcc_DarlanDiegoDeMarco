@@ -10,12 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
-import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.User;
@@ -48,7 +44,7 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 		try {
 			String id = params[0];
 			String results = JsonUtils.getUserJsonResponse(id);
-			JSONArray users = new JSONArray(JsonUtils.validaJson(results));
+			JSONArray users = new JSONArray(results);
 			JSONObject jsonUser = users.getJSONObject(0);
 			final User user = JsonUtils.getUser(jsonUser);
 			UserDao userDao = DaoProvider.getInstance(null).getUserDao();
@@ -56,10 +52,8 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 			MainActivity.setUsuarioLogado(user);
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
-					ImageView userPhoto = (ImageView) activity.findViewById(R.id.userPhoto);
-					userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
-					TextView welcomeMessage = (TextView) activity.findViewById(R.id.welcomeMessage);
-					welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
+					((MainActivity) activity).loadUser();
+					((MainActivity) activity).loadPlans();
 				}
 			});
 
@@ -76,7 +70,10 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 		if (error) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
-					AlertDialog dialog = new AlertDialog.Builder(activity).setTitle("Erro").setPositiveButton("Ok", showLoginDialogListener()).setMessage("Usuário inválido").create();
+					AlertDialog dialog = new AlertDialog.Builder(activity)
+							.setTitle("Erro")
+							.setPositiveButton("Ok", showLoginDialogListener())
+							.setMessage("Usuário inválido").create();
 					dialog.show();
 
 				}
@@ -87,7 +84,8 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							UserLoginDialog userLoginDialog = new UserLoginDialog();
-							userLoginDialog.show(((FragmentActivity) activity).getSupportFragmentManager(), "");
+							userLoginDialog.show(((FragmentActivity) activity)
+									.getSupportFragmentManager(), "");
 						}
 					};
 				}

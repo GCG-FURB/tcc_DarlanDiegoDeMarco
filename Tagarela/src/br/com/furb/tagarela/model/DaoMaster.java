@@ -24,6 +24,8 @@ public class DaoMaster extends AbstractDaoMaster {
         SymbolPlanDao.createTable(db, ifNotExists);
         GroupPlanDao.createTable(db, ifNotExists);
         GroupPlanRelationshipDao.createTable(db, ifNotExists);
+        ObservationDao.createTable(db, ifNotExists);
+        SymbolHistoricDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -35,6 +37,8 @@ public class DaoMaster extends AbstractDaoMaster {
         SymbolPlanDao.dropTable(db, ifExists);
         GroupPlanDao.dropTable(db, ifExists);
         GroupPlanRelationshipDao.dropTable(db, ifExists);
+        ObservationDao.dropTable(db, ifExists);
+        SymbolHistoricDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -73,6 +77,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(SymbolPlanDao.class);
         registerDaoClass(GroupPlanDao.class);
         registerDaoClass(GroupPlanRelationshipDao.class);
+        registerDaoClass(ObservationDao.class);
+        registerDaoClass(SymbolHistoricDao.class);
     }
     
     public DaoSession newSession() {

@@ -166,7 +166,7 @@ public class SimboloView extends ImageView implements OnTouchListener {
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
 				if (fimDeJogo) {
-					//playSound();
+					playSound();
 				}
 
 			}

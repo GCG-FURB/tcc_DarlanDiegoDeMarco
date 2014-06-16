@@ -24,6 +24,8 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig symbolPlanDaoConfig;
     private final DaoConfig groupPlanDaoConfig;
     private final DaoConfig groupPlanRelationshipDaoConfig;
+    private final DaoConfig observationDaoConfig;
+    private final DaoConfig symbolHistoricDaoConfig;
 
     private final UserDao userDao;
     private final CategoryDao categoryDao;
@@ -32,6 +34,8 @@ public class DaoSession extends AbstractDaoSession {
     private final SymbolPlanDao symbolPlanDao;
     private final GroupPlanDao groupPlanDao;
     private final GroupPlanRelationshipDao groupPlanRelationshipDao;
+    private final ObservationDao observationDao;
+    private final SymbolHistoricDao symbolHistoricDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -58,6 +62,12 @@ public class DaoSession extends AbstractDaoSession {
         groupPlanRelationshipDaoConfig = daoConfigMap.get(GroupPlanRelationshipDao.class).clone();
         groupPlanRelationshipDaoConfig.initIdentityScope(type);
 
+        observationDaoConfig = daoConfigMap.get(ObservationDao.class).clone();
+        observationDaoConfig.initIdentityScope(type);
+
+        symbolHistoricDaoConfig = daoConfigMap.get(SymbolHistoricDao.class).clone();
+        symbolHistoricDaoConfig.initIdentityScope(type);
+
         userDao = new UserDao(userDaoConfig, this);
         categoryDao = new CategoryDao(categoryDaoConfig, this);
         symbolDao = new SymbolDao(symbolDaoConfig, this);
@@ -65,6 +75,8 @@ public class DaoSession extends AbstractDaoSession {
         symbolPlanDao = new SymbolPlanDao(symbolPlanDaoConfig, this);
         groupPlanDao = new GroupPlanDao(groupPlanDaoConfig, this);
         groupPlanRelationshipDao = new GroupPlanRelationshipDao(groupPlanRelationshipDaoConfig, this);
+        observationDao = new ObservationDao(observationDaoConfig, this);
+        symbolHistoricDao = new SymbolHistoricDao(symbolHistoricDaoConfig, this);
 
         registerDao(User.class, userDao);
         registerDao(Category.class, categoryDao);
@@ -73,6 +85,8 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(SymbolPlan.class, symbolPlanDao);
         registerDao(GroupPlan.class, groupPlanDao);
         registerDao(GroupPlanRelationship.class, groupPlanRelationshipDao);
+        registerDao(Observation.class, observationDao);
+        registerDao(SymbolHistoric.class, symbolHistoricDao);
     }
     
     public void clear() {
@@ -83,6 +97,8 @@ public class DaoSession extends AbstractDaoSession {
         symbolPlanDaoConfig.getIdentityScope().clear();
         groupPlanDaoConfig.getIdentityScope().clear();
         groupPlanRelationshipDaoConfig.getIdentityScope().clear();
+        observationDaoConfig.getIdentityScope().clear();
+        symbolHistoricDaoConfig.getIdentityScope().clear();
     }
 
     public UserDao getUserDao() {
@@ -111,6 +127,14 @@ public class DaoSession extends AbstractDaoSession {
 
     public GroupPlanRelationshipDao getGroupPlanRelationshipDao() {
         return groupPlanRelationshipDao;
+    }
+
+    public ObservationDao getObservationDao() {
+        return observationDao;
+    }
+
+    public SymbolHistoricDao getSymbolHistoricDao() {
+        return symbolHistoricDao;
     }
 
 }

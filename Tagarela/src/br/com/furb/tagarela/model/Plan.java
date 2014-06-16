@@ -82,5 +82,11 @@ public class Plan {
     public void setPatientID(Integer patientID) {
         this.patientID = patientID;
     }
+    
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return getName();
+    }
 
 }

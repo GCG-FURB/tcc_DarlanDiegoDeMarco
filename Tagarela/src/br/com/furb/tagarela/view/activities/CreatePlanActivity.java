@@ -10,15 +10,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import br.com.furb.tagarela.R;
+import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
+import br.com.furb.tagarela.interfaces.PlanNameListener;
 import br.com.furb.tagarela.interfaces.SymbolCategoryListener;
 import br.com.furb.tagarela.interfaces.SymbolPlanListener;
+import br.com.furb.tagarela.listeners.SymbolPositionListener;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
-import br.com.furb.tagarela.utils.listeners.SymbolPositionListener;
 import br.com.furb.tagarela.view.dialogs.CategorySymbolsDialog;
+import br.com.furb.tagarela.view.dialogs.PlanNameDialog;
 
-public class CreatePlanActivity extends FragmentActivity implements SymbolCategoryListener, SymbolPlanListener {
+public class CreatePlanActivity extends FragmentActivity implements SymbolCategoryListener, SymbolPlanListener, PlanNameListener {
 
 	private int layout;
 	private SparseArray<Symbol> symbolsPos = new SparseArray<Symbol>();
@@ -40,12 +43,17 @@ public class CreatePlanActivity extends FragmentActivity implements SymbolCatego
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.add:
-	            
+	        	showPlanNameDialog();
 	    }
-	    return false;
+	    return true;
+	}
+
+	private void showPlanNameDialog() {
+		PlanNameDialog planNameDialog = new PlanNameDialog();
+		planNameDialog.show(getSupportFragmentManager(), "");
+		
 	}
 
 	private void setView(int layout) {
@@ -295,5 +303,10 @@ public class CreatePlanActivity extends FragmentActivity implements SymbolCatego
 			break;
 		}
 		return imageView;
+	}
+
+	@Override
+	public void onReturnName(String name) {
+		SyncInformationControler.getInstance().syncCreatedPlan(symbolsPos, name, this, layout);		
 	}
 }

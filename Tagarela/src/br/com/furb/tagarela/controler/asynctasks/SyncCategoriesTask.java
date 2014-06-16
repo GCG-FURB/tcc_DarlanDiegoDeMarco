@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.Category;
 import br.com.furb.tagarela.model.CategoryDao;
 import br.com.furb.tagarela.model.CategoryDao.Properties;
@@ -14,8 +15,10 @@ import br.com.furb.tagarela.utils.JsonUtils;
 class SyncCategoriesTask extends AsyncTask<Integer, Integer, Void> {
 	@Override
 	protected Void doInBackground(Integer... params) {
-		String results = JsonUtils.getCategoriesResponse();
-		results = JsonUtils.validaJson(results);
+		String results = JsonUtils.getResponse(JsonUtils.URL_CATEGORIES);
+		if(results.equals("[]")){
+			return null;
+		}
 		try {
 			JSONArray categories = new JSONArray(results);
 			CategoryDao categoryDao = DaoProvider.getInstance(null).getCategoryDao();
@@ -33,7 +36,7 @@ class SyncCategoriesTask extends AsyncTask<Integer, Integer, Void> {
 			}
 
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e("JSONERROR", e.getCause() + " _ results json: "+ results);
 		}
 		return null;
 	}

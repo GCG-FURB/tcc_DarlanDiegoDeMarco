@@ -1,7 +1,9 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -26,12 +28,10 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 	private static final String URL_SYMBOL_POST = "http://murmuring-falls-7702.herokuapp.com/private_symbols/";
 	private ProgressDialog progress;
 	private Context mContext;
-	private Activity activity;
 	private Symbol symbol;
 
 	public SyncCreatedSymbolTask(Activity activity, Symbol symbol) {
 		this.mContext = activity;
-		this.activity = activity;
 		this.symbol = symbol;
 	}
 
@@ -59,20 +59,19 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 				post.addHeader("Accept", "application/json");
 				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
-				parametros.addParam(SYMBOL_NAME, symbol.getName());
-				parametros.addParam(SYMBOL_IS_GENERAL, String.valueOf(0));
-				parametros.addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategory().getServerID()));
-				parametros.addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture()));
-				parametros.addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound()));
-				parametros.addParam(SYMBOL_USER, String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
+				parametros.addParam(SYMBOL_NAME, symbol.getName()).
+							addParam(SYMBOL_IS_GENERAL, String.valueOf(0)).
+							addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID())).
+							addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture())).
+							addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound())).
+							addParam(SYMBOL_USER, String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
 
-				HttpUtils.preparaUrl(post, parametros.build());
+				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
 				HttpResponse response = HttpUtils.doRequest(post);
 				if (response.getStatusLine().getStatusCode() == 201) {
 					JSONObject returnSymbol = new JSONObject(HttpUtils.getContent(response));
 					symbol.setServerID(returnSymbol.getInt("id"));
-					DaoProvider provider = DaoProvider.getInstance(activity.getApplicationContext());
-					provider.getSymbolDao().update(symbol);
+					DaoProvider.getInstance(null).getSymbolDao().insert(symbol);
 				}
 			} catch (Exception e) {
 				e.getMessage();
