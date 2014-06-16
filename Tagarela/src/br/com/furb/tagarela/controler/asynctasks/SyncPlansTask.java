@@ -35,7 +35,7 @@ public class SyncPlansTask extends AsyncTask<Integer, Integer, Void> {
 			for (int i = 0; i < planArray.length(); i++) {
 				planJson = planArray.getJSONObject(i);
 				if (planJson.getInt("user_id") == MainActivity
-						.getUsuarioLogado().getServerID()
+						.getUser().getServerID()
 						&& planDao
 								.queryBuilder()
 								.where(PlanDao.Properties.ServerID.eq(planJson

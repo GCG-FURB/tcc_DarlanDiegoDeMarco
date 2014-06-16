@@ -44,6 +44,14 @@ public class UserLoginDialog extends DialogFragment {
 
 		return alertDialog;
 	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		if(MainActivity.getUser() == null){
+			getActivity().finish();
+		}
+	}
 
 	private OnClickListener closeAplicationListener() {
 		return new DialogInterface.OnClickListener() {

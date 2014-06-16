@@ -25,7 +25,6 @@ import android.widget.TextView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.controler.receivers.ConnectivityChangeReceiver;
-import br.com.furb.tagarela.game.view.PrincipalJogo;
 import br.com.furb.tagarela.interfaces.CategoryTypeListener;
 import br.com.furb.tagarela.interfaces.ConnectionListener;
 import br.com.furb.tagarela.interfaces.LayoutListener;
@@ -34,6 +33,7 @@ import br.com.furb.tagarela.interfaces.UserTypeListener;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Plan;
 import br.com.furb.tagarela.model.PlanDao.Properties;
+import br.com.furb.tagarela.model.SymbolDao;
 import br.com.furb.tagarela.model.SymbolHistoricDao;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.view.dialogs.CategoryChooserDialog;
@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	private static MainActivity mainActivity;
 	private boolean load = false;
 	private ConnectivityChangeReceiver connectivityChangeReceiver;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,15 +105,30 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 			}
 		});
 
-
 		TextView viewSymbol = (TextView) findViewById(R.id.view_symbols);
 		viewSymbol.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent viewSymbols = new Intent(getApplicationContext(),
-						ViewSymbolsActivity.class);
-				startActivity(viewSymbols);
+				long count = DaoProvider
+						.getInstance(getInstance())
+						.getSymbolDao()
+						.queryBuilder()
+						.where(SymbolDao.Properties.UserID.eq(MainActivity
+								.getUser().getServerID())).count();
+				if (count == 0) {
+					DialogFragment saveErrorFragment = new ErrorDialog();
+					Bundle bundle = new Bundle();
+					bundle.putString("error", getString(R.string.no_data_found));
+					saveErrorFragment.setArguments(bundle);
+					saveErrorFragment
+							.show(getSupportFragmentManager(), "Error");
+				} else {
+					Intent viewSymbols = new Intent(getApplicationContext(),
+							ViewSymbolsActivity.class);
+					startActivity(viewSymbols);
+
+				}
 			}
 		});
 
@@ -148,8 +163,8 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 						.getSymbolHistoricDao()
 						.queryBuilder()
 						.where(SymbolHistoricDao.Properties.UserID
-								.eq(MainActivity.getUsuarioLogado()
-										.getServerID())).count();
+								.eq(MainActivity.getUser().getServerID()))
+						.count();
 				if (count == 0) {
 					DialogFragment saveErrorFragment = new ErrorDialog();
 					Bundle bundle = new Bundle();
@@ -257,7 +272,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 		MainActivity.loggedUser = usuarioLogado;
 	}
 
-	public static User getUsuarioLogado() {
+	public static User getUser() {
 		return loggedUser;
 	}
 
@@ -286,7 +301,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 				.getInstance(null)
 				.getPlanDao()
 				.queryBuilder()
-				.where(Properties.UserID.eq(MainActivity.getUsuarioLogado()
+				.where(Properties.UserID.eq(MainActivity.getUser()
 						.getServerID())).list();
 		ArrayAdapter<Plan> adapter = new ArrayAdapter<Plan>(this,
 				android.R.layout.simple_list_item_1, plansList);
@@ -306,11 +321,13 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Plan selectedPlan = (Plan) parent.getItemAtPosition(position);
-				Intent i = new Intent(getApplicationContext(),
-						ViewPlanActivity.class);
-				i.putExtra("layout", selectedPlan.getLayout());
-				i.putExtra("plan", selectedPlan.getServerID());
-				startActivity(i);
+				if (selectedPlan != null) {
+					Intent i = new Intent(getApplicationContext(),
+							ViewPlanActivity.class);
+					i.putExtra("layout", selectedPlan.getLayout());
+					i.putExtra("plan", selectedPlan.getServerID());
+					startActivity(i);
+				}
 			}
 		};
 	}
@@ -351,15 +368,15 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 			loadPlans();
 		}
 	}
-	
+
 	@Override
 	protected void onStop() {
-		 try{
-			 unregisterReceiver(connectivityChangeReceiver);
-	        }catch(Exception e) {
-	            Log.d("UnregisterReceiver","Stopped a unregister crash");
-	        }
-		
+		try {
+			unregisterReceiver(connectivityChangeReceiver);
+		} catch (Exception e) {
+			Log.d("UnregisterReceiver", "Stopped a unregister crash");
+		}
+
 		super.onStop();
 	}
 }

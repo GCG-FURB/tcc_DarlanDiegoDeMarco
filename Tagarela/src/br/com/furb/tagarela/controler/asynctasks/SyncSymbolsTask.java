@@ -26,7 +26,7 @@ class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 			Symbol newSymbol = null;
 			for (int i = 0; i < symbols.length(); i++) {
 				symbol = symbols.getJSONObject(i);
-				if (symbol.getInt("user_id") == MainActivity.getUsuarioLogado()
+				if (symbol.getInt("user_id") == MainActivity.getUser()
 						.getServerID()
 						&& symbolDao
 								.queryBuilder()

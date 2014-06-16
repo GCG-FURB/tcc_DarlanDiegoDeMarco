@@ -51,7 +51,7 @@ public class ViewSymbolsActivity extends Activity {
 	}
 
 	private void setupGridView() {
-		final List<Symbol> symbols = DaoProvider.getInstance(null).getSymbolDao().queryBuilder().where(Properties.UserID.eq(MainActivity.getUsuarioLogado().getServerID())).list();
+		final List<Symbol> symbols = DaoProvider.getInstance(null).getSymbolDao().queryBuilder().where(Properties.UserID.eq(MainActivity.getUser().getServerID())).list();
 		GridView gridView = (GridView) findViewById(R.id.symbolsViewer);
 		gridView.setAdapter(new SymbolsAdapter(this, R.layout.view_symbol, symbols));
 		gridView.setOnItemClickListener(new OnItemClickListener() {

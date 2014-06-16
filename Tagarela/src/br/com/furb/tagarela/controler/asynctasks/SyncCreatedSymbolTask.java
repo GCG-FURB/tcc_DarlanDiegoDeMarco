@@ -64,7 +64,7 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 							addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID())).
 							addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture())).
 							addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound())).
-							addParam(SYMBOL_USER, String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
+							addParam(SYMBOL_USER, String.valueOf(MainActivity.getUser().getServerID()));
 
 				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
 				HttpResponse response = HttpUtils.doRequest(post);

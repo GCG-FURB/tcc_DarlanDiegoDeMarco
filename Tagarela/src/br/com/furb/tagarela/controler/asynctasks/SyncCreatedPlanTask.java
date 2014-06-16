@@ -4,6 +4,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -77,8 +78,8 @@ public class SyncCreatedPlanTask extends AsyncTask<String, Void, Void> {
 		PlanDao planDao = DaoProvider.getInstance(null).getPlanDao();
 		Plan plan = new Plan();
 		plan.setName(planName);
-		plan.setPatientID(MainActivity.getUsuarioLogado().getServerID());
-		plan.setUserID(MainActivity.getUsuarioLogado().getServerID());
+		plan.setPatientID(MainActivity.getUser().getServerID());
+		plan.setUserID(MainActivity.getUser().getServerID());
 		plan.setLayout(layout);
 		plan.setServerID(planID);
 		plan.setDescription("");
@@ -117,8 +118,8 @@ public class SyncCreatedPlanTask extends AsyncTask<String, Void, Void> {
 			final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
 			parametros.addParam(PLAN_NAME, planName);
 			parametros.addParam(PLAN_LAYOUT, String.valueOf(layout));
-			parametros.addParam(PLAN_USER_ID, String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
-			parametros.addParam(PLAN_PATIENT_ID, String.valueOf(MainActivity.getUsuarioLogado().getServerID()));
+			parametros.addParam(PLAN_USER_ID, String.valueOf(MainActivity.getUser().getServerID()));
+			parametros.addParam(PLAN_PATIENT_ID, String.valueOf(MainActivity.getUser().getServerID()));
 
 			HttpUtils.prepareUrl(post, parametros.build());
 			HttpResponse response = HttpUtils.doRequest(post);
@@ -136,6 +137,7 @@ public class SyncCreatedPlanTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected void onPostExecute(Void unused) {
 		progress.dismiss();
+		((Activity) mContext).finish();
 	}
 
 }

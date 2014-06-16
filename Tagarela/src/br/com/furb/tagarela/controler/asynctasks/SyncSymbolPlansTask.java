@@ -74,7 +74,7 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 		return planDao
 				.queryBuilder()
 				.where(Properties.ServerID.eq(planId),
-						Properties.UserID.eq(MainActivity.getUsuarioLogado()
+						Properties.UserID.eq(MainActivity.getUser()
 								.getServerID())).list().size() > 0;
 	}
 

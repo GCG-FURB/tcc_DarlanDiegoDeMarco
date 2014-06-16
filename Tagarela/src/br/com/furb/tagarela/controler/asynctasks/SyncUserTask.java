@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
 import br.com.furb.tagarela.model.DaoProvider;
@@ -84,6 +85,9 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							UserLoginDialog userLoginDialog = new UserLoginDialog();
+							Bundle bundle = new Bundle();
+							bundle.putBoolean("internetConnection", MainActivity.isInternetConnection());
+							userLoginDialog.setArguments(bundle);
 							userLoginDialog.show(((FragmentActivity) activity)
 									.getSupportFragmentManager(), "");
 						}

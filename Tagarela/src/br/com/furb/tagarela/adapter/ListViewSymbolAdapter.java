@@ -49,7 +49,7 @@ public class ListViewSymbolAdapter extends ArrayAdapter<String> {
 				.getSymbolDao()
 				.queryBuilder()
 				.where(SymbolDao.Properties.UserID.eq(MainActivity
-						.getUsuarioLogado().getServerID())).list()) {
+						.getUser().getServerID())).list()) {
 			symbolsMap.put(s.getServerID(), s);
 		}
 	}

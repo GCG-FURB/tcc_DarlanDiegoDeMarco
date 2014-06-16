@@ -22,6 +22,7 @@ import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.model.User;
 import br.com.furb.tagarela.utils.BitmapHelper;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class UserCreateDialog extends DialogFragment {
 
@@ -51,6 +52,14 @@ public class UserCreateDialog extends DialogFragment {
 		};
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		if(MainActivity.getUser() == null){
+			getActivity().finish();
+		}
+	}
+	
 	@Override
 	public void onStart() {
 		super.onStart();

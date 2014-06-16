@@ -108,8 +108,8 @@ public class ViewPlanActivity extends Activity {
 						SymbolHistoric symbolHistoric = new SymbolHistoric();
 						symbolHistoric.setDate(new Date());
 						symbolHistoric.setSymbolID(symbol.getServerID().longValue());
-						symbolHistoric.setTutorID(MainActivity.getUsuarioLogado().getServerID().longValue());
-						symbolHistoric.setUserID(MainActivity.getUsuarioLogado().getServerID().longValue());
+						symbolHistoric.setTutorID(MainActivity.getUser().getServerID().longValue());
+						symbolHistoric.setUserID(MainActivity.getUser().getServerID().longValue());
 						symbolsHistoric.add(symbolHistoric);
 						return symbolHistoric;
 					}

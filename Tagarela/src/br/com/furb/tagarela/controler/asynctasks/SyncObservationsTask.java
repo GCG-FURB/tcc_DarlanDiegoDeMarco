@@ -34,7 +34,7 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 			for (int i = 0; i < observations.length(); i++) {
 				observation = observations.getJSONObject(i);
 				if (observation.getInt("user_id") == MainActivity
-						.getUsuarioLogado().getServerID()
+						.getUser().getServerID()
 						&& observationDao
 								.queryBuilder()
 								.where(ObservationDao.Properties.ServerID

@@ -49,7 +49,7 @@ public class ObservationDialog extends DialogFragment {
 	private String getObservations() {
 		ObservationDao observationDao = DaoProvider.getInstance(getActivity()).getObservationDao();
 
-		List<Observation> list = observationDao.queryBuilder().where(Properties.UserID.eq(MainActivity.getUsuarioLogado().getServerID())).orderDesc(Properties.Date).list();
+		List<Observation> list = observationDao.queryBuilder().where(Properties.UserID.eq(MainActivity.getUser().getServerID())).orderDesc(Properties.Date).list();
 		StringBuilder sb = new StringBuilder();
 		for (Observation obs : list) {
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -73,8 +73,8 @@ public class ObservationDialog extends DialogFragment {
 					Observation observation = new Observation();
 					observation.setDate(Calendar.getInstance(TimeZone.getTimeZone("America/São Paulo")).getTime());
 					observation.setObservation(description);
-					observation.setTutorID(MainActivity.getUsuarioLogado().getServerID());
-					observation.setUserID(MainActivity.getUsuarioLogado().getServerID());
+					observation.setTutorID(MainActivity.getUser().getServerID());
+					observation.setUserID(MainActivity.getUser().getServerID());
 					SyncInformationControler.getInstance().syncCreatedObservation(observation, getActivity());
 				}
 			}

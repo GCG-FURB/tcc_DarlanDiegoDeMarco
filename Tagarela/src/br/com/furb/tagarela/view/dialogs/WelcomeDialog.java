@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.support.v4.app.DialogFragment;
 import br.com.furb.tagarela.interfaces.UserLoginListener;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class WelcomeDialog extends DialogFragment {
 	public android.app.Dialog onCreateDialog(android.os.Bundle savedInstanceState) {
@@ -24,6 +25,14 @@ public class WelcomeDialog extends DialogFragment {
 				userLoginListener.onLoginReturnValue(false);
 			}
 		};
+	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		if(MainActivity.getUser() == null){
+			getActivity().finish();
+		}
 	}
 
 	private OnClickListener getLoginListener() {

@@ -34,7 +34,7 @@ public class SyncHistoricsTask extends AsyncTask<Integer, Integer, Void> {
 			for (int i = 0; i < historics.length(); i++) {
 				symbolHistoric = historics.getJSONObject(i);
 				if (symbolHistoric.getInt("user_id") == MainActivity
-						.getUsuarioLogado().getServerID()
+						.getUser().getServerID()
 						&& symbolHistoricDao
 								.queryBuilder()
 								.where(SymbolHistoricDao.Properties.ServerID

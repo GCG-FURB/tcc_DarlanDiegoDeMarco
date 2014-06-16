@@ -1,5 +1,6 @@
 package br.com.furb.tagarela.view.dialogs;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.interfaces.UserTypeListener;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class TypeChooserDialog extends DialogFragment {
 	 @Override
@@ -20,7 +22,14 @@ public class TypeChooserDialog extends DialogFragment {
 	        getDialog().setTitle("Selecione o tipo de usuário");
 	        return view;
 	    }
-
+	 
+	 @Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			if(MainActivity.getUser() == null){
+				getActivity().finish();
+			}
+		}
 
 	private OnClickListener addUserPostListener(final int id){
 		return new OnClickListener() {

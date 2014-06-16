@@ -23,7 +23,7 @@ public class SymbolsHistoricDialog extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.dialog_symbol_historic, null);
 		
-		List<SymbolHistoric> list = DaoProvider.getInstance(getActivity()).getSymbolHistoricDao().queryBuilder().where(SymbolHistoricDao.Properties.UserID.eq(MainActivity.getUsuarioLogado().getServerID())).list();
+		List<SymbolHistoric> list = DaoProvider.getInstance(getActivity()).getSymbolHistoricDao().queryBuilder().where(SymbolHistoricDao.Properties.UserID.eq(MainActivity.getUser().getServerID())).list();
 		
 		ListViewSymbolAdapter listAdapter = new ListViewSymbolAdapter(getActivity(), list);
 		ListView listView = (ListView) view.findViewById(R.id.list);
