@@ -32,8 +32,7 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 
 		try {
 			symbolPlansArray = new JSONArray(results);
-			SymbolPlanDao symbolPlanDao = DaoProvider.getInstance(null)
-					.getSymbolPlanDao();
+			SymbolPlanDao symbolPlanDao = DaoProvider.getInstance(null).getSymbolPlanDao();
 			JSONObject symbolPlanJson = null;
 			SymbolPlan symbolPlanObject = null;
 			PlanDao planDao = DaoProvider.getInstance(null).getPlanDao();
@@ -41,19 +40,13 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 				symbolPlanJson = symbolPlansArray.getJSONObject(i);
 
 				if (hasPlan(symbolPlanJson.getInt("plans_id"), planDao)
-						&& symbolPlanDao
-								.queryBuilder()
-								.where(SymbolPlanDao.Properties.ServerID
-										.eq(symbolPlanJson.getInt("id")))
-								.list().size() <= 0) {
+						&& symbolPlanDao.queryBuilder()
+								.where(SymbolPlanDao.Properties.ServerID.eq(symbolPlanJson.getInt("id"))).list().size() <= 0) {
 					symbolPlanObject = new SymbolPlan();
-					symbolPlanObject.setPlanID(symbolPlanJson
-							.getInt("plans_id"));
-					symbolPlanObject.setPosition(symbolPlanJson
-							.getInt("position"));
+					symbolPlanObject.setPlanID(symbolPlanJson.getInt("plans_id"));
+					symbolPlanObject.setPosition(symbolPlanJson.getInt("position"));
 					symbolPlanObject.setServerID(symbolPlanJson.getInt("id"));
-					symbolPlanObject.setSymbolID(symbolPlanJson
-							.getInt("private_symbols_id"));
+					symbolPlanObject.setSymbolID(symbolPlanJson.getInt("private_symbols_id"));
 					symbolPlanDao.insert(symbolPlanObject);
 				}
 			}
@@ -71,11 +64,9 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 	}
 
 	private boolean hasPlan(int planId, PlanDao planDao) throws JSONException {
-		return planDao
-				.queryBuilder()
-				.where(Properties.ServerID.eq(planId),
-						Properties.UserID.eq(MainActivity.getUser()
-								.getServerID())).list().size() > 0;
+		return planDao.queryBuilder()
+				.where(Properties.ServerID.eq(planId), Properties.UserID.eq(MainActivity.getUser().getServerID()))
+				.list().size() > 0;
 	}
 
 	// private void loadPlans() {

@@ -11,6 +11,7 @@ public class Observation {
     private Long serverID;
     private Integer tutorID;
     private Integer userID;
+    private Boolean sincronized;
 
     public Observation() {
     }
@@ -19,12 +20,13 @@ public class Observation {
         this.serverID = serverID;
     }
 
-    public Observation(java.util.Date date, String observation, Long serverID, Integer tutorID, Integer userID) {
+    public Observation(java.util.Date date, String observation, Long serverID, Integer tutorID, Integer userID, Boolean sincronized) {
         this.date = date;
         this.observation = observation;
         this.serverID = serverID;
         this.tutorID = tutorID;
         this.userID = userID;
+        this.sincronized = sincronized;
     }
 
     public java.util.Date getDate() {
@@ -65,6 +67,14 @@ public class Observation {
 
     public void setUserID(Integer userID) {
         this.userID = userID;
+    }
+
+    public Boolean getSincronized() {
+        return sincronized;
+    }
+
+    public void setSincronized(Boolean sincronized) {
+        this.sincronized = sincronized;
     }
 
 }

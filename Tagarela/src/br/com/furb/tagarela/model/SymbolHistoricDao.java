@@ -25,6 +25,7 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         public final static Property TutorID = new Property(2, Long.class, "tutorID", false, "TUTOR_ID");
         public final static Property UserID = new Property(3, Long.class, "userID", false, "USER_ID");
         public final static Property ServerID = new Property(4, Long.class, "serverID", true, "SERVER_ID");
+        public final static Property Sincronized = new Property(5, Boolean.class, "sincronized", false, "SINCRONIZED");
     };
 
 
@@ -44,7 +45,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
                 "'SYMBOL_ID' INTEGER," + // 1: symbolID
                 "'TUTOR_ID' INTEGER," + // 2: tutorID
                 "'USER_ID' INTEGER," + // 3: userID
-                "'SERVER_ID' INTEGER PRIMARY KEY );"); // 4: serverID
+                "'SERVER_ID' INTEGER PRIMARY KEY ," + // 4: serverID
+                "'SINCRONIZED' INTEGER);"); // 5: sincronized
     }
 
     /** Drops the underlying database table. */
@@ -82,6 +84,11 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         if (serverID != null) {
             stmt.bindLong(5, serverID);
         }
+ 
+        Boolean sincronized = entity.getSincronized();
+        if (sincronized != null) {
+            stmt.bindLong(6, sincronized ? 1l: 0l);
+        }
     }
 
     /** @inheritdoc */
@@ -98,7 +105,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // symbolID
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // tutorID
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // userID
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // serverID
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // serverID
+            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0 // sincronized
         );
         return entity;
     }
@@ -111,6 +119,7 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         entity.setTutorID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
         entity.setUserID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setServerID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setSincronized(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
      }
     
     /** @inheritdoc */

@@ -36,6 +36,7 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
         public final static Property CategoryID = new Property(7, long.class, "categoryID", false, "CATEGORY_ID");
         public final static Property AscRepresentation = new Property(8, String.class, "ascRepresentation", false, "ASC_REPRESENTATION");
         public final static Property AlphaID = new Property(9, Integer.class, "alphaID", false, "ALPHA_ID");
+        public final static Property Sincronized = new Property(10, Boolean.class, "sincronized", false, "SINCRONIZED");
     };
 
     private DaoSession daoSession;
@@ -64,7 +65,8 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
                 "'SOUND' BLOB," + // 6: sound
                 "'CATEGORY_ID' INTEGER NOT NULL ," + // 7: categoryID
                 "'ASC_REPRESENTATION' TEXT," + // 8: ascRepresentation
-                "'ALPHA_ID' INTEGER);"); // 9: alphaID
+                "'ALPHA_ID' INTEGER," + // 9: alphaID
+                "'SINCRONIZED' INTEGER);"); // 10: sincronized
     }
 
     /** Drops the underlying database table. */
@@ -123,6 +125,11 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
         if (alphaID != null) {
             stmt.bindLong(10, alphaID);
         }
+ 
+        Boolean sincronized = entity.getSincronized();
+        if (sincronized != null) {
+            stmt.bindLong(11, sincronized ? 1l: 0l);
+        }
     }
 
     @Override
@@ -150,7 +157,8 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
             cursor.isNull(offset + 6) ? null : cursor.getBlob(offset + 6), // sound
             cursor.getLong(offset + 7), // categoryID
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // ascRepresentation
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9) // alphaID
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // alphaID
+            cursor.isNull(offset + 10) ? null : cursor.getShort(offset + 10) != 0 // sincronized
         );
         return entity;
     }
@@ -168,6 +176,7 @@ public class SymbolDao extends AbstractDao<Symbol, Void> {
         entity.setCategoryID(cursor.getLong(offset + 7));
         entity.setAscRepresentation(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setAlphaID(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setSincronized(cursor.isNull(offset + 10) ? null : cursor.getShort(offset + 10) != 0);
      }
     
     /** @inheritdoc */

@@ -71,10 +71,8 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 		if (error) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
-					AlertDialog dialog = new AlertDialog.Builder(activity)
-							.setTitle("Erro")
-							.setPositiveButton("Ok", showLoginDialogListener())
-							.setMessage("Usuário inválido").create();
+					AlertDialog dialog = new AlertDialog.Builder(activity).setTitle("Erro")
+							.setPositiveButton("Ok", showLoginDialogListener()).setMessage("Usuário inválido").create();
 					dialog.show();
 
 				}
@@ -88,8 +86,7 @@ class SyncUserTask extends AsyncTask<String, Void, Void> {
 							Bundle bundle = new Bundle();
 							bundle.putBoolean("internetConnection", MainActivity.isInternetConnection());
 							userLoginDialog.setArguments(bundle);
-							userLoginDialog.show(((FragmentActivity) activity)
-									.getSupportFragmentManager(), "");
+							userLoginDialog.show(((FragmentActivity) activity).getSupportFragmentManager(), "");
 						}
 					};
 				}

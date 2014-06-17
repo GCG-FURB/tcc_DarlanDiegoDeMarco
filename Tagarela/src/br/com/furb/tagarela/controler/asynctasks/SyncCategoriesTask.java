@@ -16,7 +16,7 @@ class SyncCategoriesTask extends AsyncTask<Integer, Integer, Void> {
 	@Override
 	protected Void doInBackground(Integer... params) {
 		String results = JsonUtils.getResponse(JsonUtils.URL_CATEGORIES);
-		if(results.equals("[]")){
+		if (results.equals("[]")) {
 			return null;
 		}
 		try {
@@ -36,7 +36,7 @@ class SyncCategoriesTask extends AsyncTask<Integer, Integer, Void> {
 			}
 
 		} catch (JSONException e) {
-			Log.e("JSONERROR", e.getCause() + " _ results json: "+ results);
+			Log.e("JSONERROR", e.getCause() + " _ results json: " + results);
 		}
 		return null;
 	}

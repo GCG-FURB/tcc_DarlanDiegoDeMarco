@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.utils.Base64Utils;
@@ -40,7 +41,8 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 	}
 
 	private static String imageEncoder(byte[] imagem) {
-		return Base64Utils.encodeImageTobase64(BitmapFactory.decodeByteArray(imagem, 0, imagem.length)).replaceAll("\\+", "@");
+		return Base64Utils.encodeImageTobase64(BitmapFactory.decodeByteArray(imagem, 0, imagem.length)).replaceAll(
+				"\\+", "@");
 	}
 
 	@Override
@@ -59,12 +61,11 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 				post.addHeader("Accept", "application/json");
 				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
-				parametros.addParam(SYMBOL_NAME, symbol.getName()).
-							addParam(SYMBOL_IS_GENERAL, String.valueOf(0)).
-							addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID())).
-							addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture())).
-							addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound())).
-							addParam(SYMBOL_USER, String.valueOf(MainActivity.getUser().getServerID()));
+				parametros.addParam(SYMBOL_NAME, symbol.getName()).addParam(SYMBOL_IS_GENERAL, String.valueOf(0))
+						.addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID()))
+						.addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture()))
+						.addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound()))
+						.addParam(SYMBOL_USER, String.valueOf(MainActivity.getUser().getServerID()));
 
 				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
 				HttpResponse response = HttpUtils.doRequest(post);
@@ -74,8 +75,7 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 					DaoProvider.getInstance(null).getSymbolDao().insert(symbol);
 				}
 			} catch (Exception e) {
-				e.getMessage();
-				e.printStackTrace();
+				Log.e("SYNC-CREATED-SYMBOL", e != null ? e.getMessage() : "No stack.");
 			}
 		}
 		return null;

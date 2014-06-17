@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.SymbolHistoric;
 import br.com.furb.tagarela.utils.HttpUtils;
@@ -20,8 +21,7 @@ public class SyncCreatedSymbolHistoricTask extends AsyncTask<Integer, Integer, V
 	private static final String HISTORIC_TUTOR = "symbol_historic[tutor_id]";
 	private static final String HISTORIC_SYMBOL = "symbol_historic[symbol_id]";
 	private static final String URL_HISTORIC_POST = "http://murmuring-falls-7702.herokuapp.com/symbol_historics/";
-	
-	
+
 	public SyncCreatedSymbolHistoricTask(SymbolHistoric historic, Activity activity) {
 		this.symbolHistoric = historic;
 	}
@@ -36,9 +36,9 @@ public class SyncCreatedSymbolHistoricTask extends AsyncTask<Integer, Integer, V
 				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
 
 				parametros.addParam(HISTORIC_DATE, symbolHistoric.getDate().toString())
-						.addParam(HISTORIC_USER, String.valueOf(symbolHistoric.getUserID())).
-						addParam(HISTORIC_TUTOR, String.valueOf(symbolHistoric.getTutorID())).
-						addParam(HISTORIC_SYMBOL, String.valueOf(symbolHistoric.getSymbolID()));
+						.addParam(HISTORIC_USER, String.valueOf(symbolHistoric.getUserID()))
+						.addParam(HISTORIC_TUTOR, String.valueOf(symbolHistoric.getTutorID()))
+						.addParam(HISTORIC_SYMBOL, String.valueOf(symbolHistoric.getSymbolID()));
 
 				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
 				HttpResponse response = HttpUtils.doRequest(post);
@@ -48,8 +48,7 @@ public class SyncCreatedSymbolHistoricTask extends AsyncTask<Integer, Integer, V
 					DaoProvider.getInstance(null).getSymbolHistoricDao().insert(symbolHistoric);
 				}
 			} catch (Exception e) {
-				e.getMessage();
-				e.printStackTrace();
+				Log.e("SYNC-CREATED-SYMBOL-HISTORIC", e != null ? e.getMessage() : "No stack.");
 			}
 		}
 		return null;

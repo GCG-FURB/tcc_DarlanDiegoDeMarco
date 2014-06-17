@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.furb.tagarela.R;
@@ -49,7 +50,8 @@ public class SyncCreatedUserTask extends AsyncTask<String, Void, Void> {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				ImageView userPhoto = (ImageView) activity.findViewById(R.id.userPhoto);
-				userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0, user.getPatientPicture().length));
+				userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0,
+						user.getPatientPicture().length));
 				TextView welcomeMessage = (TextView) activity.findViewById(R.id.welcomeMessage);
 				welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
 			}
@@ -62,7 +64,7 @@ public class SyncCreatedUserTask extends AsyncTask<String, Void, Void> {
 	protected void onPostExecute(Void unused) {
 		progress.dismiss();
 	}
-	
+
 	public static int userPost(User user, String password, Activity activity) {
 		try {
 			HttpPost post = new HttpPost("http://murmuring-falls-7702.herokuapp.com/users/");
@@ -86,15 +88,14 @@ public class SyncCreatedUserTask extends AsyncTask<String, Void, Void> {
 				return response.getStatusLine().getStatusCode();
 			}
 		} catch (Exception e) {
-			e.getMessage();
+			Log.e("SYNC-CREATED-USER", e != null ? e.getMessage() : "No stack.");
 		}
 		return -1;
 	}
-	
+
 	private static String imageEncoder(byte[] imagem) {
-		return Base64Utils.encodeImageTobase64(BitmapFactory.decodeByteArray(imagem, 0, imagem.length)).replaceAll("\\+", "@");
+		return Base64Utils.encodeImageTobase64(BitmapFactory.decodeByteArray(imagem, 0, imagem.length)).replaceAll(
+				"\\+", "@");
 	}
 
-	
-	
 }

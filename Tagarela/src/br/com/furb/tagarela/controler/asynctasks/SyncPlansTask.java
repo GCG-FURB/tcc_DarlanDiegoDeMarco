@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Plan;
 import br.com.furb.tagarela.model.PlanDao;
@@ -34,12 +35,9 @@ public class SyncPlansTask extends AsyncTask<Integer, Integer, Void> {
 			PlanDao planDao = DaoProvider.getInstance(null).getPlanDao();
 			for (int i = 0; i < planArray.length(); i++) {
 				planJson = planArray.getJSONObject(i);
-				if (planJson.getInt("user_id") == MainActivity
-						.getUser().getServerID()
-						&& planDao
-								.queryBuilder()
-								.where(PlanDao.Properties.ServerID.eq(planJson
-										.getInt("id"))).list().size() <= 0) {
+				if (planJson.getInt("user_id") == MainActivity.getUser().getServerID()
+						&& planDao.queryBuilder().where(PlanDao.Properties.ServerID.eq(planJson.getInt("id"))).list()
+								.size() <= 0) {
 					planObject.setName(planJson.getString("name"));
 					planObject.setLayout(planJson.getInt("layout"));
 					planObject.setPatientID(planJson.getInt("user_id"));
@@ -51,7 +49,7 @@ public class SyncPlansTask extends AsyncTask<Integer, Integer, Void> {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("SYNC-PLANS", e != null ? e.getMessage() : "No stack.");
 		}
 		return null;
 	}

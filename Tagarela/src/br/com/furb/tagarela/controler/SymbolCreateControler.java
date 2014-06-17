@@ -151,6 +151,7 @@ public class SymbolCreateControler {
 			symbol.setVideoLink(videoLink);
 			symbol.setPicture(getSymbolPictureByteArray());
 			symbol.setSound(soundBytes);
+			symbol.setSincronized(false);
 			symbol.setUserID(MainActivity.getUser().getServerID());
 			return symbol;
 		} catch (IOException e) {

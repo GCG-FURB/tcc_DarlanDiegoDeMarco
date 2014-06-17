@@ -25,6 +25,7 @@ public class ObservationDao extends AbstractDao<Observation, Long> {
         public final static Property ServerID = new Property(2, Long.class, "serverID", true, "SERVER_ID");
         public final static Property TutorID = new Property(3, Integer.class, "tutorID", false, "TUTOR_ID");
         public final static Property UserID = new Property(4, Integer.class, "userID", false, "USER_ID");
+        public final static Property Sincronized = new Property(5, Boolean.class, "sincronized", false, "SINCRONIZED");
     };
 
 
@@ -44,7 +45,8 @@ public class ObservationDao extends AbstractDao<Observation, Long> {
                 "'OBSERVATION' TEXT," + // 1: observation
                 "'SERVER_ID' INTEGER PRIMARY KEY ," + // 2: serverID
                 "'TUTOR_ID' INTEGER," + // 3: tutorID
-                "'USER_ID' INTEGER);"); // 4: userID
+                "'USER_ID' INTEGER," + // 4: userID
+                "'SINCRONIZED' INTEGER);"); // 5: sincronized
     }
 
     /** Drops the underlying database table. */
@@ -82,6 +84,11 @@ public class ObservationDao extends AbstractDao<Observation, Long> {
         if (userID != null) {
             stmt.bindLong(5, userID);
         }
+ 
+        Boolean sincronized = entity.getSincronized();
+        if (sincronized != null) {
+            stmt.bindLong(6, sincronized ? 1l: 0l);
+        }
     }
 
     /** @inheritdoc */
@@ -98,7 +105,8 @@ public class ObservationDao extends AbstractDao<Observation, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // observation
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // serverID
             cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // tutorID
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4) // userID
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // userID
+            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0 // sincronized
         );
         return entity;
     }
@@ -111,6 +119,7 @@ public class ObservationDao extends AbstractDao<Observation, Long> {
         entity.setServerID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
         entity.setTutorID(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
         entity.setUserID(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setSincronized(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
      }
     
     /** @inheritdoc */

@@ -141,10 +141,11 @@ public class Category {
         }    
         myDao.refresh(this);
     }
-
+    
     @Override
     public String toString() {
     	// TODO Auto-generated method stub
     	return getName();
     }
+
 }

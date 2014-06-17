@@ -15,6 +15,8 @@ public class ModelCreator {
 	private static Entity symbol_plan;
 	private static Entity group_plan;
 	private static Entity group_plan_relationship;
+	private static Entity observation_historic;
+	private static Entity symbol_historic;
 
 	public static void main(String[] args) {
 		Schema schema = new Schema(13, "br.com.furb.tagarela.model");
@@ -25,15 +27,13 @@ public class ModelCreator {
 		addSymbol_plan(schema);
 		addGroup_plan(schema);
 		addGroup_plan_relationship(schema);
-		
+		addObservations(schema);
+		addSymbolsHistoric(schema);
 		DaoGenerator daoGenerator;
 		try {
 			daoGenerator = new DaoGenerator();
 			daoGenerator.generateAll(schema, "../Tagarela/src");
-			// daoGenerator.generateAll(schema,
-			// "../tcc_darlanmarco/Tagarela/src");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -42,7 +42,7 @@ public class ModelCreator {
 		group_plan_relationship = schema.addEntity("GroupPlanRelationship");
 		group_plan_relationship.addIntProperty("serverID");
 		group_plan_relationship.addIntProperty("groupID");
-		group_plan_relationship.addIntProperty("planID");		
+		group_plan_relationship.addIntProperty("planID");
 	}
 
 	private static void addGroup_plan(Schema schema) {
@@ -59,7 +59,7 @@ public class ModelCreator {
 		symbol_plan.addIntProperty("serverID");
 		symbol_plan.addIntProperty("planID");
 		symbol_plan.addIntProperty("symbolID");
-		symbol_plan.addIntProperty("position");				
+		symbol_plan.addIntProperty("position");
 	}
 
 	private static void addPlan(Schema schema) {
@@ -71,7 +71,8 @@ public class ModelCreator {
 		plan.addStringProperty("description");
 		plan.addIntProperty("userID");
 		plan.addIntProperty("patientID");
-		
+		plan.addBooleanProperty("sincronized");
+
 	}
 
 	private static void addSymbols(Schema schema) {
@@ -83,12 +84,14 @@ public class ModelCreator {
 		symbol.addStringProperty("videoLink");
 		symbol.addByteArrayProperty("picture");
 		symbol.addByteArrayProperty("sound");
-		Property categoryID = symbol.addLongProperty("categoryID").notNull().getProperty();
+		Property categoryID = symbol.addLongProperty("categoryID").notNull()
+				.getProperty();
 		symbol.addToOne(category, categoryID);
 		ToMany categoryToSymbols = category.addToMany(symbol, categoryID);
 		categoryToSymbols.setName("symbols");
 		symbol.addStringProperty("ascRepresentation");
 		symbol.addIntProperty("alphaID");
+		symbol.addBooleanProperty("sincronized");
 	}
 
 	private static void addCategories(Schema schema) {
@@ -110,6 +113,30 @@ public class ModelCreator {
 		user.addIntProperty("serverID");
 		user.addIdProperty();
 		return user;
+	}
+
+	private static Entity addObservations(Schema schema) {
+		observation_historic = schema.addEntity("Observation");
+		observation_historic.addDateProperty("date");
+		observation_historic.addStringProperty("observation");
+		observation_historic.addLongProperty("serverID").primaryKey();
+		observation_historic.addIntProperty("tutorID");
+		observation_historic.addIntProperty("userID");
+		observation_historic.addBooleanProperty("sincronized");
+
+		return observation_historic;
+	}
+
+	private static Entity addSymbolsHistoric(Schema schema) {
+		symbol_historic = schema.addEntity("SymbolHistoric");
+		symbol_historic.addDateProperty("date");
+		symbol_historic.addLongProperty("symbolID");
+		symbol_historic.addLongProperty("tutorID");
+		symbol_historic.addLongProperty("userID");
+		symbol_historic.addLongProperty("serverID").primaryKey();
+		symbol_historic.addBooleanProperty("sincronized");
+
+		return symbol_historic;
 	}
 
 }

@@ -27,6 +27,7 @@ public class PlanDao extends AbstractDao<Plan, Void> {
         public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
         public final static Property UserID = new Property(5, Integer.class, "userID", false, "USER_ID");
         public final static Property PatientID = new Property(6, Integer.class, "patientID", false, "PATIENT_ID");
+        public final static Property Sincronized = new Property(7, Boolean.class, "sincronized", false, "SINCRONIZED");
     };
 
 
@@ -48,7 +49,8 @@ public class PlanDao extends AbstractDao<Plan, Void> {
                 "'LAYOUT' INTEGER," + // 3: layout
                 "'DESCRIPTION' TEXT," + // 4: description
                 "'USER_ID' INTEGER," + // 5: userID
-                "'PATIENT_ID' INTEGER);"); // 6: patientID
+                "'PATIENT_ID' INTEGER," + // 6: patientID
+                "'SINCRONIZED' INTEGER);"); // 7: sincronized
     }
 
     /** Drops the underlying database table. */
@@ -96,6 +98,11 @@ public class PlanDao extends AbstractDao<Plan, Void> {
         if (patientID != null) {
             stmt.bindLong(7, patientID);
         }
+ 
+        Boolean sincronized = entity.getSincronized();
+        if (sincronized != null) {
+            stmt.bindLong(8, sincronized ? 1l: 0l);
+        }
     }
 
     /** @inheritdoc */
@@ -114,7 +121,8 @@ public class PlanDao extends AbstractDao<Plan, Void> {
             cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // layout
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
             cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // userID
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // patientID
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // patientID
+            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0 // sincronized
         );
         return entity;
     }
@@ -129,6 +137,7 @@ public class PlanDao extends AbstractDao<Plan, Void> {
         entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setUserID(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setPatientID(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setSincronized(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
      }
     
     /** @inheritdoc */

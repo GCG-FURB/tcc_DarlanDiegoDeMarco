@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Observation;
 import br.com.furb.tagarela.model.ObservationDao;
@@ -27,28 +28,21 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 		JSONArray observations;
 		try {
 			observations = new JSONArray(results);
-			ObservationDao observationDao = DaoProvider.getInstance(null)
-					.getObservationDao();
+			ObservationDao observationDao = DaoProvider.getInstance(null).getObservationDao();
 			JSONObject observation = null;
 			Observation newObservation = null;
 			for (int i = 0; i < observations.length(); i++) {
 				observation = observations.getJSONObject(i);
-				if (observation.getInt("user_id") == MainActivity
-						.getUser().getServerID()
-						&& observationDao
-								.queryBuilder()
-								.where(ObservationDao.Properties.ServerID
-										.eq(observation.getInt("id"))).list()
-								.size() <= 0) {
+				if (observation.getInt("user_id") == MainActivity.getUser().getServerID()
+						&& observationDao.queryBuilder()
+								.where(ObservationDao.Properties.ServerID.eq(observation.getInt("id"))).list().size() <= 0) {
 					newObservation = new Observation();
 					newObservation.setUserID(observation.getInt("user_id"));
 					newObservation.setTutorID(observation.getInt("tutor_id"));
-					newObservation.setObservation(observation
-							.getString("historic"));
+					newObservation.setObservation(observation.getString("historic"));
 
 					String date = observation.getString("date");
-					SimpleDateFormat sdf = new SimpleDateFormat(
-							"yyyy-MM-dd'T'HH:mm:ss'Z'");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					sdf.setTimeZone(TimeZone.getTimeZone("America/São Paulo"));
 					Date dataHora = sdf.parse(date);
 					newObservation.setDate(dataHora);
@@ -57,8 +51,7 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 				}
 			}
 		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
+			Log.e("SYNC-OBSERVATION", e != null ? e.getMessage() : "No stack.");
 		}
 		return null;
 	}

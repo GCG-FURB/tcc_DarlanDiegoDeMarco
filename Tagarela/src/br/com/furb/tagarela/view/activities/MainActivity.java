@@ -341,6 +341,9 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 		welcomeMessage.setText("Olá " + user.getName()
 				+ " bem vindo ao Tagarela!");
 	}
+	public static void setInternetConnection(boolean internetConnection) {
+		MainActivity.internetConnection = internetConnection;
+	}
 
 	public static boolean isInternetConnection() {
 		return internetConnection;
