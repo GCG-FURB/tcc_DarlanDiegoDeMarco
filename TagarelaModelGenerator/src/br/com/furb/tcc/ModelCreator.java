@@ -77,6 +77,7 @@ public class ModelCreator {
 
 	private static void addSymbols(Schema schema) {
 		symbol = schema.addEntity("Symbol");
+		symbol.addIdProperty();
 		symbol.addIntProperty("serverID");
 		symbol.addIntProperty("userID");
 		symbol.addBooleanProperty("isGeneral");
@@ -119,9 +120,10 @@ public class ModelCreator {
 		observation_historic = schema.addEntity("Observation");
 		observation_historic.addDateProperty("date");
 		observation_historic.addStringProperty("observation");
-		observation_historic.addLongProperty("serverID").primaryKey();
+		observation_historic.addLongProperty("serverID");
 		observation_historic.addIntProperty("tutorID");
 		observation_historic.addIntProperty("userID");
+		observation_historic.addIdProperty();
 		observation_historic.addBooleanProperty("sincronized");
 
 		return observation_historic;
@@ -133,8 +135,9 @@ public class ModelCreator {
 		symbol_historic.addLongProperty("symbolID");
 		symbol_historic.addLongProperty("tutorID");
 		symbol_historic.addLongProperty("userID");
-		symbol_historic.addLongProperty("serverID").primaryKey();
+		symbol_historic.addLongProperty("serverID");
 		symbol_historic.addBooleanProperty("sincronized");
+		symbol_historic.addIdProperty();
 
 		return symbol_historic;
 	}
