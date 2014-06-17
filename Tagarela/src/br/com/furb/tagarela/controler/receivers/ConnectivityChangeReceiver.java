@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.util.Log;
+import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
 import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class ConnectivityChangeReceiver extends BroadcastReceiver {
@@ -27,13 +28,16 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 			mainActivity = MainActivity.getInstance();
 		}
 		if (mainActivity != null) {
-			boolean noConnectivity = intent.getBooleanExtra(
-					ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+			boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
 			if (noConnectivity) {
 				mainActivity.disableControls();
+				MainActivity.setInternetConnection(false);
 			} else {
 				mainActivity.enableControls();
+				MainActivity.setInternetConnection(true);
+				mainActivity.syncInformations();
+				SyncInformationControler.getInstance().syncUnsynchronizedSymbols();
 			}
 		}
 	}

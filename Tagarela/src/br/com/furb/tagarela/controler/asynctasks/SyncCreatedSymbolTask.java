@@ -57,22 +57,28 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		if (symbol != null) {
 			try {
-				HttpPost post = new HttpPost(URL_SYMBOL_POST);
-				post.addHeader("Accept", "application/json");
-				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
-				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
-				parametros.addParam(SYMBOL_NAME, symbol.getName()).addParam(SYMBOL_IS_GENERAL, String.valueOf(0))
-						.addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID()))
-						.addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture()))
-						.addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound()))
-						.addParam(SYMBOL_USER, String.valueOf(MainActivity.getUser().getServerID()));
+				DaoProvider.getInstance(null).getSymbolDao().insert(symbol);
 
-				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
-				HttpResponse response = HttpUtils.doRequest(post);
-				if (response.getStatusLine().getStatusCode() == 201) {
-					JSONObject returnSymbol = new JSONObject(HttpUtils.getContent(response));
-					symbol.setServerID(returnSymbol.getInt("id"));
-					DaoProvider.getInstance(null).getSymbolDao().insert(symbol);
+				if (MainActivity.isInternetConnection()) {
+					
+					HttpPost post = new HttpPost(URL_SYMBOL_POST);
+					post.addHeader("Accept", "application/json");
+					post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+					final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
+					parametros.addParam(SYMBOL_NAME, symbol.getName()).addParam(SYMBOL_IS_GENERAL, String.valueOf(0))
+							.addParam(SYMBOL_CATEGORY, String.valueOf(symbol.getCategoryID()))
+							.addParam(SYMBOL_IMAGE, imageEncoder(symbol.getPicture()))
+							.addParam(SYMBOL_SOUND, audioEncoder(symbol.getSound()))
+							.addParam(SYMBOL_USER, String.valueOf(MainActivity.getUser().getServerID()));
+
+					post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
+					HttpResponse response = HttpUtils.doRequest(post);
+					if (response.getStatusLine().getStatusCode() == 201) {
+						JSONObject returnSymbol = new JSONObject(HttpUtils.getContent(response));
+						symbol.setServerID(returnSymbol.getInt("id"));
+						DaoProvider.getInstance(null).getSymbolDao().update(symbol);
+					}
+					
 				}
 			} catch (Exception e) {
 				Log.e("SYNC-CREATED-SYMBOL", e != null ? e.getMessage() : "No stack.");

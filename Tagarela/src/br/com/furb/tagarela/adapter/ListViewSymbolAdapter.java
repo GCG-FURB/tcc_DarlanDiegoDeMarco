@@ -27,7 +27,7 @@ import br.com.furb.tagarela.view.activities.MainActivity;
 
 @SuppressLint("SimpleDateFormat")
 public class ListViewSymbolAdapter extends ArrayAdapter<String> {
-	
+
 	private final List<SymbolHistoric> list;
 	private final SparseArray<Symbol> symbolsMap = new SparseArray<Symbol>();
 	private final LayoutInflater inflater;
@@ -44,12 +44,8 @@ public class ListViewSymbolAdapter extends ArrayAdapter<String> {
 	}
 
 	private void initSparseArray() {
-		for (Symbol s : DaoProvider
-				.getInstance(null)
-				.getSymbolDao()
-				.queryBuilder()
-				.where(SymbolDao.Properties.UserID.eq(MainActivity
-						.getUser().getServerID())).list()) {
+		for (Symbol s : DaoProvider.getInstance(null).getSymbolDao().queryBuilder()
+				.where(SymbolDao.Properties.UserID.eq(MainActivity.getUser().getServerID())).list()) {
 			symbolsMap.put(s.getServerID(), s);
 		}
 	}
@@ -62,43 +58,34 @@ public class ListViewSymbolAdapter extends ArrayAdapter<String> {
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		ViewHolder holder;
-		
+
 		if (view == null) {
-			view = inflater.inflate(R.layout.list_symbol_historic_item, null,
-					true);
+			view = inflater.inflate(R.layout.list_symbol_historic_item, null, true);
 			holder = new ViewHolder();
 			holder.text = (TextView) view.findViewById(R.id.txt);
 			holder.imageView = (ImageView) view.findViewById(R.id.img);
 			view.setTag(holder);
-		}else{
+		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		
-		
+
 		SymbolHistoric sh = list.get(position);
 		Symbol symbol = symbolsMap.get((sh.getSymbolID()).intValue());
-		Category category = DaoProvider.getInstance(null).getCategoryDao()
-				.queryBuilder()
+		Category category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder()
 				.where(Properties.ServerID.eq(symbol.getCategoryID())).unique();
 		TextView txtTitle = holder.text;
 		ImageView imageView = holder.imageView;
-		
 
-		
 		String hour = this.hour.format(sh.getDate());
 		String date = this.date.format(sh.getDate());
 		txtTitle.setText(symbol.getName() + ": utilizado às " + hour + " do dia " + date);
-		
-		imageView.setBackgroundColor(Color.rgb(category.getRed(),
-				category.getGreen(), category.getBlue()));
 
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(
-				symbol.getPicture(), 0, symbol.getPicture().length));
+		imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
+
+		imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
 		return view;
 	}
 
-
-	
 	private static class ViewHolder {
 		public TextView text;
 		public ImageView imageView;

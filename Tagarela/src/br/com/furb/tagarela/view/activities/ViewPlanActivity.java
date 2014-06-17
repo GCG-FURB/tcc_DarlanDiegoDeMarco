@@ -56,6 +56,7 @@ public class ViewPlanActivity extends Activity {
 			
 			ImageView imageView = (ImageView) findViewById(getImageView(position));
 			imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
+			imageView.setVisibility(ImageView.VISIBLE);
 			if (category != null) {
 				imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
 			}
@@ -75,6 +76,7 @@ public class ViewPlanActivity extends Activity {
 
 
 	private void addImageListener(final int id, final int position) {
+		((ImageView) findViewById(id)).setVisibility(ImageView.INVISIBLE);
 		((ImageView) findViewById(id)).setOnClickListener(
 				new OnClickListener() {
 					

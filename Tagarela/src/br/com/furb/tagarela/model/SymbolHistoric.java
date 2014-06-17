@@ -12,21 +12,23 @@ public class SymbolHistoric {
     private Long userID;
     private Long serverID;
     private Boolean sincronized;
+    private Long id;
 
     public SymbolHistoric() {
     }
 
-    public SymbolHistoric(Long serverID) {
-        this.serverID = serverID;
+    public SymbolHistoric(Long id) {
+        this.id = id;
     }
 
-    public SymbolHistoric(java.util.Date date, Long symbolID, Long tutorID, Long userID, Long serverID, Boolean sincronized) {
+    public SymbolHistoric(java.util.Date date, Long symbolID, Long tutorID, Long userID, Long serverID, Boolean sincronized, Long id) {
         this.date = date;
         this.symbolID = symbolID;
         this.tutorID = tutorID;
         this.userID = userID;
         this.serverID = serverID;
         this.sincronized = sincronized;
+        this.id = id;
     }
 
     public java.util.Date getDate() {
@@ -75,6 +77,14 @@ public class SymbolHistoric {
 
     public void setSincronized(Boolean sincronized) {
         this.sincronized = sincronized;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

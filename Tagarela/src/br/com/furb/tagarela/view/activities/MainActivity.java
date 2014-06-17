@@ -48,9 +48,8 @@ import br.com.furb.tagarela.view.dialogs.UserCreateDialog;
 import br.com.furb.tagarela.view.dialogs.UserLoginDialog;
 import br.com.furb.tagarela.view.dialogs.WelcomeDialog;
 
-public class MainActivity extends FragmentActivity implements UserTypeListener,
-		CategoryTypeListener, UserLoginListener, LayoutListener,
-		ConnectionListener {
+public class MainActivity extends FragmentActivity implements UserTypeListener, CategoryTypeListener,
+		UserLoginListener, LayoutListener, ConnectionListener {
 
 	private static User loggedUser;
 	private static boolean internetConnection;
@@ -81,8 +80,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 
 	private void registryReceiver() {
 
-		intentFilter = new IntentFilter(
-				android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+		intentFilter = new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
 		connectivityChangeReceiver = new ConnectivityChangeReceiver(this);
 		registerReceiver(connectivityChangeReceiver, intentFilter);
 	}
@@ -90,8 +88,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	private void initComponents() {
 		TextView title = (TextView) findViewById(R.id.textView2);
 		TextView site = (TextView) findViewById(R.id.textView3);
-		Typeface font = Typeface.createFromAsset(getAssets(),
-				"fonts/runoff.ttf");
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/runoff.ttf");
 		title.setTypeface(font);
 		site.setTypeface(font);
 
@@ -110,22 +107,16 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 
 			@Override
 			public void onClick(View v) {
-				long count = DaoProvider
-						.getInstance(getInstance())
-						.getSymbolDao()
-						.queryBuilder()
-						.where(SymbolDao.Properties.UserID.eq(MainActivity
-								.getUser().getServerID())).count();
+				long count = DaoProvider.getInstance(getInstance()).getSymbolDao().queryBuilder()
+						.where(SymbolDao.Properties.UserID.eq(MainActivity.getUser().getServerID())).count();
 				if (count == 0) {
 					DialogFragment saveErrorFragment = new ErrorDialog();
 					Bundle bundle = new Bundle();
 					bundle.putString("error", getString(R.string.no_data_found));
 					saveErrorFragment.setArguments(bundle);
-					saveErrorFragment
-							.show(getSupportFragmentManager(), "Error");
+					saveErrorFragment.show(getSupportFragmentManager(), "Error");
 				} else {
-					Intent viewSymbols = new Intent(getApplicationContext(),
-							ViewSymbolsActivity.class);
+					Intent viewSymbols = new Intent(getApplicationContext(), ViewSymbolsActivity.class);
 					startActivity(viewSymbols);
 
 				}
@@ -158,20 +149,14 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 
 			@Override
 			public void onClick(View v) {
-				long count = DaoProvider
-						.getInstance(getInstance())
-						.getSymbolHistoricDao()
-						.queryBuilder()
-						.where(SymbolHistoricDao.Properties.UserID
-								.eq(MainActivity.getUser().getServerID()))
-						.count();
+				long count = DaoProvider.getInstance(getInstance()).getSymbolHistoricDao().queryBuilder()
+						.where(SymbolHistoricDao.Properties.UserID.eq(MainActivity.getUser().getServerID())).count();
 				if (count == 0) {
 					DialogFragment saveErrorFragment = new ErrorDialog();
 					Bundle bundle = new Bundle();
 					bundle.putString("error", getString(R.string.no_data_found));
 					saveErrorFragment.setArguments(bundle);
-					saveErrorFragment
-							.show(getSupportFragmentManager(), "Error");
+					saveErrorFragment.show(getSupportFragmentManager(), "Error");
 				} else {
 					SymbolsHistoricDialog historicDialog = new SymbolsHistoricDialog();
 					historicDialog.show(getSupportFragmentManager(), "");
@@ -185,10 +170,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	public void disableControls() {
 		TextView createPlan = (TextView) findViewById(R.id.create_plan);
 		createPlan.setEnabled(false);
-		TextView createSymbol = (TextView) findViewById(R.id.createSymbol);
-		createSymbol.setEnabled(false);
 		createPlan.setTextColor(Color.GRAY);
-		createSymbol.setTextColor(Color.GRAY);
 		internetConnection = false;
 	}
 
@@ -278,18 +260,19 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 
 	@Override
 	public void syncInformations() {
-		SyncInformationControler.getInstance().syncCategories();
-		SyncInformationControler.getInstance().syncSymbols();
-		SyncInformationControler.getInstance().syncPlans(this);
-		SyncInformationControler.getInstance().syncObservations();
-		SyncInformationControler.getInstance().syncHistorics();
+		if (getUser() != null) {
+			SyncInformationControler.getInstance().syncCategories();
+			SyncInformationControler.getInstance().syncSymbols();
+			SyncInformationControler.getInstance().syncPlans(this);
+			SyncInformationControler.getInstance().syncObservations();
+			SyncInformationControler.getInstance().syncHistorics();
+		}
 	}
 
 	@Override
 	public void onLayoutReturnValue(int layout) {
 		System.out.println(layout);
-		Intent createPlan = new Intent(getApplicationContext(),
-				CreatePlanActivity.class);
+		Intent createPlan = new Intent(getApplicationContext(), CreatePlanActivity.class);
 		Bundle b = new Bundle();
 		b.putInt("layout", layout);
 		createPlan.putExtras(b);
@@ -297,14 +280,9 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	}
 
 	public void loadPlans() {
-		List<Plan> plansList = DaoProvider
-				.getInstance(null)
-				.getPlanDao()
-				.queryBuilder()
-				.where(Properties.UserID.eq(MainActivity.getUser()
-						.getServerID())).list();
-		ArrayAdapter<Plan> adapter = new ArrayAdapter<Plan>(this,
-				android.R.layout.simple_list_item_1, plansList);
+		List<Plan> plansList = DaoProvider.getInstance(null).getPlanDao().queryBuilder()
+				.where(Properties.UserID.eq(MainActivity.getUser().getServerID())).list();
+		ArrayAdapter<Plan> adapter = new ArrayAdapter<Plan>(this, android.R.layout.simple_list_item_1, plansList);
 		ListView listView = (ListView) findViewById(R.id.plan_list);
 		View view = View.inflate(this, R.layout.plans_header, null);
 		if (listView.getHeaderViewsCount() == 0) {
@@ -318,12 +296,10 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	private OnItemClickListener getPlanClickedListener() {
 		return new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Plan selectedPlan = (Plan) parent.getItemAtPosition(position);
 				if (selectedPlan != null) {
-					Intent i = new Intent(getApplicationContext(),
-							ViewPlanActivity.class);
+					Intent i = new Intent(getApplicationContext(), ViewPlanActivity.class);
 					i.putExtra("layout", selectedPlan.getLayout());
 					i.putExtra("plan", selectedPlan.getServerID());
 					startActivity(i);
@@ -335,12 +311,12 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 	public void loadUser() {
 		User user = loggedUser;
 		ImageView userPhoto = (ImageView) findViewById(R.id.userPhoto);
-		userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(
-				user.getPatientPicture(), 0, user.getPatientPicture().length));
+		userPhoto.setImageBitmap(BitmapFactory.decodeByteArray(user.getPatientPicture(), 0,
+				user.getPatientPicture().length));
 		TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
-		welcomeMessage.setText("Olá " + user.getName()
-				+ " bem vindo ao Tagarela!");
+		welcomeMessage.setText("Olá " + user.getName() + " bem vindo ao Tagarela!");
 	}
+
 	public static void setInternetConnection(boolean internetConnection) {
 		MainActivity.internetConnection = internetConnection;
 	}
@@ -351,8 +327,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener,
 
 	public boolean hasInternetConnection() {
 		ConnectivityManager conectivtyManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (conectivtyManager.getActiveNetworkInfo() != null
-				&& conectivtyManager.getActiveNetworkInfo().isAvailable()
+		if (conectivtyManager.getActiveNetworkInfo() != null && conectivtyManager.getActiveNetworkInfo().isAvailable()
 				&& conectivtyManager.getActiveNetworkInfo().isConnected()) {
 			return true;
 		}

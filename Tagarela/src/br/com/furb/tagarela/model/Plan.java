@@ -6,96 +6,96 @@ package br.com.furb.tagarela.model;
  */
 public class Plan {
 
-    private Integer serverID;
-    private String name;
-    private Integer planType;
-    private Integer layout;
-    private String description;
-    private Integer userID;
-    private Integer patientID;
-    private Boolean sincronized;
+	private Integer serverID;
+	private String name;
+	private Integer planType;
+	private Integer layout;
+	private String description;
+	private Integer userID;
+	private Integer patientID;
+	private Boolean sincronized;
 
-    public Plan() {
-    }
+	public Plan() {
+	}
 
-    public Plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID, Integer patientID, Boolean sincronized) {
-        this.serverID = serverID;
-        this.name = name;
-        this.planType = planType;
-        this.layout = layout;
-        this.description = description;
-        this.userID = userID;
-        this.patientID = patientID;
-        this.sincronized = sincronized;
-    }
+	public Plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID,
+			Integer patientID, Boolean sincronized) {
+		this.serverID = serverID;
+		this.name = name;
+		this.planType = planType;
+		this.layout = layout;
+		this.description = description;
+		this.userID = userID;
+		this.patientID = patientID;
+		this.sincronized = sincronized;
+	}
 
-    public Integer getServerID() {
-        return serverID;
-    }
+	public Integer getServerID() {
+		return serverID;
+	}
 
-    public void setServerID(Integer serverID) {
-        this.serverID = serverID;
-    }
+	public void setServerID(Integer serverID) {
+		this.serverID = serverID;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Integer getPlanType() {
-        return planType;
-    }
+	public Integer getPlanType() {
+		return planType;
+	}
 
-    public void setPlanType(Integer planType) {
-        this.planType = planType;
-    }
+	public void setPlanType(Integer planType) {
+		this.planType = planType;
+	}
 
-    public Integer getLayout() {
-        return layout;
-    }
+	public Integer getLayout() {
+		return layout;
+	}
 
-    public void setLayout(Integer layout) {
-        this.layout = layout;
-    }
+	public void setLayout(Integer layout) {
+		this.layout = layout;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public Integer getUserID() {
-        return userID;
-    }
+	public Integer getUserID() {
+		return userID;
+	}
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
+	public void setUserID(Integer userID) {
+		this.userID = userID;
+	}
 
-    public Integer getPatientID() {
-        return patientID;
-    }
+	public Integer getPatientID() {
+		return patientID;
+	}
 
-    public void setPatientID(Integer patientID) {
-        this.patientID = patientID;
-    }
+	public void setPatientID(Integer patientID) {
+		this.patientID = patientID;
+	}
 
-    public Boolean getSincronized() {
-        return sincronized;
-    }
+	public Boolean getSincronized() {
+		return sincronized;
+	}
 
-    public void setSincronized(Boolean sincronized) {
-        this.sincronized = sincronized;
-    }
-    
-    @Override
-    public String toString() {
-    	return getName();
-    }
+	public void setSincronized(Boolean sincronized) {
+		this.sincronized = sincronized;
+	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

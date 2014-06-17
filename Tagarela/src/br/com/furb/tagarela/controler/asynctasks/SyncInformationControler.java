@@ -71,4 +71,8 @@ public class SyncInformationControler {
 		new SyncHistoricsTask().execute();
 	}
 
+	public void syncUnsynchronizedSymbols() {
+		new SyncUnsynchronizedSymbols().execute();
+	}
+
 }
