@@ -49,19 +49,21 @@ public class SyncCreatedObservationsTask extends AsyncTask<Integer, Integer, Voi
 				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
 
-				parametros.addParam(OBSERVATION_DATE, observation.getDate().toString()).addParam(OBSERVATION_HISTORIC, observation.getObservation())
-						.addParam(OBSERVATION_USER, String.valueOf(observation.getUserID())).addParam(OBSERVATION_TUTOR, String.valueOf(observation.getTutorID()));
+				parametros.addParam(OBSERVATION_DATE, observation.getDate().toString())
+						.addParam(OBSERVATION_HISTORIC, observation.getObservation())
+						.addParam(OBSERVATION_USER, String.valueOf(observation.getUserID()))
+						.addParam(OBSERVATION_TUTOR, String.valueOf(observation.getTutorID()));
 
 				post.setEntity(new UrlEncodedFormEntity(parametros.build(), HTTP.UTF_8));
 				HttpResponse response = HttpUtils.doRequest(post);
 				if (response.getStatusLine().getStatusCode() == 201) {
 					JSONObject returnObservation = new JSONObject(HttpUtils.getContent(response));
 					observation.setServerID(returnObservation.getLong("id"));
-					DaoProvider.getInstance(null).getObservationDao().insert(observation);
+					observation.setIsSynchronized(true);
+					DaoProvider.getInstance(null).getObservationDao().update(observation);
 				}
 			} catch (Exception e) {
-				e.getMessage();
-				e.printStackTrace();
+				Log.e("Sync-Created-Obs", e != null ? e.getMessage() : "Exception vazia");
 			}
 		}
 		return null;

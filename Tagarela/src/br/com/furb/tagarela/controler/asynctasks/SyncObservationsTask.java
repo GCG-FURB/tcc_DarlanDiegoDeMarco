@@ -40,7 +40,7 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 					newObservation.setUserID(observation.getInt("user_id"));
 					newObservation.setTutorID(observation.getInt("tutor_id"));
 					newObservation.setObservation(observation.getString("historic"));
-
+					newObservation.setIsSynchronized(true);
 					String date = observation.getString("date");
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					sdf.setTimeZone(TimeZone.getTimeZone("America/São Paulo"));

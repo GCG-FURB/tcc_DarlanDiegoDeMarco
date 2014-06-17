@@ -31,7 +31,7 @@ class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 						&& symbolDao.queryBuilder().where(SymbolDao.Properties.ServerID.eq(symbol.getInt("id"))).list()
 								.size() <= 0) {
 					newSymbol = new Symbol();
-					newSymbol.setSincronized(true);
+					newSymbol.setIsSynchronized(true);
 					newSymbol.setCategoryID(symbol.getInt("category_id"));
 					newSymbol.setIsGeneral(false);
 					newSymbol.setName(symbol.getString("name"));

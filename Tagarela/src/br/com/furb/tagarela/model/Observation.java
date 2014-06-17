@@ -12,7 +12,7 @@ public class Observation {
     private Integer tutorID;
     private Integer userID;
     private Long id;
-    private Boolean sincronized;
+    private Boolean isSynchronized;
 
     public Observation() {
     }
@@ -21,14 +21,14 @@ public class Observation {
         this.id = id;
     }
 
-    public Observation(java.util.Date date, String observation, Long serverID, Integer tutorID, Integer userID, Long id, Boolean sincronized) {
+    public Observation(java.util.Date date, String observation, Long serverID, Integer tutorID, Integer userID, Long id, Boolean isSynchronized) {
         this.date = date;
         this.observation = observation;
         this.serverID = serverID;
         this.tutorID = tutorID;
         this.userID = userID;
         this.id = id;
-        this.sincronized = sincronized;
+        this.isSynchronized = isSynchronized;
     }
 
     public java.util.Date getDate() {
@@ -79,12 +79,12 @@ public class Observation {
         this.id = id;
     }
 
-    public Boolean getSincronized() {
-        return sincronized;
+    public Boolean getIsSynchronized() {
+        return isSynchronized;
     }
 
-    public void setSincronized(Boolean sincronized) {
-        this.sincronized = sincronized;
+    public void setIsSynchronized(Boolean isSynchronized) {
+        this.isSynchronized = isSynchronized;
     }
 
 }

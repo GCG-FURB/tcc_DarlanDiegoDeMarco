@@ -47,12 +47,10 @@ public class SyncInformationControler {
 
 	public void syncPlans(Activity activity) {
 		new SyncPlansTask(activity).execute();
-
 	}
 
 	public void syncSymbolPlans(Activity activity) {
 		new SyncSymbolPlansTask(activity).execute();
-
 	}
 
 	public void syncCreatedObservation(Observation observation, Activity activity) {
@@ -73,6 +71,10 @@ public class SyncInformationControler {
 
 	public void syncUnsynchronizedSymbols() {
 		new SyncUnsynchronizedSymbols().execute();
+	}
+
+	public void syncUnsynchronizedObservations() {
+		new SyncUnsynchronizedObservations().execute();
 	}
 
 }

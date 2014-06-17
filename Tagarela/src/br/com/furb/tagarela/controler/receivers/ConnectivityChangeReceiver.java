@@ -36,9 +36,16 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 			} else {
 				mainActivity.enableControls();
 				MainActivity.setInternetConnection(true);
-				mainActivity.syncInformations();
-				SyncInformationControler.getInstance().syncUnsynchronizedSymbols();
+				resync();
 			}
+		}
+	}
+
+	private void resync() {
+		if (MainActivity.getUser() != null) {
+			mainActivity.syncInformations();
+			SyncInformationControler.getInstance().syncUnsynchronizedSymbols();
+			SyncInformationControler.getInstance().syncUnsynchronizedObservations();
 		}
 	}
 

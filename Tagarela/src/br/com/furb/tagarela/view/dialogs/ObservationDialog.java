@@ -38,18 +38,12 @@ public class ObservationDialog extends DialogFragment {
 		AlertDialog dialog = builder.create();
 		return dialog;
 	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		EditText edObs = ((EditText) getDialog().findViewById(R.id.ed_observations));
-		edObs.setVisibility((MainActivity.isInternetConnection()) == true ? View.VISIBLE : View.GONE);
-	}
 
 	private String getObservations() {
 		ObservationDao observationDao = DaoProvider.getInstance(getActivity()).getObservationDao();
 
-		List<Observation> list = observationDao.queryBuilder().where(Properties.UserID.eq(MainActivity.getUser().getServerID())).orderDesc(Properties.Date).list();
+		List<Observation> list = observationDao.queryBuilder()
+				.where(Properties.UserID.eq(MainActivity.getUser().getServerID())).orderDesc(Properties.Date).list();
 		StringBuilder sb = new StringBuilder();
 		for (Observation obs : list) {
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -75,7 +69,11 @@ public class ObservationDialog extends DialogFragment {
 					observation.setObservation(description);
 					observation.setTutorID(MainActivity.getUser().getServerID());
 					observation.setUserID(MainActivity.getUser().getServerID());
-					SyncInformationControler.getInstance().syncCreatedObservation(observation, getActivity());
+					observation.setIsSynchronized(false);
+					DaoProvider.getInstance(null).getObservationDao().insert(observation);
+					if (MainActivity.isInternetConnection()) {
+						SyncInformationControler.getInstance().syncCreatedObservation(observation, getActivity());
+					}
 				}
 			}
 		};
@@ -83,14 +81,12 @@ public class ObservationDialog extends DialogFragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
-		
 		if (getDialog() == null) {
 			return;
 		}
 		((TextView) getDialog().findViewById(R.id.observations_text)).setText(getObservations());
-		int dialogWidth = 400; // specify a value here
-		int dialogHeight = 600; // specify a value here
+		int dialogWidth = 400;
+		int dialogHeight = 600;
 
 		getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		getDialog().getWindow().setLayout(dialogWidth, dialogHeight);

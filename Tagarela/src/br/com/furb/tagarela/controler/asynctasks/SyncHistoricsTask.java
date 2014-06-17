@@ -49,7 +49,7 @@ public class SyncHistoricsTask extends AsyncTask<Integer, Integer, Void> {
 						Date dataHora = sdf.parse(date);
 						newSymbolHistoric.setDate(dataHora);
 						newSymbolHistoric.setServerID(symbolHistoric.getLong("id"));
-						newSymbolHistoric.setSincronized(true);
+						newSymbolHistoric.setIsSynchronized(true);
 						symbolHistoricDao.insert(newSymbolHistoric);
 					}
 				} catch (Exception e) {

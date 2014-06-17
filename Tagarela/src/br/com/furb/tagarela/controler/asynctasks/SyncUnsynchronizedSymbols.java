@@ -8,9 +8,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -49,7 +46,7 @@ public class SyncUnsynchronizedSymbols extends AsyncTask<String, Void, Void> {
 					.getSymbolDao()
 					.queryBuilder()
 					.where(SymbolDao.Properties.UserID.eq(MainActivity.getUser().getServerID()),
-							SymbolDao.Properties.Sincronized.eq(false)).list();
+							SymbolDao.Properties.IsSynchronized.eq(false)).list();
 
 			for (Symbol symbol : symbols) {
 				try {
@@ -71,7 +68,7 @@ public class SyncUnsynchronizedSymbols extends AsyncTask<String, Void, Void> {
 						if (response.getStatusLine().getStatusCode() == 201) {
 							JSONObject returnSymbol = new JSONObject(HttpUtils.getContent(response));
 							symbol.setServerID(returnSymbol.getInt("id"));
-							symbol.setSincronized(true);
+							symbol.setIsSynchronized(true);
 							DaoProvider.getInstance(null).getSymbolDao().update(symbol);
 						}
 

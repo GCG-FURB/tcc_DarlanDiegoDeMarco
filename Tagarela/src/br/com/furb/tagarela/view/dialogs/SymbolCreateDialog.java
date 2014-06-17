@@ -23,6 +23,7 @@ import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.UserDao.Properties;
 import br.com.furb.tagarela.utils.BitmapHelper;
+import br.com.furb.tagarela.view.activities.MainActivity;
 
 public class SymbolCreateDialog extends DialogFragment {
 
@@ -48,15 +49,12 @@ public class SymbolCreateDialog extends DialogFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == 200) {
-				ImageView imageView = (ImageView) getDialog().findViewById(
-						R.id.symbol_image);
+				ImageView imageView = (ImageView) getDialog().findViewById(R.id.symbol_image);
 				Uri selectedImageUri;
 				selectedImageUri = data.getData();
-				imageView.setImageBitmap(BitmapHelper
-						.decodeSampledBitmapFromResource(BitmapHelper
-								.getRealPathFromURI(selectedImageUri,
-										getActivity().getApplicationContext()),
-								400, 400));
+				imageView.setImageBitmap(BitmapHelper.decodeSampledBitmapFromResource(
+						BitmapHelper.getRealPathFromURI(selectedImageUri, getActivity().getApplicationContext()), 400,
+						400));
 
 			}
 		}
@@ -64,17 +62,13 @@ public class SymbolCreateDialog extends DialogFragment {
 
 	private void initComponents(View view) {
 		controler = new SymbolCreateControler(view);
-		category = DaoProvider
-				.getInstance(getActivity().getApplicationContext())
-				.getCategoryDao().queryBuilder()
+		category = DaoProvider.getInstance(getActivity().getApplicationContext()).getCategoryDao().queryBuilder()
 				.where(Properties.ServerID.eq(categoryID)).unique();
 		ImageView img = (ImageView) view.findViewById(R.id.symbol_image);
-		img.setBackgroundColor(Color.rgb(category.getRed(),
-				category.getGreen(), category.getBlue()));
+		img.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
 		img.setOnClickListener(getSymbolImageListener());
 
-		EditText categoryName = (EditText) view
-				.findViewById(R.id.symbol_category);
+		EditText categoryName = (EditText) view.findViewById(R.id.symbol_category);
 		categoryName.setEnabled(false);
 		categoryName.setText(category.getName());
 
@@ -88,8 +82,7 @@ public class SymbolCreateDialog extends DialogFragment {
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent cameraIntent = new Intent(
-						android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 				Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 				galleryIntent.setType("image/*");
 
@@ -128,25 +121,24 @@ public class SymbolCreateDialog extends DialogFragment {
 
 		AlertDialog d = (AlertDialog) getDialog();
 		if (d != null) {
-			Button positiveButton = (Button) d
-					.getButton(Dialog.BUTTON_POSITIVE);
+			Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
 			positiveButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					Symbol symbol = controler.createSymbol(category,
-							getActivity().getApplicationContext());
+					Symbol symbol = controler.createSymbol(category, getActivity().getApplicationContext());
 					if (symbol != null) {
-						SyncInformationControler.getInstance()
-								.syncCreatedSymbol(getActivity(), symbol);
+						DaoProvider.getInstance(null).getSymbolDao().insert(symbol);
+
+						if (MainActivity.isInternetConnection()) {
+							SyncInformationControler.getInstance().syncCreatedSymbol(getActivity(), symbol);
+						}
 					} else {
 						DialogFragment saveErrorFragment = new ErrorDialog();
 						Bundle bundle = new Bundle();
 						bundle.putString("error", getString(R.string.invalid_information));
 						saveErrorFragment.setArguments(bundle);
-						saveErrorFragment
-								.show(getActivity().getSupportFragmentManager(),
-										"SaveErrorDialog");
+						saveErrorFragment.show(getActivity().getSupportFragmentManager(), "SaveErrorDialog");
 						return;
 					}
 					dismiss();
