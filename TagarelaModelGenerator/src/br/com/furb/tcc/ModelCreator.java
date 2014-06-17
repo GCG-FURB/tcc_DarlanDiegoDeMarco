@@ -71,7 +71,7 @@ public class ModelCreator {
 		plan.addStringProperty("description");
 		plan.addIntProperty("userID");
 		plan.addIntProperty("patientID");
-		plan.addBooleanProperty("sincronized");
+		plan.addBooleanProperty("isSynchronized");
 
 	}
 
@@ -92,7 +92,7 @@ public class ModelCreator {
 		categoryToSymbols.setName("symbols");
 		symbol.addStringProperty("ascRepresentation");
 		symbol.addIntProperty("alphaID");
-		symbol.addBooleanProperty("sincronized");
+		symbol.addBooleanProperty("isSynchronized");
 	}
 
 	private static void addCategories(Schema schema) {
@@ -124,7 +124,7 @@ public class ModelCreator {
 		observation_historic.addIntProperty("tutorID");
 		observation_historic.addIntProperty("userID");
 		observation_historic.addIdProperty();
-		observation_historic.addBooleanProperty("sincronized");
+		observation_historic.addBooleanProperty("isSynchronized");
 
 		return observation_historic;
 	}
@@ -136,7 +136,7 @@ public class ModelCreator {
 		symbol_historic.addLongProperty("tutorID");
 		symbol_historic.addLongProperty("userID");
 		symbol_historic.addLongProperty("serverID");
-		symbol_historic.addBooleanProperty("sincronized");
+		symbol_historic.addBooleanProperty("isSynchronized");
 		symbol_historic.addIdProperty();
 
 		return symbol_historic;
