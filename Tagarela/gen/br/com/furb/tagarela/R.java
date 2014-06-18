@@ -124,8 +124,8 @@ public final class R {
         public static final int L08S08=0x7f0b0041;
         public static final int LinearLayout=0x7f0b0000;
         public static final int LinearLayout1=0x7f0b000c;
-        public static final int action_settings=0x7f0b006d;
-        public static final int add=0x7f0b006b;
+        public static final int action_settings=0x7f0b006e;
+        public static final int add=0x7f0b006c;
         public static final int btnAdicionar=0x7f0b002b;
         public static final int btnCancelar=0x7f0b0064;
         public static final int btnGravar=0x7f0b002c;
@@ -138,7 +138,7 @@ public final class R {
         public static final int btnVoltar=0x7f0b0031;
         public static final int category_list=0x7f0b0035;
         public static final int category_symbols=0x7f0b0012;
-        public static final int close=0x7f0b006c;
+        public static final int close=0x7f0b006d;
         public static final int createSymbol=0x7f0b0006;
         public static final int create_plan=0x7f0b0008;
         public static final int edCoordenadas=0x7f0b002d;
@@ -182,7 +182,7 @@ public final class R {
         public static final int sound_rec=0x7f0b001c;
         public static final int symbol_category=0x7f0b001b;
         public static final int symbol_image=0x7f0b0018;
-        public static final int symbol_viewer=0x7f0b006a;
+        public static final int symbol_viewer=0x7f0b006b;
         public static final int symbolsViewer=0x7f0b000e;
         public static final int textView2=0x7f0b0003;
         public static final int textView3=0x7f0b0004;
@@ -196,6 +196,7 @@ public final class R {
         public static final int viewSimbolo=0x7f0b002f;
         public static final int view_symbols=0x7f0b0007;
         public static final int welcomeMessage=0x7f0b0002;
+        public static final int youtube_player=0x7f0b006a;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
@@ -226,7 +227,8 @@ public final class R {
         public static final int plano_customizado=0x7f030019;
         public static final int plans_header=0x7f03001a;
         public static final int principal_jogo=0x7f03001b;
-        public static final int view_symbol=0x7f03001c;
+        public static final int video_activity=0x7f03001c;
+        public static final int view_symbol=0x7f03001d;
     }
     public static final class menu {
         public static final int add_plan=0x7f0a0000;

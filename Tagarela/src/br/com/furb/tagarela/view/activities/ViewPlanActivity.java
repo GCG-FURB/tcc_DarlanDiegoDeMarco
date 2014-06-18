@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import br.com.furb.tagarela.R;
 import br.com.furb.tagarela.controler.asynctasks.SyncInformationControler;
@@ -117,6 +121,36 @@ public class ViewPlanActivity extends Activity {
 				symbolHistoric.setIsSynchronized(false);
 				symbolsHistoric.add(symbolHistoric);
 				return symbolHistoric;
+			}
+		});
+
+		((ImageView) findViewById(id)).setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				Symbol symbol = symbols.get(position);
+
+				if (MainActivity.isInternetConnection() && symbol.getVideoLink() != null
+						&& !"".equals(symbol.getVideoLink())) {
+					boolean match = youtubeMatcher(symbol);
+					if (match) {
+						Intent showVideo = new Intent(getApplicationContext(), VideoActivity.class);
+						Bundle b = new Bundle();
+						b.putString("link", symbol.getVideoLink());
+						showVideo.putExtras(b);
+						startActivity(showVideo);
+					}
+				}
+				return false;
+			}
+
+			private boolean youtubeMatcher(Symbol symbol) {
+				String expression = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*";
+				CharSequence input = symbol.getVideoLink();
+				Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(input);
+				boolean match = matcher.matches();
+				return match;
 			}
 		});
 	}

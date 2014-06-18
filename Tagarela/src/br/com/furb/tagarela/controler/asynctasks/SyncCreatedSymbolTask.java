@@ -72,6 +72,7 @@ public class SyncCreatedSymbolTask extends AsyncTask<String, Void, Void> {
 				if (response.getStatusLine().getStatusCode() == 201) {
 					JSONObject returnSymbol = new JSONObject(HttpUtils.getContent(response));
 					symbol.setServerID(returnSymbol.getInt("id"));
+					symbol.setIsSynchronized(true);
 					DaoProvider.getInstance(null).getSymbolDao().update(symbol);
 				}
 			} catch (Exception e) {
