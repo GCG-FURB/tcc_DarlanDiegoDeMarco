@@ -41,8 +41,6 @@ public class ViewPlanActivity extends Activity {
 		setSymbols();
 		super.onCreate(savedInstanceState);
 	}
-	
-
 
 	private void setSymbols() {
 		int position;
@@ -52,71 +50,76 @@ public class ViewPlanActivity extends Activity {
 		for (int i = 0; i < symbols.size(); i++) {
 			position = symbols.keyAt(i);
 			symbol = symbols.get(position);
-			category = categoryDao.queryBuilder().where(br.com.furb.tagarela.model.CategoryDao.Properties.ServerID.eq(symbol.getCategoryID())).unique();
-			
+			category = categoryDao.queryBuilder()
+					.where(br.com.furb.tagarela.model.CategoryDao.Properties.ServerID.eq(symbol.getCategoryID()))
+					.unique();
+
 			ImageView imageView = (ImageView) findViewById(getImageView(position));
 			imageView.setImageBitmap(BitmapFactory.decodeByteArray(symbol.getPicture(), 0, symbol.getPicture().length));
 			imageView.setVisibility(ImageView.VISIBLE);
 			if (category != null) {
 				imageView.setBackgroundColor(Color.rgb(category.getRed(), category.getGreen(), category.getBlue()));
 			}
-		}		
+		}
 	}
 
-
-
 	private void loadSymbols() {
-		List<SymbolPlan> symbolPlans = DaoProvider.getInstance(null).getSymbolPlanDao().queryBuilder().where(Properties.PlanID.eq(plan)).list();
-		for(SymbolPlan symbolPlan : symbolPlans){
-			Symbol symbol = DaoProvider.getInstance(null).getSymbolDao().queryBuilder().where(br.com.furb.tagarela.model.SymbolDao.Properties.ServerID.eq(symbolPlan.getSymbolID())).unique();
+		List<SymbolPlan> symbolPlans = DaoProvider.getInstance(null).getSymbolPlanDao().queryBuilder()
+				.where(Properties.PlanID.eq(plan)).list();
+		for (SymbolPlan symbolPlan : symbolPlans) {
+			Symbol symbol = DaoProvider.getInstance(null).getSymbolDao().queryBuilder()
+					.where(br.com.furb.tagarela.model.SymbolDao.Properties.ServerID.eq(symbolPlan.getSymbolID()))
+					.unique();
 			symbols.put(symbolPlan.getPosition(), symbol);
 		}
 	}
 
-
-
 	private void addImageListener(final int id, final int position) {
 		((ImageView) findViewById(id)).setVisibility(ImageView.INVISIBLE);
-		((ImageView) findViewById(id)).setOnClickListener(
-				new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						Symbol symbol = symbols.get(position);
-						File tempAudio;
-						try {
-							tempAudio = File.createTempFile("symbol", "am4", getCacheDir());
-							tempAudio.deleteOnExit();
-							FileOutputStream fos = new FileOutputStream(tempAudio);
-							fos.write(symbol.getSound());
-							fos.close();
+		((ImageView) findViewById(id)).setOnClickListener(new OnClickListener() {
 
-							MediaPlayer mediaPlayer = new MediaPlayer();
-							FileInputStream fis = new FileInputStream(tempAudio);
-							mediaPlayer.setDataSource(fis.getFD());
+			@Override
+			public void onClick(View v) {
+				Symbol symbol = symbols.get(position);
+				File tempAudio;
+				try {
+					tempAudio = File.createTempFile("symbol", "am4", getCacheDir());
+					tempAudio.deleteOnExit();
+					FileOutputStream fos = new FileOutputStream(tempAudio);
+					fos.write(symbol.getSound());
+					fos.close();
 
-							mediaPlayer.prepare();
-							mediaPlayer.start();
-							fis.close();
-							SyncInformationControler.getInstance().syncCreatedSymbolHistoric(generateHistory(symbol), null);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					MediaPlayer mediaPlayer = new MediaPlayer();
+					FileInputStream fis = new FileInputStream(tempAudio);
+					mediaPlayer.setDataSource(fis.getFD());
 
-						
+					mediaPlayer.prepare();
+					mediaPlayer.start();
+					fis.close();
+					SymbolHistoric symbolHistoric = generateHistory(symbol);
+					DaoProvider.getInstance(null).getSymbolHistoricDao().insert(symbolHistoric);
+					if (MainActivity.isInternetConnection()) {
+						SyncInformationControler.getInstance().syncCreatedSymbolHistoric(symbolHistoric, null);
 					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-					private SymbolHistoric generateHistory(Symbol symbol) {
-						SymbolHistoric symbolHistoric = new SymbolHistoric();
-						symbolHistoric.setDate(new Date());
-						symbolHistoric.setSymbolID(symbol.getServerID().longValue());
-						symbolHistoric.setTutorID(MainActivity.getUser().getServerID().longValue());
-						symbolHistoric.setUserID(MainActivity.getUser().getServerID().longValue());
-						symbolsHistoric.add(symbolHistoric);
-						return symbolHistoric;
-					}
-				});
 			}
+
+			private SymbolHistoric generateHistory(Symbol symbol) {
+				SymbolHistoric symbolHistoric = new SymbolHistoric();
+				symbolHistoric.setDate(new Date());
+				symbolHistoric.setSymbolID(symbol.getServerID().longValue());
+				symbolHistoric.setSymbolLocalID(symbol.getId());
+				symbolHistoric.setTutorID(MainActivity.getUser().getServerID().longValue());
+				symbolHistoric.setUserID(MainActivity.getUser().getServerID().longValue());
+				symbolHistoric.setIsSynchronized(false);
+				symbolsHistoric.add(symbolHistoric);
+				return symbolHistoric;
+			}
+		});
+	}
 
 	private void setLayoutView(int layout) {
 		switch (layout) {
@@ -187,7 +190,7 @@ public class ViewPlanActivity extends Activity {
 			break;
 		}
 	}
-	
+
 	public int getImageView(int position) {
 		int imageView = 0;
 		switch (layout) {

@@ -45,7 +45,8 @@ public class SyncCreatedSymbolHistoricTask extends AsyncTask<Integer, Integer, V
 				if (response.getStatusLine().getStatusCode() == 201) {
 					JSONObject returnObservation = new JSONObject(HttpUtils.getContent(response));
 					symbolHistoric.setServerID(returnObservation.getLong("id"));
-					DaoProvider.getInstance(null).getSymbolHistoricDao().insert(symbolHistoric);
+					symbolHistoric.setIsSynchronized(true);
+					DaoProvider.getInstance(null).getSymbolHistoricDao().update(symbolHistoric);
 				}
 			} catch (Exception e) {
 				Log.e("SYNC-CREATED-SYMBOL-HISTORIC", e != null ? e.getMessage() : "No stack.");

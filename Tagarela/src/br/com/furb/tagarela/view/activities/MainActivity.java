@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -168,9 +167,6 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 	}
 
 	public void disableControls() {
-		TextView createPlan = (TextView) findViewById(R.id.create_plan);
-		createPlan.setEnabled(false);
-		createPlan.setTextColor(Color.GRAY);
 		internetConnection = false;
 	}
 

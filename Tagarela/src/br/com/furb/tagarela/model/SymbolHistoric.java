@@ -12,6 +12,7 @@ public class SymbolHistoric {
     private Long userID;
     private Long serverID;
     private Boolean isSynchronized;
+    private long symbolLocalID;
     private Long id;
 
     public SymbolHistoric() {
@@ -21,13 +22,14 @@ public class SymbolHistoric {
         this.id = id;
     }
 
-    public SymbolHistoric(java.util.Date date, Long symbolID, Long tutorID, Long userID, Long serverID, Boolean isSynchronized, Long id) {
+    public SymbolHistoric(java.util.Date date, Long symbolID, Long tutorID, Long userID, Long serverID, Boolean isSynchronized, long symbolLocalID, Long id) {
         this.date = date;
         this.symbolID = symbolID;
         this.tutorID = tutorID;
         this.userID = userID;
         this.serverID = serverID;
         this.isSynchronized = isSynchronized;
+        this.symbolLocalID = symbolLocalID;
         this.id = id;
     }
 
@@ -77,6 +79,14 @@ public class SymbolHistoric {
 
     public void setIsSynchronized(Boolean isSynchronized) {
         this.isSynchronized = isSynchronized;
+    }
+
+    public long getSymbolLocalID() {
+        return symbolLocalID;
+    }
+
+    public void setSymbolLocalID(long symbolLocalID) {
+        this.symbolLocalID = symbolLocalID;
     }
 
     public Long getId() {

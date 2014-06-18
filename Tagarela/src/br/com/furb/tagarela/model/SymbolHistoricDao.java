@@ -26,7 +26,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         public final static Property UserID = new Property(3, Long.class, "userID", false, "USER_ID");
         public final static Property ServerID = new Property(4, Long.class, "serverID", false, "SERVER_ID");
         public final static Property IsSynchronized = new Property(5, Boolean.class, "isSynchronized", false, "IS_SYNCHRONIZED");
-        public final static Property Id = new Property(6, Long.class, "id", true, "_id");
+        public final static Property SymbolLocalID = new Property(6, long.class, "symbolLocalID", false, "SYMBOL_LOCAL_ID");
+        public final static Property Id = new Property(7, Long.class, "id", true, "_id");
     };
 
 
@@ -48,7 +49,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
                 "'USER_ID' INTEGER," + // 3: userID
                 "'SERVER_ID' INTEGER," + // 4: serverID
                 "'IS_SYNCHRONIZED' INTEGER," + // 5: isSynchronized
-                "'_id' INTEGER PRIMARY KEY );"); // 6: id
+                "'SYMBOL_LOCAL_ID' INTEGER NOT NULL ," + // 6: symbolLocalID
+                "'_id' INTEGER PRIMARY KEY );"); // 7: id
     }
 
     /** Drops the underlying database table. */
@@ -91,17 +93,18 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         if (isSynchronized != null) {
             stmt.bindLong(6, isSynchronized ? 1l: 0l);
         }
+        stmt.bindLong(7, entity.getSymbolLocalID());
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(7, id);
+            stmt.bindLong(8, id);
         }
     }
 
     /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6);
+        return cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7);
     }    
 
     /** @inheritdoc */
@@ -114,7 +117,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // userID
             cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // serverID
             cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0, // isSynchronized
-            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6) // id
+            cursor.getLong(offset + 6), // symbolLocalID
+            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7) // id
         );
         return entity;
     }
@@ -128,7 +132,8 @@ public class SymbolHistoricDao extends AbstractDao<SymbolHistoric, Long> {
         entity.setUserID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setServerID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
         entity.setIsSynchronized(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
-        entity.setId(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
+        entity.setSymbolLocalID(cursor.getLong(offset + 6));
+        entity.setId(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
      }
     
     /** @inheritdoc */

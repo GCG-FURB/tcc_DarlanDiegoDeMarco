@@ -44,8 +44,7 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 	private void resync() {
 		if (MainActivity.getUser() != null) {
 			mainActivity.syncInformations();
-			SyncInformationControler.getInstance().syncUnsynchronizedSymbols();
-			SyncInformationControler.getInstance().syncUnsynchronizedObservations();
+			SyncInformationControler.getInstance().syncUnsynchronizedInformations();
 		}
 	}
 

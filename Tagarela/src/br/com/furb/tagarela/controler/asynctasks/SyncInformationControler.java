@@ -69,12 +69,8 @@ public class SyncInformationControler {
 		new SyncHistoricsTask().execute();
 	}
 
-	public void syncUnsynchronizedSymbols() {
-		new SyncUnsynchronizedSymbols().execute();
-	}
-
-	public void syncUnsynchronizedObservations() {
-		new SyncUnsynchronizedObservations().execute();
+	public void syncUnsynchronizedInformations() {
+		new SyncUnsynchronizedInformations().execute();
 	}
 
 }
