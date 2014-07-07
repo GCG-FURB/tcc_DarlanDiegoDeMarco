@@ -53,8 +53,8 @@ public class SymbolCreateDialog extends DialogFragment {
 				Uri selectedImageUri;
 				selectedImageUri = data.getData();
 				imageView.setImageBitmap(BitmapHelper.decodeSampledBitmapFromResource(
-						BitmapHelper.getRealPathFromURI(selectedImageUri, getActivity().getApplicationContext()), 400,
-						400));
+						BitmapHelper.getRealPathFromURI(selectedImageUri, getActivity().getApplicationContext()), 200,
+						200));
 
 			}
 		}
@@ -92,6 +92,14 @@ public class SymbolCreateDialog extends DialogFragment {
 
 				Intent[] intentArray = { cameraIntent };
 				chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+				chooser.putExtra("crop", "true");
+				chooser.putExtra("aspectX", 1);
+				chooser.putExtra("aspectY", 1);
+				chooser.putExtra("scale", true);
+				chooser.putExtra("return-data", true);
+				chooser.putExtra("outputX", 200);
+				chooser.putExtra("outputY", 200);
+
 				startActivityForResult(chooser, 200);
 			}
 		};

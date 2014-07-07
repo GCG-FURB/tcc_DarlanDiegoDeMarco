@@ -39,7 +39,7 @@ public class CategorySymbolsDialog extends DialogFragment {
 	private void setupGridView(View view) {
 		QueryBuilder<Symbol> queryBuilder = DaoProvider.getInstance(null).getSymbolDao().queryBuilder();
 		final List<Symbol> symbols = queryBuilder.where(Properties.CategoryID.eq(category),
-				Properties.UserID.eq(MainActivity.getUser().getServerID()), Properties.IsSynchronized.eq(true)).list();
+				Properties.UserID.eq(MainActivity.getUser().getServerID())).list();
 		GridView gridView = (GridView) view.findViewById(R.id.category_symbols);
 		gridView.setAdapter(new SymbolsAdapter(getActivity(), R.layout.view_symbol, symbols));
 

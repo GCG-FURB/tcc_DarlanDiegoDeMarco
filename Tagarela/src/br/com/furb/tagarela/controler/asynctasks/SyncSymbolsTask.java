@@ -1,5 +1,8 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +18,8 @@ import br.com.furb.tagarela.view.activities.MainActivity;
 class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 	@Override
 	protected Void doInBackground(Integer... params) {
+		SimpleDateFormat sdff = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		Log.wtf("SYNC-SYMBOL-START", sdff.format(new Date()));
 		String results = JsonUtils.getResponse(JsonUtils.URL_SYMBOLS);
 		if (results.equals("[]")) {
 			return null;
@@ -30,6 +35,7 @@ class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 				if (symbol.getInt("user_id") == MainActivity.getUser().getServerID()
 						&& symbolDao.queryBuilder().where(SymbolDao.Properties.ServerID.eq(symbol.getInt("id"))).list()
 								.size() <= 0) {
+					System.gc();
 					newSymbol = new Symbol();
 					newSymbol.setIsSynchronized(true);
 					newSymbol.setCategoryID(symbol.getInt("category_id"));
@@ -47,6 +53,7 @@ class SyncSymbolsTask extends AsyncTask<Integer, Integer, Void> {
 		} catch (Exception e) {
 			Log.e("SYNC-SYMBOL", e != null ? e.getMessage() : "No stack.");
 		}
+		Log.wtf("SYNC-SYMBOL-END", sdff.format(new Date()));
 		return null;
 	}
 }

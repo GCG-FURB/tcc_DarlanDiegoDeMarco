@@ -44,9 +44,12 @@ public class ListViewSymbolAdapter extends ArrayAdapter<String> {
 	}
 
 	private void initSparseArray() {
-		for (Symbol s : DaoProvider.getInstance(null).getSymbolDao().queryBuilder()
+		for (Symbol s : DaoProvider
+				.getInstance(null)
+				.getSymbolDao()
+				.queryBuilder()
 				.where(SymbolDao.Properties.UserID.eq(MainActivity.getUser().getServerID())).list()) {
-			symbolsMap.put(s.getServerID(), s);
+			symbolsMap.put(s.getId().intValue(), s);
 		}
 	}
 
@@ -70,7 +73,7 @@ public class ListViewSymbolAdapter extends ArrayAdapter<String> {
 		}
 
 		SymbolHistoric sh = list.get(position);
-		Symbol symbol = symbolsMap.get((sh.getSymbolID()).intValue());
+		Symbol symbol = symbolsMap.get(sh.getSymbolLocalID().intValue());
 		Category category = DaoProvider.getInstance(null).getCategoryDao().queryBuilder()
 				.where(Properties.ServerID.eq(symbol.getCategoryID())).unique();
 		TextView txtTitle = holder.text;

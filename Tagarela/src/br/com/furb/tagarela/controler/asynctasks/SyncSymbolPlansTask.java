@@ -1,14 +1,20 @@
 package br.com.furb.tagarela.controler.asynctasks;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
+import br.com.furb.tagarela.model.Plan;
 import br.com.furb.tagarela.model.PlanDao;
 import br.com.furb.tagarela.model.PlanDao.Properties;
+import br.com.furb.tagarela.model.Symbol;
 import br.com.furb.tagarela.model.SymbolPlan;
 import br.com.furb.tagarela.model.SymbolPlanDao;
 import br.com.furb.tagarela.utils.JsonUtils;
@@ -24,6 +30,8 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 
 	@Override
 	protected Void doInBackground(Integer... params) {
+		SimpleDateFormat sdff = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		Log.wtf("SYNC-SYMBOL-PLAN-START", sdff.format(new Date()));
 		String results = JsonUtils.getResponse(JsonUtils.URL_SYMBOL_PLANS);
 		if (results.equals("[]")) {
 			return null;
@@ -43,10 +51,21 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 						&& symbolPlanDao.queryBuilder()
 								.where(SymbolPlanDao.Properties.ServerID.eq(symbolPlanJson.getInt("id"))).list().size() <= 0) {
 					symbolPlanObject = new SymbolPlan();
-					symbolPlanObject.setPlanID(symbolPlanJson.getInt("plans_id"));
 					symbolPlanObject.setPosition(symbolPlanJson.getInt("position"));
-					symbolPlanObject.setServerID(symbolPlanJson.getInt("id"));
-					symbolPlanObject.setSymbolID(symbolPlanJson.getInt("private_symbols_id"));
+					symbolPlanObject.setServerID(symbolPlanJson.getLong("id"));
+					Plan plan = planDao.queryBuilder()
+							.where(Properties.ServerID.eq(symbolPlanJson.getLong("plans_id"))).unique();
+					Symbol symbol = DaoProvider
+							.getInstance(null)
+							.getSymbolDao()
+							.queryBuilder()
+							.where(br.com.furb.tagarela.model.SymbolDao.Properties.ServerID.eq(symbolPlanJson
+									.getLong("private_symbols_id"))).unique();
+
+					symbolPlanObject.setPlanServerID(symbolPlanJson.getLong("plans_id"));
+					symbolPlanObject.setSymbolServerID(symbolPlanJson.getLong("private_symbols_id"));
+					symbolPlanObject.setSymbolLocalID(symbol.getId());
+					symbolPlanObject.setPlanLocalID(plan.getId());
 					symbolPlanDao.insert(symbolPlanObject);
 				}
 			}
@@ -60,6 +79,8 @@ public class SyncSymbolPlansTask extends AsyncTask<Integer, Integer, Void> {
 		} catch (Exception e) {
 			e.getMessage();
 		}
+		
+		Log.wtf("SYNC-SYMBOL-PLAN-END", sdff.format(new Date()));
 		return null;
 	}
 

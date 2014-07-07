@@ -21,12 +21,14 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected Void doInBackground(Integer... params) {
+		SimpleDateFormat sdff = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		String results = JsonUtils.getResponse(JsonUtils.URL_OBSERVATIONS);
 		if (results.equals("[]")) {
 			return null;
 		}
 		JSONArray observations;
 		try {
+			Log.wtf("SYNC-OBSERVATION-START", sdff.format(new Date()));
 			observations = new JSONArray(results);
 			ObservationDao observationDao = DaoProvider.getInstance(null).getObservationDao();
 			JSONObject observation = null;
@@ -53,6 +55,7 @@ public class SyncObservationsTask extends AsyncTask<Integer, Integer, Void> {
 		} catch (Exception e) {
 			Log.e("SYNC-OBSERVATION", e != null ? e.getMessage() : "No stack.");
 		}
+		Log.wtf("SYNC-OBSERVATION-END", sdff.format(new Date()));
 		return null;
 	}
 

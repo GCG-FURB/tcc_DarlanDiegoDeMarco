@@ -14,11 +14,16 @@ public class Plan {
     private Integer userID;
     private Integer patientID;
     private Boolean isSynchronized;
+    private Long id;
 
     public Plan() {
     }
 
-    public Plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID, Integer patientID, Boolean isSynchronized) {
+    public Plan(Long id) {
+        this.id = id;
+    }
+
+    public Plan(Integer serverID, String name, Integer planType, Integer layout, String description, Integer userID, Integer patientID, Boolean isSynchronized, Long id) {
         this.serverID = serverID;
         this.name = name;
         this.planType = planType;
@@ -27,6 +32,7 @@ public class Plan {
         this.userID = userID;
         this.patientID = patientID;
         this.isSynchronized = isSynchronized;
+        this.id = id;
     }
 
     public Integer getServerID() {
@@ -92,10 +98,19 @@ public class Plan {
     public void setIsSynchronized(Boolean isSynchronized) {
         this.isSynchronized = isSynchronized;
     }
-    
-    @Override
-    public String toString() {
-    	return getName();
+
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return getName();
+    }
+    
 }

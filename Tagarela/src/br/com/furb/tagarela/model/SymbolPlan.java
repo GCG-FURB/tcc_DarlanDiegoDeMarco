@@ -6,43 +6,71 @@ package br.com.furb.tagarela.model;
  */
 public class SymbolPlan {
 
-    private Integer serverID;
-    private Integer planID;
-    private Integer symbolID;
+    private Long serverID;
+    private Long planServerID;
+    private Long planLocalID;
+    private Long symbolServerID;
+    private Long symbolLocalID;
     private Integer position;
+    private Boolean isSynchronized;
+    private Long id;
 
     public SymbolPlan() {
     }
 
-    public SymbolPlan(Integer serverID, Integer planID, Integer symbolID, Integer position) {
-        this.serverID = serverID;
-        this.planID = planID;
-        this.symbolID = symbolID;
-        this.position = position;
+    public SymbolPlan(Long id) {
+        this.id = id;
     }
 
-    public Integer getServerID() {
+    public SymbolPlan(Long serverID, Long planServerID, Long planLocalID, Long symbolServerID, Long symbolLocalID, Integer position, Boolean isSynchronized, Long id) {
+        this.serverID = serverID;
+        this.planServerID = planServerID;
+        this.planLocalID = planLocalID;
+        this.symbolServerID = symbolServerID;
+        this.symbolLocalID = symbolLocalID;
+        this.position = position;
+        this.isSynchronized = isSynchronized;
+        this.id = id;
+    }
+
+    public Long getServerID() {
         return serverID;
     }
 
-    public void setServerID(Integer serverID) {
+    public void setServerID(Long serverID) {
         this.serverID = serverID;
     }
 
-    public Integer getPlanID() {
-        return planID;
+    public Long getPlanServerID() {
+        return planServerID;
     }
 
-    public void setPlanID(Integer planID) {
-        this.planID = planID;
+    public void setPlanServerID(Long planServerID) {
+        this.planServerID = planServerID;
     }
 
-    public Integer getSymbolID() {
-        return symbolID;
+    public Long getPlanLocalID() {
+        return planLocalID;
     }
 
-    public void setSymbolID(Integer symbolID) {
-        this.symbolID = symbolID;
+    public void setPlanLocalID(Long planLocalID) {
+        this.planLocalID = planLocalID;
+    }
+
+    public Long getSymbolServerID() {
+        return symbolServerID;
+    }
+
+    public void setSymbolServerID(Long symbolServerID) {
+        this.symbolServerID = symbolServerID;
+    }
+
+    public Long getSymbolLocalID() {
+        return symbolLocalID;
+    }
+
+    public void setSymbolLocalID(Long symbolLocalID) {
+        this.symbolLocalID = symbolLocalID;
     }
 
     public Integer getPosition() {
@@ -51,6 +79,22 @@ public class SymbolPlan {
 
     public void setPosition(Integer position) {
         this.position = position;
+    }
+
+    public Boolean getIsSynchronized() {
+        return isSynchronized;
+    }
+
+    public void setIsSynchronized(Boolean isSynchronized) {
+        this.isSynchronized = isSynchronized;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

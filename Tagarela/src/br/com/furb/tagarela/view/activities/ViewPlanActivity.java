@@ -32,14 +32,15 @@ import br.com.furb.tagarela.model.SymbolPlan;
 import br.com.furb.tagarela.model.SymbolPlanDao.Properties;
 
 public class ViewPlanActivity extends Activity {
-	private int layout, plan;
+	private int layout;
+	private long plan;
 	private SparseArray<Symbol> symbols = new SparseArray<Symbol>();
 	private ArrayList<SymbolHistoric> symbolsHistoric = new ArrayList<SymbolHistoric>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		layout = getIntent().getExtras().getInt("layout");
-		plan = getIntent().getExtras().getInt("plan");
+		plan = getIntent().getExtras().getLong("plan");
 		loadSymbols();
 		setLayoutView(layout);
 		setSymbols();
@@ -69,10 +70,10 @@ public class ViewPlanActivity extends Activity {
 
 	private void loadSymbols() {
 		List<SymbolPlan> symbolPlans = DaoProvider.getInstance(null).getSymbolPlanDao().queryBuilder()
-				.where(Properties.PlanID.eq(plan)).list();
+				.where(Properties.PlanLocalID.eq(plan)).list();
 		for (SymbolPlan symbolPlan : symbolPlans) {
 			Symbol symbol = DaoProvider.getInstance(null).getSymbolDao().queryBuilder()
-					.where(br.com.furb.tagarela.model.SymbolDao.Properties.ServerID.eq(symbolPlan.getSymbolID()))
+					.where(br.com.furb.tagarela.model.SymbolDao.Properties.Id.eq(symbolPlan.getSymbolLocalID()))
 					.unique();
 			symbols.put(symbolPlan.getPosition(), symbol);
 		}
@@ -114,11 +115,14 @@ public class ViewPlanActivity extends Activity {
 			private SymbolHistoric generateHistory(Symbol symbol) {
 				SymbolHistoric symbolHistoric = new SymbolHistoric();
 				symbolHistoric.setDate(new Date());
-				symbolHistoric.setSymbolID(symbol.getServerID().longValue());
+				if (symbol.getServerID() != null) {
+					symbolHistoric.setSymbolID(symbol.getServerID().longValue());
+				}
 				symbolHistoric.setSymbolLocalID(symbol.getId());
 				symbolHistoric.setTutorID(MainActivity.getUser().getServerID().longValue());
 				symbolHistoric.setUserID(MainActivity.getUser().getServerID().longValue());
 				symbolHistoric.setIsSynchronized(false);
+				symbolHistoric.setSymbolLocalID(symbol.getId());
 				symbolsHistoric.add(symbolHistoric);
 				return symbolHistoric;
 			}

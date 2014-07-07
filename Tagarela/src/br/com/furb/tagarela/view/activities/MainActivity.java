@@ -297,7 +297,7 @@ public class MainActivity extends FragmentActivity implements UserTypeListener, 
 				if (selectedPlan != null) {
 					Intent i = new Intent(getApplicationContext(), ViewPlanActivity.class);
 					i.putExtra("layout", selectedPlan.getLayout());
-					i.putExtra("plan", selectedPlan.getServerID());
+					i.putExtra("plan", selectedPlan.getId());
 					startActivity(i);
 				}
 			}

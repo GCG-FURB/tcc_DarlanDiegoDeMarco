@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 import br.com.furb.tagarela.model.DaoProvider;
+import br.com.furb.tagarela.model.Symbol;
+import br.com.furb.tagarela.model.SymbolDao;
 import br.com.furb.tagarela.model.SymbolHistoric;
 import br.com.furb.tagarela.utils.HttpUtils;
 import br.com.furb.tagarela.utils.NameValuePairBuilder;
@@ -30,6 +32,11 @@ public class SyncCreatedSymbolHistoricTask extends AsyncTask<Integer, Integer, V
 	protected Void doInBackground(Integer... params) {
 		if (symbolHistoric != null) {
 			try {
+				Symbol symbol = DaoProvider.getInstance(null).getSymbolDao().queryBuilder()
+						.where(SymbolDao.Properties.Id.eq(symbolHistoric.getSymbolLocalID())).unique();
+				if (symbol.getServerID() == null) {
+					return null;
+				}
 				HttpPost post = new HttpPost(URL_HISTORIC_POST);
 				post.addHeader("Accept", "application/json");
 				post.addHeader("Content-Type", "application/x-www-form-urlencoded");

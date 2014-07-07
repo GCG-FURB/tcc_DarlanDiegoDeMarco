@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.SparseArray;
 import br.com.furb.tagarela.model.DaoProvider;
 import br.com.furb.tagarela.model.Plan;
@@ -48,90 +49,106 @@ public class SyncCreatedPlanTask extends AsyncTask<String, Void, Void> {
 
 	@Override
 	protected Void doInBackground(String... params) {
+		Plan plan = savePlan();
+		sendPlan(plan);
 		int position = 0;
-		int planID = sendPlan();
-		int symbolPlanID = 0;
 		Symbol symbol = null;
 
-		savePlan(planID);
 		for (int i = 0; i < symbolPlan.size(); i++) {
 			position = symbolPlan.keyAt(i);
 			symbol = symbolPlan.get(position);
-			symbolPlanID = sendSymbolPlan(position, planID, symbol);
-			saveSymbolPlan(symbolPlanID, planID, symbol.getServerID(), position);
+			SymbolPlan symbolPlan = saveSymbolPlan(plan, symbol, position);
+			sendSymbolPlan(symbolPlan, plan, symbol);
+
 		}
 
 		return null;
 	}
 
-	private void saveSymbolPlan(int serverID, int planID, int symbolID, int position) {
+	private SymbolPlan saveSymbolPlan(Plan plan, Symbol symbol, int position) {
 		SymbolPlanDao symbolPlanDao = DaoProvider.getInstance(null).getSymbolPlanDao();
 		SymbolPlan symbolPlan = new SymbolPlan();
-		symbolPlan.setServerID(serverID);
-		symbolPlan.setPlanID(planID);
-		symbolPlan.setSymbolID(symbolID);
+		symbolPlan.setPlanLocalID(plan.getId());
+		symbolPlan.setSymbolLocalID(symbol.getId());
 		symbolPlan.setPosition(position);
+		symbolPlan.setIsSynchronized(false);
+		if (plan.getIsSynchronized() == true) {
+			symbolPlan.setPlanServerID((long) plan.getServerID());
+		}
+		if (symbol.getIsSynchronized() == true) {
+			symbolPlan.setSymbolServerID((long) symbol.getServerID());
+		}
 		symbolPlanDao.insert(symbolPlan);
+		return symbolPlan;
 	}
 
-	private void savePlan(int planID) {
+	private Plan savePlan() {
 		PlanDao planDao = DaoProvider.getInstance(null).getPlanDao();
 		Plan plan = new Plan();
 		plan.setName(planName);
 		plan.setPatientID(MainActivity.getUser().getServerID());
 		plan.setUserID(MainActivity.getUser().getServerID());
 		plan.setLayout(layout);
-		plan.setServerID(planID);
 		plan.setDescription("");
 		plan.setPlanType(0);
-
+		plan.setIsSynchronized(false);
 		planDao.insert(plan);
+
+		return plan;
 	}
 
-	private int sendSymbolPlan(int position, int planID, Symbol symbol) {
+	private void sendSymbolPlan(SymbolPlan symbolPlan, Plan plan, Symbol symbol) {
 		try {
-			HttpPost post = new HttpPost(HOST + "/symbol_plans");
-			post.addHeader("Accept", "application/json");
-			post.addHeader("Content-Type", "application/x-www-form-urlencoded");
-			final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
-			parametros.addParam("symbol_plan[plans_id]", String.valueOf(planID));
-			parametros.addParam("symbol_plan[private_symbols_id]", String.valueOf(symbol.getServerID()));
-			parametros.addParam("symbol_plan[position]", String.valueOf(position));
-			HttpUtils.prepareUrl(post, parametros.build());
-			HttpResponse response = HttpUtils.doRequest(post);
-			if (response.getStatusLine().getStatusCode() == 201) {
-				JSONObject returnPlan = new JSONObject(HttpUtils.getContent(response));
-				return returnPlan.getInt("id");
+			if (MainActivity.isInternetConnection() && plan.getIsSynchronized() && symbol.getIsSynchronized()) {
+				HttpPost post = new HttpPost(HOST + "/symbol_plans");
+				post.addHeader("Accept", "application/json");
+				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
+				parametros.addParam("symbol_plan[plans_id]", String.valueOf(plan.getServerID()));
+				parametros.addParam("symbol_plan[private_symbols_id]", String.valueOf(symbol.getServerID()));
+				parametros.addParam("symbol_plan[position]", String.valueOf(symbolPlan.getPosition()));
+				HttpUtils.prepareUrl(post, parametros.build());
+				HttpResponse response = HttpUtils.doRequest(post);
+				if (response.getStatusLine().getStatusCode() == 201) {
+					JSONObject returnPlan = new JSONObject(HttpUtils.getContent(response));
+					symbolPlan.setServerID((long) returnPlan.getInt("id"));
+					symbolPlan.setIsSynchronized(true);
+					SymbolPlanDao dao = DaoProvider.getInstance(null).getSymbolPlanDao();
+					dao.update(symbolPlan);
+				}
 			}
 		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
+			Log.e("SYNC-CREATED-PLAN", e != null ? e.getMessage() : "No stack.");
 		}
-		return 0;
 	}
 
-	private int sendPlan() {
+	private void sendPlan(Plan plan) {
 		try {
-			HttpPost post = new HttpPost(HOST + "/plans");
-			post.addHeader("Accept", "application/json");
-			post.addHeader("Content-Type", "application/x-www-form-urlencoded");
-			final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
-			parametros.addParam(PLAN_NAME, planName);
-			parametros.addParam(PLAN_LAYOUT, String.valueOf(layout));
-			parametros.addParam(PLAN_USER_ID, String.valueOf(MainActivity.getUser().getServerID()));
-			parametros.addParam(PLAN_PATIENT_ID, String.valueOf(MainActivity.getUser().getServerID()));
+			if (MainActivity.isInternetConnection()) {
 
-			HttpUtils.prepareUrl(post, parametros.build());
-			HttpResponse response = HttpUtils.doRequest(post);
-			if (response.getStatusLine().getStatusCode() == 201) {
-				JSONObject returnPlan = new JSONObject(HttpUtils.getContent(response));
-				return returnPlan.getInt("id");
+				HttpPost post = new HttpPost(HOST + "/plans");
+				post.addHeader("Accept", "application/json");
+				post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+				final NameValuePairBuilder parametros = NameValuePairBuilder.novaInstancia();
+				parametros.addParam(PLAN_NAME, planName);
+				parametros.addParam(PLAN_LAYOUT, String.valueOf(layout));
+				parametros.addParam(PLAN_USER_ID, String.valueOf(MainActivity.getUser().getServerID()));
+				parametros.addParam(PLAN_PATIENT_ID, String.valueOf(MainActivity.getUser().getServerID()));
+
+				HttpUtils.prepareUrl(post, parametros.build());
+				HttpResponse response = HttpUtils.doRequest(post);
+				if (response.getStatusLine().getStatusCode() == 201) {
+					JSONObject returnPlan = new JSONObject(HttpUtils.getContent(response));
+
+					plan.setServerID(returnPlan.getInt("id"));
+					plan.setIsSynchronized(true);
+					PlanDao dao = DaoProvider.getInstance(null).getPlanDao();
+					dao.update(plan);
+				}
 			}
 		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
+			Log.e("SYNC-CREATED-PLAN", e != null ? e.getMessage() : "No stack.");
 		}
-		return 0;
 	}
 
 	@Override
