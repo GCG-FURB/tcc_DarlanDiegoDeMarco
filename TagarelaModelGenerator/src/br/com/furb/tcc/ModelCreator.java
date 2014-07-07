@@ -56,10 +56,14 @@ public class ModelCreator {
 
 	private static void addSymbol_plan(Schema schema) {
 		symbol_plan = schema.addEntity("SymbolPlan");
-		symbol_plan.addIntProperty("serverID");
-		symbol_plan.addIntProperty("planID");
-		symbol_plan.addIntProperty("symbolID");
+		symbol_plan.addLongProperty("serverID");
+		symbol_plan.addLongProperty("planServerID");
+		symbol_plan.addLongProperty("planLocalID");
+		symbol_plan.addLongProperty("symbolServerID");
+		symbol_plan.addLongProperty("symbolLocalID");
 		symbol_plan.addIntProperty("position");
+		symbol_plan.addBooleanProperty("isSynchronized");
+		symbol_plan.addIdProperty().autoincrement();
 	}
 
 	private static void addPlan(Schema schema) {
@@ -72,12 +76,12 @@ public class ModelCreator {
 		plan.addIntProperty("userID");
 		plan.addIntProperty("patientID");
 		plan.addBooleanProperty("isSynchronized");
-
+		plan.addIdProperty().autoincrement();
 	}
 
 	private static void addSymbols(Schema schema) {
 		symbol = schema.addEntity("Symbol");
-		symbol.addIdProperty();
+		symbol.addIdProperty().autoincrement();
 		symbol.addIntProperty("serverID");
 		symbol.addIntProperty("userID");
 		symbol.addBooleanProperty("isGeneral");
@@ -102,7 +106,7 @@ public class ModelCreator {
 		category.addIntProperty("blue");
 		category.addStringProperty("name");
 		category.addIntProperty("serverID");
-		category.addIdProperty();
+		category.addIdProperty().autoincrement();
 	}
 
 	private static Entity addUsers(Schema schema) {
@@ -112,7 +116,7 @@ public class ModelCreator {
 		user.addByteArrayProperty("patientPicture");
 		user.addIntProperty("type");
 		user.addIntProperty("serverID");
-		user.addIdProperty();
+		user.addIdProperty().autoincrement();
 		return user;
 	}
 
@@ -123,7 +127,7 @@ public class ModelCreator {
 		observation_historic.addLongProperty("serverID");
 		observation_historic.addIntProperty("tutorID");
 		observation_historic.addIntProperty("userID");
-		observation_historic.addIdProperty();
+		observation_historic.addIdProperty().autoincrement();
 		observation_historic.addBooleanProperty("isSynchronized");
 
 		return observation_historic;
@@ -134,10 +138,11 @@ public class ModelCreator {
 		symbol_historic.addDateProperty("date");
 		symbol_historic.addLongProperty("symbolID");
 		symbol_historic.addLongProperty("tutorID");
-		symbol_historic.addLongProperty("userID");
+		symbol_historic.addLongProperty("userID");		
 		symbol_historic.addLongProperty("serverID");
+		symbol_historic.addLongProperty("symbolLocalID");
 		symbol_historic.addBooleanProperty("isSynchronized");
-		symbol_historic.addIdProperty();
+		symbol_historic.addIdProperty().autoincrement();
 
 		return symbol_historic;
 	}
